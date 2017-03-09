@@ -67,8 +67,8 @@ public class MoreTypes {
     public static <T> TypeLiteral<T> canonicalizeForKey(TypeLiteral<T> typeLiteral) {
         Type type = typeLiteral.getType();
         if (!isFullySpecified(type)) {
-            Errors errors = new Errors().keyNotFullySpecified(typeLiteral);
-            throw new ConfigurationException(errors.getMessages());
+            //            Errors errors = new Errors().keyNotFullySpecified(typeLiteral);
+            //            throw new ConfigurationException("");
         }
 
         if (typeLiteral.getRawType() == javax.inject.Provider.class) {
