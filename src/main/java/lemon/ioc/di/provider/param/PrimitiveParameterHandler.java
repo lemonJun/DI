@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 
 import lemon.ioc.di.binder.Scope;
 import lemon.ioc.di.exception.AnnoHandleException;
-import lemon.ioc.di.provider.IrrelevantAnnotationHandlingException;
-import lemon.ioc.di.provider.ParamAnnotationHandler;
+import lemon.ioc.di.provider.IrrelevantAnnoException;
+import lemon.ioc.di.provider.ParamHandler;
 import lemon.ioc.di.provider.ParamHandlerChain;
 
 /**
@@ -18,7 +18,7 @@ import lemon.ioc.di.provider.ParamHandlerChain;
  *
  * @author lemon
  */
-public class PrimitiveParameterHandler implements ParamAnnotationHandler {
+public class PrimitiveParameterHandler implements ParamHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PrimitiveParameterHandler.class);
 
@@ -88,7 +88,7 @@ public class PrimitiveParameterHandler implements ParamAnnotationHandler {
                 // not primitive & is array & component is not primitive
                 return Array.newInstance(cls.getComponentType(), 0);
             } else {
-                throw new IrrelevantAnnotationHandlingException();
+                throw new IrrelevantAnnoException();
             }
         }
     }

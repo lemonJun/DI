@@ -10,7 +10,7 @@ import lemon.ioc.di.annotations.Singleton;
 import lemon.ioc.di.binder.Scope;
 import lemon.ioc.di.exception.AnnoHandleException;
 import lemon.ioc.di.provider.HandlerChain;
-import lemon.ioc.di.provider.TypeAnnotationHandler;
+import lemon.ioc.di.provider.InstanceFactory;
 
 /**
  * Handler for IsSingleton annotation. <br>
@@ -19,7 +19,7 @@ import lemon.ioc.di.provider.TypeAnnotationHandler;
  * @author lemon
  * @see lemon.ioc.di.annotations.Singleton
  */
-public class SingletonFactory implements TypeAnnotationHandler {
+public class SingletonFactory implements InstanceFactory {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SingletonFactory.class);
 

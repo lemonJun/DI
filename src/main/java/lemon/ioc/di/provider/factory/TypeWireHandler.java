@@ -12,7 +12,7 @@ import lemon.ioc.di.binder.Scope;
 import lemon.ioc.di.exception.AnnoHandleException;
 import lemon.ioc.di.exception.ConstructingMultiSingletonException;
 import lemon.ioc.di.provider.HandlerChain;
-import lemon.ioc.di.provider.TypeAnnotationHandler;
+import lemon.ioc.di.provider.InstanceFactory;
 import net.cassite.style.Style;
 import net.cassite.style.aggregation.Aggregation;
 
@@ -26,7 +26,7 @@ import net.cassite.style.aggregation.Aggregation;
  * @author lemon
  * @see Wire
  */
-public class TypeWireHandler implements TypeAnnotationHandler {
+public class TypeWireHandler implements InstanceFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(TypeWireHandler.class);
     private static final Set<Class<? extends Annotation>> ignoringAnnotations = new HashSet<>();

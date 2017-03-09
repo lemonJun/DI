@@ -14,8 +14,8 @@ import lemon.ioc.di.Injector;
 import lemon.ioc.di.annotations.Force;
 import lemon.ioc.di.binder.Scope;
 import lemon.ioc.di.exception.AnnoHandleException;
-import lemon.ioc.di.provider.IrrelevantAnnotationHandlingException;
-import lemon.ioc.di.provider.ParamAnnotationHandler;
+import lemon.ioc.di.provider.IrrelevantAnnoException;
+import lemon.ioc.di.provider.ParamHandler;
 import lemon.ioc.di.provider.ParamHandlerChain;
 
 /**
@@ -25,7 +25,7 @@ import lemon.ioc.di.provider.ParamHandlerChain;
  * @author lemon
  * @see Force
  */
-public class ParamForceHandler implements ParamAnnotationHandler {
+public class ParamForceHandler implements ParamHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ParamForceHandler.class);
 
@@ -44,7 +44,7 @@ public class ParamForceHandler implements ParamAnnotationHandler {
         LOGGER.debug("Entered ParamForceHandler with args:\n\tcaller:\t{}\n\tcls:\t{}\n\ttoHandle:\t{}\n\tchain:\t{}", caller, cls, toHandle, chain);
         try {
             return chain.next().handle(scope, caller, cls, expectedClass, toHandle, chain);
-        } catch (IrrelevantAnnotationHandlingException e) {
+        } catch (IrrelevantAnnoException e) {
             LOGGER.debug("Start handling with ParamForceHandler");
 
             return If((Force) $(toHandle).findOne(a -> a.annotationType() == Force.class), f -> {
@@ -79,7 +79,7 @@ public class ParamForceHandler implements ParamAnnotationHandler {
                 }
                 throw new AnnoHandleException("parse failed");
             }).Else(() -> {
-                throw new IrrelevantAnnotationHandlingException();
+                throw new IrrelevantAnnoException();
             });
         }
     }

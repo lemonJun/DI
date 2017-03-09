@@ -21,7 +21,7 @@ import static net.cassite.style.aggregation.Aggregation.*;
  * @see Ignore
  * @since 0.3.1
  */
-public class ParamIgnoreHandler implements ParamAnnotationHandler {
+public class ParamIgnoreHandler implements ParamHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ParamIgnoreHandler.class);
 
@@ -35,9 +35,9 @@ public class ParamIgnoreHandler implements ParamAnnotationHandler {
         LOGGER.debug("Entered ParamIgnoreHandler with args:\n\tcaller:\t{}\n\tcls:\t{}\n\ttoHandle:\t{}\n\tchain:\t{}", caller, cls, toHandle, chain);
         try {
             return chain.next().handle(scope, caller, cls, expectedClass, toHandle, chain);
-        } catch (IrrelevantAnnotationHandlingException e) {
+        } catch (IrrelevantAnnoException e) {
             LOGGER.debug("Start handling with ParamIgnoreHandler");
-            throw new IgnoredAnnotationHandlingException();
+            throw new IgnoredAnnoException();
         }
     }
 }

@@ -11,9 +11,9 @@ import lemon.ioc.di.Utils;
 import lemon.ioc.di.binder.Scope;
 import lemon.ioc.di.exception.AnnoHandleException;
 import lemon.ioc.di.provider.HandlerChain;
-import lemon.ioc.di.provider.TypeAnnotationHandler;
+import lemon.ioc.di.provider.InstanceFactory;
 
-public class TypeAOPHandler implements TypeAnnotationHandler {
+public class TypeAOPHandler implements InstanceFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(TypeAOPHandler.class);
 

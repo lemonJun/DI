@@ -10,8 +10,8 @@ import lemon.ioc.di.Injector;
 import lemon.ioc.di.annotations.Use;
 import lemon.ioc.di.binder.Scope;
 import lemon.ioc.di.exception.AnnoHandleException;
-import lemon.ioc.di.provider.IrrelevantAnnotationHandlingException;
-import lemon.ioc.di.provider.ParamAnnotationHandler;
+import lemon.ioc.di.provider.IrrelevantAnnoException;
+import lemon.ioc.di.provider.ParamHandler;
 import lemon.ioc.di.provider.ParamHandlerChain;
 
 import static net.cassite.style.Style.*;
@@ -24,7 +24,7 @@ import static net.cassite.style.aggregation.Aggregation.*;
  * @author lemon
  * @see Use
  */
-public class ParamUseHandler implements ParamAnnotationHandler {
+public class ParamUseHandler implements ParamHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ParamUseHandler.class);
 
@@ -50,7 +50,7 @@ public class ParamUseHandler implements ParamAnnotationHandler {
 
         try {
             return chain.next().handle(scope, caller, cls, expectedClass, toHandle, chain);
-        } catch (IrrelevantAnnotationHandlingException e) {
+        } catch (IrrelevantAnnoException e) {
             LOGGER.debug("Start handling with ParamUseHandler");
 
             return If((Use) $(toHandle).findOne(a -> a.annotationType() == Use.class), use -> {
@@ -64,7 +64,7 @@ public class ParamUseHandler implements ParamAnnotationHandler {
                 }
                 throw new AnnoHandleException("empty Use annotation");
             }).Else(() -> {
-                throw new IrrelevantAnnotationHandlingException();
+                throw new IrrelevantAnnoException();
             });
         }
     }

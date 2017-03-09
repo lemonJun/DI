@@ -12,10 +12,10 @@ public class ParamHandlerChain {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ParamHandlerChain.class);
 
-    private final Iterator<ParamAnnotationHandler> it;
+    private final Iterator<ParamHandler> it;
 
-    public ParamHandlerChain(List<ParamAnnotationHandler> handlers, Annotation[] anns) {
-        List<ParamAnnotationHandler> list = new ArrayList<>();
+    public ParamHandlerChain(List<ParamHandler> handlers, Annotation[] anns) {
+        List<ParamHandler> list = new ArrayList<>();
         handlers.forEach(h -> {
             if (h.canHandle(anns)) {
                 list.add(h);
@@ -28,7 +28,7 @@ public class ParamHandlerChain {
         it = list.iterator();
     }
 
-    public ParamAnnotationHandler next() {
+    public ParamHandler next() {
         return it.next();
     }
 }

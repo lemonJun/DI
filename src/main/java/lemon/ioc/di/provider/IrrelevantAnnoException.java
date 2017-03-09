@@ -2,7 +2,7 @@ package lemon.ioc.di.provider;
 
 import lemon.ioc.di.exception.AnnoHandleException;
 
-public class IrrelevantAnnotationHandlingException extends AnnoHandleException {
+public class IrrelevantAnnoException extends AnnoHandleException {
 
     /**
      * 

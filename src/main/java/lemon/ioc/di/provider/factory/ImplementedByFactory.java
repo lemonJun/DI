@@ -10,8 +10,8 @@ import lemon.ioc.di.annotations.DefaultBy;
 import lemon.ioc.di.binder.Scope;
 import lemon.ioc.di.exception.AnnoHandleException;
 import lemon.ioc.di.provider.HandlerChain;
-import lemon.ioc.di.provider.IrrelevantAnnotationHandlingException;
-import lemon.ioc.di.provider.TypeAnnotationHandler;
+import lemon.ioc.di.provider.IrrelevantAnnoException;
+import lemon.ioc.di.provider.InstanceFactory;
 
 /**
  * Handler for Default annotation. <br>
@@ -20,7 +20,7 @@ import lemon.ioc.di.provider.TypeAnnotationHandler;
  * @author lemon
  * @see lemon.ioc.di.annotations.DefaultBy
  */
-public class ImplementedByFactory implements TypeAnnotationHandler {
+public class ImplementedByFactory implements InstanceFactory {
     private static final Logger logger = LoggerFactory.getLogger(ImplementedByFactory.class);
 
     private final Injector injector;
@@ -46,7 +46,7 @@ public class ImplementedByFactory implements TypeAnnotationHandler {
         logger.debug("Entered TypeDefaultHandler with args: \n\tcls:\t{}\n\tchain:\t{}", cls, chain);
         try {
             return chain.next().handle(scope, cls, expectedClass, chain);
-        } catch (IrrelevantAnnotationHandlingException e) {
+        } catch (IrrelevantAnnoException e) {
             logger.debug("start handling with TypeDefaultHandler");
 
             DefaultBy ann = cls.getAnnotation(DefaultBy.class);

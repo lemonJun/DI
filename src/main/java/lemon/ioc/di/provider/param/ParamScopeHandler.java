@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import lemon.ioc.di.Utils;
 import lemon.ioc.di.annotations.ScopeAttr;
 import lemon.ioc.di.exception.AnnoHandleException;
-import lemon.ioc.di.provider.ParamAnnotationHandler;
+import lemon.ioc.di.provider.ParamHandler;
 import lemon.ioc.di.provider.ParamHandlerChain;
 
 import java.lang.annotation.Annotation;
@@ -15,7 +15,7 @@ import java.lang.annotation.Annotation;
 /**
  * handler for annotation @ScopeAttr on parameters
  */
-public class ParamScopeHandler implements ParamAnnotationHandler {
+public class ParamScopeHandler implements ParamHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(ParamScopeHandler.class);
 
     @Override

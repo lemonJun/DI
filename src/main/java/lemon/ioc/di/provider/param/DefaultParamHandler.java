@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 import lemon.ioc.di.Injector;
 import lemon.ioc.di.binder.Scope;
 import lemon.ioc.di.exception.AnnoHandleException;
-import lemon.ioc.di.provider.IrrelevantAnnotationHandlingException;
-import lemon.ioc.di.provider.ParamAnnotationHandler;
+import lemon.ioc.di.provider.IrrelevantAnnoException;
+import lemon.ioc.di.provider.ParamHandler;
 import lemon.ioc.di.provider.ParamHandlerChain;
 import net.cassite.style.reflect.MemberSup;
 
@@ -19,7 +19,7 @@ import net.cassite.style.reflect.MemberSup;
  *
  * @author lemon
  */
-public class DefaultParamHandler implements ParamAnnotationHandler {
+public class DefaultParamHandler implements ParamHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultParamHandler.class);
 
@@ -44,7 +44,7 @@ public class DefaultParamHandler implements ParamAnnotationHandler {
         } else {
             try {
                 return chain.next().handle(scope, caller, cls, expectedClass, toHandle, chain);
-            } catch (IrrelevantAnnotationHandlingException e) {
+            } catch (IrrelevantAnnoException e) {
                 LOGGER.debug("Start handling with DefaultParamHandler");
                 return inejctor.getInstance(scope, cls, expectedClass);
             }

@@ -11,7 +11,7 @@ import lemon.ioc.di.exception.AnnoHandleException;
  *
  * @author lemon
  */
-public interface TypeAnnotationHandler {
+public interface InstanceFactory {
     /**
      * one of given annotations can be handled
      *

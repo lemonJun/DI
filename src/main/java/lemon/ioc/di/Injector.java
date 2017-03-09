@@ -26,11 +26,11 @@ import lemon.ioc.di.exception.ConstructingMultiSingletonException;
 import lemon.ioc.di.provider.ConstructorFilter;
 import lemon.ioc.di.provider.ConstructorFilterChain;
 import lemon.ioc.di.provider.HandlerChain;
-import lemon.ioc.di.provider.IgnoredAnnotationHandlingException;
-import lemon.ioc.di.provider.IrrelevantAnnotationHandlingException;
-import lemon.ioc.di.provider.ParamAnnotationHandler;
+import lemon.ioc.di.provider.IgnoredAnnoException;
+import lemon.ioc.di.provider.IrrelevantAnnoException;
+import lemon.ioc.di.provider.ParamHandler;
 import lemon.ioc.di.provider.ParamHandlerChain;
-import lemon.ioc.di.provider.TypeAnnotationHandler;
+import lemon.ioc.di.provider.InstanceFactory;
 import lemon.ioc.di.provider.constructor.ConstructorDefaultFilter;
 import lemon.ioc.di.provider.constructor.DefaultConstructorFilter;
 import lemon.ioc.di.provider.factory.DefaultFactory;
@@ -69,12 +69,12 @@ import net.cassite.style.reflect.MethodSupport;
  *
  * @author lemon
  * @see lemon.ioc.di.provider.HandlerChain
- * @see lemon.ioc.di.provider.TypeAnnotationHandler
+ * @see lemon.ioc.di.provider.InstanceFactory
  * @see lemon.ioc.di.provider.factory.ImplementedByFactory
  * @see lemon.ioc.di.provider.ConstructorFilterChain
  * @see lemon.ioc.di.provider.ConstructorFilter
  * @see lemon.ioc.di.provider.ParamHandlerChain
- * @see lemon.ioc.di.provider.ParamAnnotationHandler
+ * @see lemon.ioc.di.provider.ParamHandler
  */
 public class Injector {
 
@@ -83,7 +83,7 @@ public class Injector {
     /**
      * param annotation handlers
      */
-    private List<ParamAnnotationHandler> paramAnnotationHandlers = new ArrayList<>();
+    private List<ParamHandler> paramAnnotationHandlers = new ArrayList<>();
     /**
      * constructor filters
      */
@@ -91,7 +91,7 @@ public class Injector {
     /**
      * type annotation handler
      */
-    private List<TypeAnnotationHandler> typeAnnotationHandlers = new ArrayList<>();
+    private List<InstanceFactory> typeAnnotationHandlers = new ArrayList<>();
 
     /**
      * singleton class instances<br>
@@ -218,8 +218,8 @@ public class Injector {
         try {
             Object o = chain.next().handle(scope, m, m.argTypes()[0], m.argTypes()[0], annoArray, chain);
             m.invoke(target, o);
-        } catch (IrrelevantAnnotationHandlingException
-                        | IgnoredAnnotationHandlingException ignore) {
+        } catch (IrrelevantAnnoException
+                        | IgnoredAnnoException ignore) {
         }
     }
 
@@ -328,13 +328,13 @@ public class Injector {
         constructorFilters.add(ah);
     }
 
-    public void register(ParamAnnotationHandler ah) {
+    public void register(ParamHandler ah) {
         logger.info("registering {}", ah);
         paramAnnotationHandlers.add(ah);
     }
 
     //注册处理类
-    public void register(TypeAnnotationHandler ah) {
+    public void register(InstanceFactory ah) {
         logger.info("registering {}", ah);
         typeAnnotationHandlers.add(ah);
     }

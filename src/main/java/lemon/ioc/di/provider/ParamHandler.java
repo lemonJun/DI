@@ -11,7 +11,7 @@ import net.cassite.style.reflect.MemberSup;
  *
  * @author lemon
  */
-public interface ParamAnnotationHandler {
+public interface ParamHandler {
     /**
      * one of given annotations can be handled
      *

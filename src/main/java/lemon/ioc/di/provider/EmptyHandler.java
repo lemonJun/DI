@@ -15,7 +15,7 @@ import net.cassite.style.reflect.MemberSup;
  *
  * @author lemon
  */
-public class EmptyHandler implements ParamAnnotationHandler, TypeAnnotationHandler, ConstructorFilter {
+public class EmptyHandler implements ParamHandler, InstanceFactory, ConstructorFilter {
 
     private static EmptyHandler inst = null;
 
@@ -40,7 +40,7 @@ public class EmptyHandler implements ParamAnnotationHandler, TypeAnnotationHandl
 
     @Override
     public Object handle(Scope scope, MemberSup<?> caller, Class<?> cls, Class<?> expectedClass, Annotation[] toHandle, ParamHandlerChain chain) throws AnnoHandleException {
-        throw new IrrelevantAnnotationHandlingException();
+        throw new IrrelevantAnnoException();
     }
 
     @Override
@@ -50,7 +50,7 @@ public class EmptyHandler implements ParamAnnotationHandler, TypeAnnotationHandl
 
     @Override
     public Object handle(Scope scope, Class<?> cls, Class<?> expectedClass, HandlerChain chain) throws AnnoHandleException {
-        throw new IrrelevantAnnotationHandlingException();
+        throw new IrrelevantAnnoException();
     }
 
     @Override

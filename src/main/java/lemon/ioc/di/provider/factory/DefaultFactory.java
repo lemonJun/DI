@@ -12,8 +12,8 @@ import lemon.ioc.di.annotations.Invoke;
 import lemon.ioc.di.binder.Scope;
 import lemon.ioc.di.exception.AnnoHandleException;
 import lemon.ioc.di.provider.HandlerChain;
-import lemon.ioc.di.provider.IrrelevantAnnotationHandlingException;
-import lemon.ioc.di.provider.TypeAnnotationHandler;
+import lemon.ioc.di.provider.IrrelevantAnnoException;
+import lemon.ioc.di.provider.InstanceFactory;
 import net.cassite.style.aggregation.Aggregation;
 import net.cassite.style.reflect.FieldSupport;
 import net.cassite.style.reflect.MethodSupport;
@@ -26,7 +26,7 @@ import net.cassite.style.reflect.Reflect;
  *
  * @author lemon
  */
-public class DefaultFactory implements TypeAnnotationHandler {
+public class DefaultFactory implements InstanceFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(DefaultFactory.class);
 
@@ -46,7 +46,7 @@ public class DefaultFactory implements TypeAnnotationHandler {
         logger.debug("default with args: \n\tcls:\t{}\n\tchain:\t{}", cls, chain);
         try {
             return chain.next().handle(scope, cls, expectedClass, chain);
-        } catch (IrrelevantAnnotationHandlingException e) {
+        } catch (IrrelevantAnnoException e) {
             logger.debug("start handling with DefaultTypeHandler");
             if (scope.isBond(cls)) {
                 logger.debug("--cls {} is bond, retrieving from IOCController", cls);
