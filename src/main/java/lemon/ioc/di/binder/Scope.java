@@ -1,4 +1,4 @@
-package lemon.ioc.di;
+package lemon.ioc.di.binder;
 
 import net.cassite.style.Style;
 import net.cassite.style.interfaces.RFunc1;
@@ -133,6 +133,7 @@ public class Scope {
     }
 
     /**
+     * 
      * get bond instance
      *
      * @param cls class

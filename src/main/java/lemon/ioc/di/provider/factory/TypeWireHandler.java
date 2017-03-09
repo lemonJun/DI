@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import lemon.ioc.di.Injector;
-import lemon.ioc.di.Scope;
+import lemon.ioc.di.binder.Scope;
 import lemon.ioc.di.exception.AnnoHandleException;
 import lemon.ioc.di.exception.ConstructingMultiSingletonException;
 import lemon.ioc.di.provider.HandlerChain;

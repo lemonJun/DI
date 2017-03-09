@@ -5,6 +5,8 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import lemon.ioc.di.binder.Scope;
+
 public class DI {
 
     private static final Logger logger = LoggerFactory.getLogger(DI.class);

@@ -1,5 +1,7 @@
 package lemon.ioc.di;
 
+import lemon.ioc.di.binder.Scope;
+
 /**
  * An object capable of providing instances of type {@code T}. Providers are used in numerous ways
  * by Guice:

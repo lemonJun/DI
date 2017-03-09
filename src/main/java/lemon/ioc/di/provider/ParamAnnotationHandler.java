@@ -2,7 +2,7 @@ package lemon.ioc.di.provider;
 
 import java.lang.annotation.Annotation;
 
-import lemon.ioc.di.Scope;
+import lemon.ioc.di.binder.Scope;
 import lemon.ioc.di.exception.AnnoHandleException;
 import net.cassite.style.reflect.MemberSup;
 

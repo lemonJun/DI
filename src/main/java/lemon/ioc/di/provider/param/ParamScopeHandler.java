@@ -25,7 +25,7 @@ public class ParamScopeHandler implements ParamAnnotationHandler {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Object handle(lemon.ioc.di.Scope scope, MemberSup<?> caller, Class<?> cls, Class<?> expectedClass, Annotation[] toHandle, ParamHandlerChain chain) throws AnnoHandleException {
+    public Object handle(lemon.ioc.di.binder.Scope scope, MemberSup<?> caller, Class<?> cls, Class<?> expectedClass, Annotation[] toHandle, ParamHandlerChain chain) throws AnnoHandleException {
         LOGGER.debug("Entered ParamScopeHandler with args:\n\tcaller:\t{}\n\tcls:\t{}\n\ttoHandle:\t{}\n\tchain:\t{}", caller, cls, toHandle, chain);
         LOGGER.debug("Start handling with ParamScopeHandler");
 
@@ -37,7 +37,7 @@ public class ParamScopeHandler implements ParamAnnotationHandler {
         } else {
             Object retrieved = chain.next().handle(scope, caller, cls, expectedClass, toHandle, chain);
             if (scopeAttrA.thread()) {
-                lemon.ioc.di.Scope.currentThreadScope().registerInstance(scopeAttrA.value(), retrieved);
+                lemon.ioc.di.binder.Scope.currentThreadScope().registerInstance(scopeAttrA.value(), retrieved);
             } else {
                 scope.registerInstance(scopeAttrA.value(), retrieved);
             }

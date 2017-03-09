@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 
 import lemon.ioc.aop.AOP;
 import lemon.ioc.aop.AOPController;
-import lemon.ioc.di.Scope;
 import lemon.ioc.di.Utils;
+import lemon.ioc.di.binder.Scope;
 import lemon.ioc.di.exception.AnnoHandleException;
 import lemon.ioc.di.provider.HandlerChain;
 import lemon.ioc.di.provider.TypeAnnotationHandler;

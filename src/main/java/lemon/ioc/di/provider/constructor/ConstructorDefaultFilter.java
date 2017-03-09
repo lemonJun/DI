@@ -8,8 +8,8 @@ import net.cassite.style.reflect.ConstructorSup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import lemon.ioc.di.Scope;
 import lemon.ioc.di.annotations.DefaultBy;
+import lemon.ioc.di.binder.Scope;
 import lemon.ioc.di.exception.AnnoHandleException;
 import lemon.ioc.di.provider.ConstructorFilter;
 import lemon.ioc.di.provider.ConstructorFilterChain;

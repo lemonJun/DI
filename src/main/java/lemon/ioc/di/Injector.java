@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import lemon.ioc.di.annotations.Inject;
 import lemon.ioc.di.annotations.Invoke;
 import lemon.ioc.di.annotations.Singleton;
+import lemon.ioc.di.binder.Scope;
 import lemon.ioc.di.exception.ConstructingMultiSingletonException;
 import lemon.ioc.di.provider.ConstructorFilter;
 import lemon.ioc.di.provider.ConstructorFilterChain;

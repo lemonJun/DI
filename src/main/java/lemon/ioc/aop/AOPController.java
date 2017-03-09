@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import lemon.ioc.di.DI;
 import lemon.ioc.di.Injector;
-import lemon.ioc.di.Scope;
+import lemon.ioc.di.binder.Scope;
 import net.cassite.style.interfaces.RFunc0;
 
 /**

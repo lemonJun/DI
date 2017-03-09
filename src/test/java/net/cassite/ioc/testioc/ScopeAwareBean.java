@@ -1,7 +1,7 @@
 package net.cassite.ioc.testioc;
 
-import lemon.ioc.di.Scope;
 import lemon.ioc.di.annotations.Inject;
+import lemon.ioc.di.binder.Scope;
 
 /**
  * scope aware

@@ -4,7 +4,7 @@ import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Set;
 
-import lemon.ioc.di.Scope;
+import lemon.ioc.di.binder.Scope;
 import lemon.ioc.di.exception.AnnoHandleException;
 import net.cassite.style.reflect.ConstructorSup;
 import net.cassite.style.reflect.MemberSup;
