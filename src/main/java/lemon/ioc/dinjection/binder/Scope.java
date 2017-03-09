@@ -29,6 +29,7 @@ public class Scope {
         return scope;
     }
 
+    /**
      * parent scope
      */
     protected Scope parent;
