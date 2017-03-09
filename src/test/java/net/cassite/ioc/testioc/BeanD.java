@@ -1,9 +1,7 @@
 package net.cassite.ioc.testioc;
 
-import net.cassite.pure.ioc.annotations.Use;
-import net.cassite.pure.ioc.annotations.Wire;
+import lemon.ioc.di.annotations.Use;
 
-@Wire
 public class BeanD implements IBeanD {
     private BeanA a;
     private String text;

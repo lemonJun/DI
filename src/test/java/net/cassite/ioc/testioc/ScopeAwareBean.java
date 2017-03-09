@@ -1,13 +1,13 @@
 package net.cassite.ioc.testioc;
 
-import net.cassite.pure.ioc.Scope;
-import net.cassite.pure.ioc.annotations.Wire;
+import lemon.ioc.di.Scope;
+import lemon.ioc.di.annotations.Inject;
 
 /**
  * scope aware
  */
 public class ScopeAwareBean {
-    @Wire
+    @Inject
     private Scope scope;
 
     public Scope getScope() {

@@ -1,9 +1,7 @@
 package net.cassite.ioc.testioc;
 
-import net.cassite.pure.ioc.annotations.Force;
-import net.cassite.pure.ioc.annotations.Wire;
+import lemon.ioc.di.annotations.Force;
 
-@Wire
 public class BeanB {
     private BeanC c;
     private double d;

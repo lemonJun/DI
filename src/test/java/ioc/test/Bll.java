@@ -2,7 +2,7 @@ package ioc.test;
 
 import org.junit.Test;
 
-import net.cassite.pure.ioc.annotations.Singleton;
+import lemon.ioc.di.annotations.Singleton;
 
 @Singleton
 public class Bll {

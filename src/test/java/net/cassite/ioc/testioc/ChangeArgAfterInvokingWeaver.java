@@ -1,8 +1,8 @@
 package net.cassite.ioc.testioc;
 
-import net.cassite.pure.aop.AOPPoint;
-import net.cassite.pure.aop.AfterWeaver;
-import net.cassite.pure.aop.LoggedWeaver;
+import lemon.ioc.aop.AOPPoint;
+import lemon.ioc.aop.AfterWeaver;
+import lemon.ioc.aop.LoggedWeaver;
 
 public class ChangeArgAfterInvokingWeaver implements AfterWeaver {
     @Override

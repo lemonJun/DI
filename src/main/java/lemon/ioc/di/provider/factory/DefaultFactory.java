@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import lemon.ioc.di.Injector;
 import lemon.ioc.di.Scope;
+import lemon.ioc.di.annotations.Inject;
 import lemon.ioc.di.annotations.Invoke;
-import lemon.ioc.di.annotations.Wire;
 import lemon.ioc.di.exception.AnnoHandleException;
 import lemon.ioc.di.provider.HandlerChain;
 import lemon.ioc.di.provider.IrrelevantAnnotationHandlingException;
@@ -108,19 +108,19 @@ public class DefaultFactory implements TypeAnnotationHandler {
             Object constructedObject = injector.constructObject(scope, cls);
 
             // scan fields and methods for @Wire and @Invoke
-            Object[] fields = Reflect.cls(cls).allFields().stream().filter(f -> f.isAnnotationPresent(Wire.class)).toArray();
-            Object[] methods = Reflect.cls(cls).allMethods().stream().filter(m -> m.isAnnotationPresent(Wire.class) || m.isAnnotationPresent(Invoke.class)).toArray();
+            Object[] fields = Reflect.cls(cls).allFields().stream().filter(f -> f.isAnnotationPresent(Inject.class)).toArray();
+            Object[] methods = Reflect.cls(cls).allMethods().stream().filter(m -> m.isAnnotationPresent(Inject.class) || m.isAnnotationPresent(Invoke.class)).toArray();
             if (fields.length != 0 || methods.length != 0) {
 
                 Aggregation.$(fields).forEach(fi -> {
                     FieldSupport f = (FieldSupport) fi;
-                    if (f.isAnnotationPresent(Wire.class)) {
+                    if (f.isAnnotationPresent(Inject.class)) {
                         injector.fillField(scope, constructedObject, f);
                     }
                 });
                 Aggregation.$(methods).forEach(me -> {
                     MethodSupport m = (MethodSupport) me;
-                    if (m.isAnnotationPresent(Wire.class)) {
+                    if (m.isAnnotationPresent(Inject.class)) {
                         injector.invokeSetter(scope, constructedObject, m);
                     } else if (m.isAnnotationPresent(Invoke.class)) {
                         injector.invokeMethod(scope, m, constructedObject);

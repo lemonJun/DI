@@ -3,7 +3,7 @@ package ioc.test;
 import org.apache.log4j.PropertyConfigurator;
 import org.junit.Test;
 
-import net.cassite.pure.DIHolder;
+import lemon.ioc.DIHolder;
 
 public class DITest {
 

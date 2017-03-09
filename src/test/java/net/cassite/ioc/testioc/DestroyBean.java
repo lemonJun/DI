@@ -1,15 +1,15 @@
 package net.cassite.ioc.testioc;
 
-import net.cassite.pure.aop.AOP;
-import net.cassite.pure.ioc.annotations.Force;
-import net.cassite.pure.ioc.annotations.Wire;
+import lemon.ioc.aop.AOP;
+import lemon.ioc.di.annotations.Force;
+import lemon.ioc.di.annotations.Inject;
 
 /**
  * bean for testing destroy weaver
  */
 @AOP(value = DestroyWeaver.class, timeoutMillis = 100)
 public class DestroyBean {
-    @Wire
+    @Inject
     @Force("a")
     private String s;
 

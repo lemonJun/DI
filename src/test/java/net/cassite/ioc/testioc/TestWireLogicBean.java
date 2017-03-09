@@ -1,7 +1,7 @@
 package net.cassite.ioc.testioc;
 
-import net.cassite.pure.ioc.annotations.Force;
-import net.cassite.pure.ioc.annotations.Wire;
+import lemon.ioc.di.annotations.Force;
+import lemon.ioc.di.annotations.Inject;
 
 public class TestWireLogicBean {
     String string;
@@ -12,7 +12,6 @@ public class TestWireLogicBean {
     }
 }
 
-@Wire
 class TestWireLogicBeanWithWireOnClass {
     @Force("a")
     String string;
@@ -25,7 +24,7 @@ class TestWireLogicBeanWithWireOnClass {
 }
 
 class TestWireLogicBeanWithWireOnField {
-    @Wire
+    @Inject
     @Force("a")
     String string;
     int integer;
@@ -39,7 +38,7 @@ class TestWireLogicBeanWithWireOnSetter {
     String string;
     int integer;
 
-    @Wire
+    @Inject
     @Force("1")
     public void setInteger(int integer) {
         this.integer = integer;

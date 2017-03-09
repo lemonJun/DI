@@ -1,12 +1,10 @@
 package net.cassite.ioc.testioc;
 
-import net.cassite.pure.ioc.annotations.DefaultBy;
-import net.cassite.pure.ioc.annotations.Force;
-import net.cassite.pure.ioc.annotations.Singleton;
-import net.cassite.pure.ioc.annotations.Wire;
+import lemon.ioc.di.annotations.DefaultBy;
+import lemon.ioc.di.annotations.Force;
+import lemon.ioc.di.annotations.Singleton;
 
 @Singleton
-@Wire
 public class BeanC {
     private int i;
     private BeanA a;

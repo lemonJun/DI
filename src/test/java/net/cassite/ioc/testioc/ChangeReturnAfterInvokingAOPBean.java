@@ -1,6 +1,6 @@
 package net.cassite.ioc.testioc;
 
-import net.cassite.pure.aop.AOP;
+import lemon.ioc.aop.AOP;
 
 @AOP(value = ChangeArgAfterInvokingWeaver.class, useCglib = true)
 public class ChangeReturnAfterInvokingAOPBean {

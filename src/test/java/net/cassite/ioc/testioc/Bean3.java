@@ -1,9 +1,7 @@
 package net.cassite.ioc.testioc;
 
-import net.cassite.pure.ioc.annotations.ScopeAttr;
-import net.cassite.pure.ioc.annotations.Wire;
+import lemon.ioc.di.annotations.ScopeAttr;
 
-@Wire
 public class Bean3 {
     private BeanA beanA;
 

@@ -1,6 +1,6 @@
 package net.cassite.ioc.testioc;
 
-import net.cassite.pure.ioc.annotations.DefaultBy;
+import lemon.ioc.di.annotations.DefaultBy;
 
 @DefaultBy(value = BeanD.class)
 public interface IBeanD {

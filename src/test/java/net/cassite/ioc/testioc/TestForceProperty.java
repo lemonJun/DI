@@ -1,12 +1,10 @@
 package net.cassite.ioc.testioc;
 
-import net.cassite.pure.ioc.annotations.Force;
-import net.cassite.pure.ioc.annotations.Wire;
+import lemon.ioc.di.annotations.Force;
 
 /**
  * test @Force(properties)
  */
-@Wire
 public class TestForceProperty {
     @Force(value = "a", properties = "prop")
     private int a;

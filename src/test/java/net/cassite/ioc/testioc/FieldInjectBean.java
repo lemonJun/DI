@@ -1,16 +1,16 @@
 package net.cassite.ioc.testioc;
 
-import net.cassite.pure.ioc.annotations.Force;
-import net.cassite.pure.ioc.annotations.Wire;
+import lemon.ioc.di.annotations.Force;
+import lemon.ioc.di.annotations.Inject;
 
 /**
  * test field injection
  */
 public class FieldInjectBean {
-    @Wire
+    @Inject
     @Force("a")
     String string;
-    @Wire
+    @Inject
     @Force("1")
     int integer;
 }

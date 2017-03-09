@@ -1,21 +1,22 @@
 package net.cassite.ioc.testioc;
 
-import net.cassite.pure.ioc.annotations.Force;
-import net.cassite.pure.ioc.annotations.ScopeAttr;
-import net.cassite.pure.ioc.annotations.Wire;
+import lemon.ioc.di.annotations.Force;
+import lemon.ioc.di.annotations.Inject;
+import lemon.ioc.di.annotations.ScopeAttr;
 
 /**
  * tests thread scope
  */
 public class ThreadScopeBean {
-    @Wire
+    @Inject
     @ScopeAttr(value = "test", thread = true)
     @Force("a")
     String string;
 }
 
 class ThreadScopeBean2 {
-    @Wire
+    @Inject
+
     @ScopeAttr(value = "test", thread = true)
     String string;
 }

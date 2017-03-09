@@ -18,9 +18,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import lemon.ioc.di.annotations.Inject;
 import lemon.ioc.di.annotations.Invoke;
 import lemon.ioc.di.annotations.Singleton;
-import lemon.ioc.di.annotations.Wire;
 import lemon.ioc.di.exception.ConstructingMultiSingletonException;
 import lemon.ioc.di.provider.ConstructorFilter;
 import lemon.ioc.di.provider.ConstructorFilterChain;
@@ -135,7 +135,7 @@ public class Injector {
         HandlerChain chain = new HandlerChain(typeAnnotationHandlers, cls.getAnnotations());
         return (T) chain.next().handle(scope, cls, expectingClass, chain);
     }
-    
+
     public void wire(Scope scope, Object o) {
         if (null == scope) {//当前线程
             logger.debug("constructing a scope for object {}", o);
@@ -145,20 +145,20 @@ public class Injector {
         //
         if (!o.getClass().getName().contains("$$EnhancerByCGLIB$$")) {
             // prevent wiring cglib generated objects
-            boolean wireAll = o.getClass().isAnnotationPresent(Wire.class);
+            boolean wireAll = o.getClass().isAnnotationPresent(Inject.class);
 
             logger.debug("Start Wiring object {}", o);
             registerSingleton(o);
             // check field
             logger.debug("--checking fields");
             List<String> setterNamesOfWiredFields = new ArrayList<>();
-            cls(o).allFields().stream().filter(f -> f.isAnnotationPresent(Wire.class)).forEach(f -> {
+            cls(o).allFields().stream().filter(f -> f.isAnnotationPresent(Inject.class)).forEach(f -> {
                 fillField(s, o, f);
                 setterNamesOfWiredFields.add("set" + f.name().substring(0, 1).toUpperCase() + f.name().substring(1));
             });
             logger.debug("--field wiring completed");
             logger.debug("--checking setters");
-            cls(o).setters().stream().filter(m -> !setterNamesOfWiredFields.contains(m.name()) && (wireAll || m.isAnnotationPresent(Wire.class))).forEach(m -> invokeSetter(s, o, m));
+            cls(o).setters().stream().filter(m -> !setterNamesOfWiredFields.contains(m.name()) && (wireAll || m.isAnnotationPresent(Inject.class))).forEach(m -> invokeSetter(s, o, m));
             logger.debug("--setter wiring completed");
             logger.debug("Finished Wiring {}", o);
 

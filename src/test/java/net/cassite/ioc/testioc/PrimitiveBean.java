@@ -1,11 +1,8 @@
 package net.cassite.ioc.testioc;
 
-import net.cassite.pure.ioc.annotations.Wire;
-
 /**
  * Created by wkgcass on 15/12/14.
  */
-@Wire
 public class PrimitiveBean {
     private int i;
     private double d;
