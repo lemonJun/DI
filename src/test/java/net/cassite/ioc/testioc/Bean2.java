@@ -1,7 +1,7 @@
 package net.cassite.ioc.testioc;
 
-import lemon.ioc.di.annotations.Inject;
-import lemon.ioc.di.annotations.ScopeAttr;
+import lemon.ioc.dinjection.annotations.Inject;
+import lemon.ioc.dinjection.annotations.ScopeAttr;
 
 public class Bean2 {
     private BeanA beanA;

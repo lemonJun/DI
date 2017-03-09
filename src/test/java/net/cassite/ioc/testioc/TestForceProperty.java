@@ -1,6 +1,6 @@
 package net.cassite.ioc.testioc;
 
-import lemon.ioc.di.annotations.Force;
+import lemon.ioc.dinjection.annotations.Force;
 
 /**
  * test @Force(properties)

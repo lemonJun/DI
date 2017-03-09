@@ -8,9 +8,9 @@ import static net.cassite.style.util.Utils.run;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import lemon.ioc.di.DI;
-import lemon.ioc.di.Injector;
-import lemon.ioc.di.binder.Scope;
+import lemon.ioc.dinjection.DI;
+import lemon.ioc.dinjection.Injector;
+import lemon.ioc.dinjection.binder.Scope;
 import net.cassite.style.interfaces.RFunc0;
 
 /**

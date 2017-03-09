@@ -1,6 +1,6 @@
 package lemon.ioc;
 
-import lemon.ioc.di.AbstractModule;
+import lemon.ioc.dinjection.AbstractModule;
 
 public class BindingModel extends AbstractModule {
 

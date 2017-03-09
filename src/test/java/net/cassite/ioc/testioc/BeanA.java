@@ -1,7 +1,7 @@
 package net.cassite.ioc.testioc;
 
-import lemon.ioc.di.annotations.Force;
-import lemon.ioc.di.annotations.Ignore;
+import lemon.ioc.dinjection.annotations.Force;
+import lemon.ioc.dinjection.annotations.Ignore;
 
 public class BeanA {
     private BeanB b;

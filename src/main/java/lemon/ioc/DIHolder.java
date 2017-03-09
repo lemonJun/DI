@@ -1,7 +1,7 @@
 package lemon.ioc;
 
-import lemon.ioc.di.DI;
-import lemon.ioc.di.Injector;
+import lemon.ioc.dinjection.DI;
+import lemon.ioc.dinjection.Injector;
 
 public class DIHolder {
 

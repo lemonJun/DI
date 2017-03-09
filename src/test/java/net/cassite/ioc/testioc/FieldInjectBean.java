@@ -1,7 +1,7 @@
 package net.cassite.ioc.testioc;
 
-import lemon.ioc.di.annotations.Force;
-import lemon.ioc.di.annotations.Inject;
+import lemon.ioc.dinjection.annotations.Force;
+import lemon.ioc.dinjection.annotations.Inject;
 
 /**
  * test field injection
