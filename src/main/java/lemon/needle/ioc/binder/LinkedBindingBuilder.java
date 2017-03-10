@@ -17,7 +17,6 @@ package lemon.needle.ioc.binder;
 
 import java.lang.reflect.Constructor;
 
-import lemon.needle.ioc.Key;
 import lemon.needle.ioc.Provider;
 import lemon.needle.ioc.TypeLiteral;
 
@@ -41,7 +40,7 @@ public interface LinkedBindingBuilder<T> extends ScopedBindingBuilder {
     /**
      * See the EDSL examples at {@link com.google.inject.Binder}.
      */
-    ScopedBindingBuilder to(Key<? extends T> targetKey);
+    //    ScopedBindingBuilder to(Key<? extends T> targetKey);
 
     /**
      * See the EDSL examples at {@link com.google.inject.Binder}.
@@ -78,7 +77,7 @@ public interface LinkedBindingBuilder<T> extends ScopedBindingBuilder {
     /**
      * See the EDSL examples at {@link com.google.inject.Binder}.
      */
-    ScopedBindingBuilder toProvider(Key<? extends javax.inject.Provider<? extends T>> providerKey);
+    //    ScopedBindingBuilder toProvider(Key<? extends javax.inject.Provider<? extends T>> providerKey);
 
     /**
      * See the EDSL examples at {@link com.google.inject.Binder}.

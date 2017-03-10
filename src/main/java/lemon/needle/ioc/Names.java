@@ -49,7 +49,7 @@ public class Names {
         for (Map.Entry<String, String> entry : properties.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
-            binder.bind(Key.get(String.class, new NamedImpl(key))).toInstance(value);
+            //            binder.bind(Key.get(String.class, new NamedImpl(key))).toInstance(value);
         }
     }
 
@@ -65,7 +65,7 @@ public class Names {
         for (Enumeration<?> e = properties.propertyNames(); e.hasMoreElements();) {
             String propertyName = (String) e.nextElement();
             String value = properties.getProperty(propertyName);
-            binder.bind(Key.get(String.class, new NamedImpl(propertyName))).toInstance(value);
+            //            binder.bind(Key.get(String.class, new NamedImpl(propertyName))).toInstance(value);
         }
     }
 }

@@ -18,11 +18,12 @@ import java.util.List;
 import com.google.common.collect.ImmutableList;
 
 /**
+ * 
  * Represents a generic type {@code T}. Java doesn't yet provide a way to
  * represent generic types, so this class does. Forces clients to create a
  * subclass of this class which enables retrieval the type information even at
  * runtime.
- *
+ * 
  * <p>For example, to create a type literal for {@code List<String>}, you can
  * create an empty anonymous inner class:
  *
@@ -47,7 +48,7 @@ public class TypeLiteral<T> {
     final Class<? super T> rawType;
     final Type type;
     final int hashCode;
-
+    
     /**
      * Constructs a new type literal. Derives represented class from type
      * parameter.

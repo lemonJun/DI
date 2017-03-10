@@ -7,7 +7,6 @@ import javax.inject.Inject;
 
 import lemon.needle.ioc.AbstractModule;
 import lemon.needle.ioc.Injector;
-import lemon.needle.ioc.Key;
 import lemon.needle.ioc.Module;
 import lemon.needle.ioc.Provider;
 import lemon.needle.ioc.TypeLiteral;
@@ -209,7 +208,7 @@ public interface Binder {
     //    void bindInterceptor(Matcher<? super Class<?>> classMatcher, Matcher<? super Method> methodMatcher, org.aopalliance.intercept.MethodInterceptor... interceptors);
     /*end[AOP]*/
 
-    /**
+    /** 
      * Binds a scope to an annotation.
      */
     void bindScope(Class<? extends Annotation> annotationType, Scope scope);
@@ -217,7 +216,7 @@ public interface Binder {
     /**
      * See the EDSL examples at {@link Binder}.
      */
-    <T> LinkedBindingBuilder<T> bind(Key<T> key);
+    //    <T> LinkedBindingBuilder<T> bind(Key<T> key);
 
     /**
      * See the EDSL examples at {@link Binder}.
@@ -303,7 +302,7 @@ public interface Binder {
      *
      * @since 2.0
      */
-    <T> Provider<T> getProvider(Key<T> key);
+    //    <T> Provider<T> getProvider(Key<T> key);
 
     /**
      * Returns the provider used to obtain instances for the given injection key.
@@ -382,7 +381,7 @@ public interface Binder {
      * @since 4.0
      */
     //    void bindListener(Matcher<? super Binding<?>> bindingMatcher, ProvisionListener... listeners);
-    
+
     /**
      * Returns a binder that uses {@code source} as the reference location for
      * configuration errors. This is typically a {@link StackTraceElement}

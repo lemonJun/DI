@@ -40,19 +40,19 @@ public class MoreTypes {
      * This is necessary for anonymous keys, so ensure we don't hold a ref
      * to the containing module (or class) forever.
      */
-    public static <T> Key<T> canonicalizeKey(Key<T> key) {
-        // If we know this isn't a subclass, return as-is.
-        // Otherwise, recreate the key to avoid the subclass 
-        if (key.getClass() == Key.class) {
-            return key;
-        } else if (key.getAnnotation() != null) {
-            return Key.get(key.getTypeLiteral(), key.getAnnotation());
-        } else if (key.getAnnotationType() != null) {
-            return Key.get(key.getTypeLiteral(), key.getAnnotationType());
-        } else {
-            return Key.get(key.getTypeLiteral());
-        }
-    }
+    //    public static <T> Key<T> canonicalizeKey(Key<T> key) {
+    //        // If we know this isn't a subclass, return as-is.
+    //        // Otherwise, recreate the key to avoid the subclass 
+    //        if (key.getClass() == Key.class) {
+    //            return key;
+    //        } else if (key.getAnnotation() != null) {
+    //            return Key.get(key.getTypeLiteral(), key.getAnnotation());
+    //        } else if (key.getAnnotationType() != null) {
+    //            return Key.get(key.getTypeLiteral(), key.getAnnotationType());
+    //        } else {
+    //            return Key.get(key.getTypeLiteral());
+    //        }
+    //    }
 
     /**
      * Returns an type that's appropriate for use in a key.

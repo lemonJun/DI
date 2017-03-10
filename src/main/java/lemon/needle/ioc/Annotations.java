@@ -1,4 +1,14 @@
-package lemon.needle.ioc.annotations;
+package lemon.needle.ioc;
+
+import java.lang.annotation.Annotation;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Map;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
@@ -9,26 +19,6 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import com.google.inject.BindingAnnotation;
-import com.google.inject.Key;
-import com.google.inject.ScopeAnnotation;
-import com.google.inject.TypeLiteral;
-import com.google.inject.internal.util.Classes;
-import com.google.inject.name.Named;
-import com.google.inject.name.Names;
-
-import java.lang.annotation.Annotation;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Member;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Map;
-
-import javax.inject.Qualifier;
 
 /**
  * Annotation utilities.
@@ -150,29 +140,6 @@ public class Annotations {
         return retention != null && retention.value() == RetentionPolicy.RUNTIME;
     }
 
-    /** Returns the scope annotation on {@code type}, or null if none is specified. */
-    public static Class<? extends Annotation> findScopeAnnotation(Errors errors, Class<?> implementation) {
-        return findScopeAnnotation(errors, implementation.getAnnotations());
-    }
-
-    /** Returns the scoping annotation, or null if there isn't one. */
-    public static Class<? extends Annotation> findScopeAnnotation(Errors errors, Annotation[] annotations) {
-        Class<? extends Annotation> found = null;
-
-        for (Annotation annotation : annotations) {
-            Class<? extends Annotation> annotationType = annotation.annotationType();
-            if (isScopeAnnotation(annotationType)) {
-                if (found != null) {
-                    errors.duplicateScopeAnnotations(found, annotationType);
-                } else {
-                    found = annotationType;
-                }
-            }
-        }
-
-        return found;
-    }
-
     static boolean containsComponentAnnotation(Annotation[] annotations) {
         for (Annotation annotation : annotations) {
             // TODO(user): Should we scope this down to dagger.Component?
@@ -219,66 +186,6 @@ public class Annotations {
         }
     }
 
-    private static final AnnotationChecker scopeChecker = new AnnotationChecker(Arrays.asList(ScopeAnnotation.class, javax.inject.Scope.class));
-
-    public static boolean isScopeAnnotation(Class<? extends Annotation> annotationType) {
-        return scopeChecker.hasAnnotations(annotationType);
-    }
-
-    /**
-     * Adds an error if there is a misplaced annotations on {@code type}. Scoping
-     * annotations are not allowed on abstract classes or interfaces.
-     */
-    public static void checkForMisplacedScopeAnnotations(Class<?> type, Object source, Errors errors) {
-        if (Classes.isConcrete(type)) {
-            return;
-        }
-
-        Class<? extends Annotation> scopeAnnotation = findScopeAnnotation(errors, type);
-        if (scopeAnnotation != null
-                        // We let Dagger Components through to aid migrations.
-                        && !containsComponentAnnotation(type.getAnnotations())) {
-            errors.withSource(type).scopeAnnotationOnAbstractType(scopeAnnotation, type, source);
-        }
-    }
-
-    /** Gets a key for the given type, member and annotations. */
-    public static Key<?> getKey(TypeLiteral<?> type, Member member, Annotation[] annotations, Errors errors) throws ErrorsException {
-        int numErrorsBefore = errors.size();
-        Annotation found = findBindingAnnotation(errors, member, annotations);
-        errors.throwIfNewErrors(numErrorsBefore);
-        return found == null ? Key.get(type) : Key.get(type, found);
-    }
-
-    /**
-     * Returns the binding annotation on {@code member}, or null if there isn't one.
-     */
-    public static Annotation findBindingAnnotation(Errors errors, Member member, Annotation[] annotations) {
-        Annotation found = null;
-
-        for (Annotation annotation : annotations) {
-            Class<? extends Annotation> annotationType = annotation.annotationType();
-            if (isBindingAnnotation(annotationType)) {
-                if (found != null) {
-                    errors.duplicateBindingAnnotations(member, found.annotationType(), annotationType);
-                } else {
-                    found = annotation;
-                }
-            }
-        }
-
-        return found;
-    }
-
-    private static final AnnotationChecker bindingAnnotationChecker = new AnnotationChecker(Arrays.asList(BindingAnnotation.class, Qualifier.class));
-
-    /**
-     * Returns true if annotations of the specified type are binding annotations.
-     */
-    public static boolean isBindingAnnotation(Class<? extends Annotation> annotationType) {
-        return bindingAnnotationChecker.hasAnnotations(annotationType);
-    }
-
     /**
      * If the annotation is an instance of {@code javax.inject.Named}, canonicalizes to
      * com.google.guice.name.Named.  Returns the given annotation otherwise.
@@ -291,15 +198,4 @@ public class Annotations {
         }
     }
 
-    /**
-     * If the annotation is the class {@code javax.inject.Named}, canonicalizes to
-     * com.google.guice.name.Named. Returns the given annotation class otherwise.
-     */
-    public static Class<? extends Annotation> canonicalizeIfNamed(Class<? extends Annotation> annotationType) {
-        if (annotationType == javax.inject.Named.class) {
-            return Named.class;
-        } else {
-            return annotationType;
-        }
-    }
 }

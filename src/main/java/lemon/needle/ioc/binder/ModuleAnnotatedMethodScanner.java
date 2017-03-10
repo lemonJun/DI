@@ -3,8 +3,6 @@ package lemon.needle.ioc.binder;
 import java.lang.annotation.Annotation;
 import java.util.Set;
 
-import lemon.needle.ioc.Key;
-
 /**
  * Allows extensions to scan modules for annotated methods and bind those methods
  * as providers, similar to {@code @Provides} methods.

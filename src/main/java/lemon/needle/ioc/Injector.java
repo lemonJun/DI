@@ -49,6 +49,7 @@ import net.cassite.style.reflect.FieldSupport;
 import net.cassite.style.reflect.MethodSupport;
 
 /**
+ * 
  * The class is to control the process of handling annotations and constructing
  * objects. <br>
  * Annotation handlers are divided into 4 kinds. <br>
@@ -66,7 +67,7 @@ import net.cassite.style.reflect.MethodSupport;
  * <br>
  * handlers are recommended to call higher priority handlers, check return <br>
  * value, then decide whether to run its own handling process.
- *
+ * 
  * @author lemon
  * @see lemon.needle.ioc.provider.HandlerChain
  * @see lemon.needle.ioc.provider.InstanceFactory
@@ -93,19 +94,10 @@ public class Injector {
      */
     private List<InstanceFactory> typeAnnotationHandlers = new ArrayList<>();
 
-    /**
-     * singleton class instances<br>
-     * classes with Singleton annotation
-     *
-     * @see Singleton
-     */
+    //存放的是单例实体
     private Map<Class<?>, Object> singletons = new ConcurrentHashMap<>();
     public static final Scope rootScope = new Scope();
-
-    //    static {
-    //        rootScope.bind(Scope.class, scope -> scope);
-    //    }
-
+    
     protected Injector() {
         rootScope.bind(Scope.class, scope -> scope);
     }
@@ -218,8 +210,7 @@ public class Injector {
         try {
             Object o = chain.next().handle(scope, m, m.argTypes()[0], m.argTypes()[0], annoArray, chain);
             m.invoke(target, o);
-        } catch (IrrelevantAnnoException
-                        | IgnoredAnnoException ignore) {
+        } catch (IrrelevantAnnoException | IgnoredAnnoException ignore) {
         }
     }
 

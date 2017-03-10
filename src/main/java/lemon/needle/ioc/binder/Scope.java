@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class Scope {
     private static ThreadLocal<Scope> scopeThreadLocal = new ThreadLocal<>();
-
+    
     /**
      * retrieve scope in current thread
      * 
