@@ -4,6 +4,7 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 
 import lemon.needle.ioc.Element;
+import lemon.needle.ioc.Key;
 import lemon.needle.ioc.annotations.ImplementedBy;
 
 /**
@@ -48,7 +49,7 @@ public interface Binding<T> extends Element {
     /**
      * Returns the key for this binding.
      */
-    //    Key<T> getKey();
+    Key<T> getKey();
 
     /**
      * Returns the scoped provider guice uses to fulfill requests for this
@@ -60,19 +61,4 @@ public interface Binding<T> extends Element {
      */
     Provider<T> getProvider();
 
-    /**
-     * Accepts a target visitor. Invokes the visitor method specific to this binding's target.
-     *
-     * @param visitor to call back on
-    //     * @since 2.0
-    //     */
-    //    <V> V acceptTargetVisitor(BindingTargetVisitor<? super T, V> visitor);
-    //
-    //    /**
-    //     * Accepts a scoping visitor. Invokes the visitor method specific to this binding's scoping.
-    //     *
-    //     * @param visitor to call back on
-    //     * @since 2.0
-    //     */
-    //    <V> V acceptScopingVisitor(BindingScopingVisitor<V> visitor);
 }

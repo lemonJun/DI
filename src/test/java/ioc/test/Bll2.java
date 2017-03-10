@@ -1,6 +1,6 @@
 package ioc.test;
 
-import lemon.needle.ioc.annotations.Singleton;
+import javax.inject.Singleton;
 
 @Singleton
 public class Bll2<T> {

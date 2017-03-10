@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.inject.Singleton;
 
-import lemon.needle.ioc.Provides;
+import lemon.needle.ioc.annotations.Provides;
 
 public class MyModule {
 
