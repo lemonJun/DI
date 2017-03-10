@@ -1,8 +1,8 @@
 package net.cassite.ioc.testioc;
 
-import lemon.ioc.aop.AOP;
-import lemon.ioc.dinjection.annotations.Force;
-import lemon.ioc.dinjection.annotations.Inject;
+import lemon.needle.aop.AOP;
+import lemon.needle.ioc.annotations.Force;
+import lemon.needle.ioc.annotations.Inject;
 
 /**
  * bean for testing destroy weaver

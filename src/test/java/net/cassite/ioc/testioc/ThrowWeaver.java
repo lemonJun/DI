@@ -1,8 +1,8 @@
 package net.cassite.ioc.testioc;
 
-import lemon.ioc.aop.AOPPoint;
-import lemon.ioc.aop.ExceptionWeaver;
-import lemon.ioc.aop.LoggedWeaver;
+import lemon.needle.aop.AOPPoint;
+import lemon.needle.aop.ExceptionWeaver;
+import lemon.needle.aop.LoggedWeaver;
 
 public class ThrowWeaver implements ExceptionWeaver {
     @Override

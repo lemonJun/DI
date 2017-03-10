@@ -1,7 +1,7 @@
 package net.cassite.ioc.testioc;
 
-import lemon.ioc.aop.AOPPoint;
-import lemon.ioc.aop.BeforeWeaver;
+import lemon.needle.aop.AOPPoint;
+import lemon.needle.aop.BeforeWeaver;
 
 public class ChangeArgBeforeInvokingWeaver implements BeforeWeaver {
     @Override

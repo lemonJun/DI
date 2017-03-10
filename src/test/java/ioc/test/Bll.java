@@ -2,7 +2,7 @@ package ioc.test;
 
 import org.junit.Test;
 
-import lemon.ioc.dinjection.annotations.Singleton;
+import lemon.needle.ioc.annotations.Singleton;
 
 @Singleton
 public class Bll {

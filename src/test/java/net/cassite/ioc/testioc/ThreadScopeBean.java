@@ -1,8 +1,8 @@
 package net.cassite.ioc.testioc;
 
-import lemon.ioc.dinjection.annotations.Force;
-import lemon.ioc.dinjection.annotations.Inject;
-import lemon.ioc.dinjection.annotations.ScopeAttr;
+import lemon.needle.ioc.annotations.Force;
+import lemon.needle.ioc.annotations.Inject;
+import lemon.needle.ioc.annotations.ScopeAttr;
 
 /**
  * tests thread scope

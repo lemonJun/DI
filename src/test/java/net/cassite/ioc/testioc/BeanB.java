@@ -1,6 +1,6 @@
 package net.cassite.ioc.testioc;
 
-import lemon.ioc.dinjection.annotations.Force;
+import lemon.needle.ioc.annotations.Force;
 
 public class BeanB {
     private BeanC c;

@@ -1,8 +1,8 @@
 package net.cassite.ioc.testioc;
 
-import lemon.ioc.dinjection.annotations.DefaultBy;
-import lemon.ioc.dinjection.annotations.Force;
-import lemon.ioc.dinjection.annotations.Singleton;
+import lemon.needle.ioc.annotations.DefaultBy;
+import lemon.needle.ioc.annotations.Force;
+import lemon.needle.ioc.annotations.Singleton;
 
 @Singleton
 public class BeanC {

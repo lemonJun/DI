@@ -1,8 +1,8 @@
 package net.cassite.ioc.testioc;
 
-import lemon.ioc.aop.AOPPoint;
-import lemon.ioc.aop.BeforeWeaver;
-import lemon.ioc.aop.LoggedWeaver;
+import lemon.needle.aop.AOPPoint;
+import lemon.needle.aop.BeforeWeaver;
+import lemon.needle.aop.LoggedWeaver;
 
 public class ReturnBeforeInvokingWeaver implements BeforeWeaver {
     @Override

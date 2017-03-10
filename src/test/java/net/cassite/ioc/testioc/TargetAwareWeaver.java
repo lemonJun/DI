@@ -1,8 +1,8 @@
 package net.cassite.ioc.testioc;
 
-import lemon.ioc.aop.AOPPoint;
-import lemon.ioc.aop.BeforeWeaver;
-import lemon.ioc.aop.TargetAware;
+import lemon.needle.aop.AOPPoint;
+import lemon.needle.aop.BeforeWeaver;
+import lemon.needle.aop.TargetAware;
 import net.cassite.style.interfaces.RFunc0;
 
 public class TargetAwareWeaver implements BeforeWeaver, TargetAware<Object> {

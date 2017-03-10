@@ -1,6 +1,6 @@
 package net.cassite.ioc.testioc;
 
-import lemon.ioc.dinjection.annotations.Use;
+import lemon.needle.ioc.annotations.Use;
 
 public class BeanD implements IBeanD {
     private BeanA a;

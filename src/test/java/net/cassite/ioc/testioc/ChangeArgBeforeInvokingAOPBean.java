@@ -1,6 +1,6 @@
 package net.cassite.ioc.testioc;
 
-import lemon.ioc.aop.AOP;
+import lemon.needle.aop.AOP;
 
 @AOP(value = ChangeArgBeforeInvokingWeaver.class, useCglib = true)
 public class ChangeArgBeforeInvokingAOPBean {
