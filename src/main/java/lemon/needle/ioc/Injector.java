@@ -20,25 +20,20 @@ import javax.inject.Qualifier;
 import javax.inject.Singleton;
 
 import lemon.needle.ioc.annotations.Provides;
+import lemon.needle.ioc.provider.InnerProvider;
 
 public class Injector {
 
-    private final Map<Key<?>, Provider<?>> providers = new ConcurrentHashMap<>();
     private final Map<Key<?>, Object> singletons = new ConcurrentHashMap<>();
     private final Map<Class<?>, Object[][]> injectFields = new ConcurrentHashMap<>(0);
-    
+
+    private final InnerProvider providers = new InnerProvider();
+
     /**
      * Constructs Feather with configuration modules
      */
     public static Injector with(Module... modules) {
         return new Injector(Arrays.asList(modules));
-    }
-
-    /**
-     * Constructs Feather with configuration modules
-     */
-    public static Injector with(Iterable<?> modules) {
-        return new Injector(modules);
     }
 
     @SuppressWarnings("rawtypes")

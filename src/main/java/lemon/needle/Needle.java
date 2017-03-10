@@ -1,6 +1,5 @@
 package lemon.needle;
 
-import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.slf4j.Logger;
@@ -26,7 +25,7 @@ public class Needle {
     }
 
     public static void createInjector(Module... modules) {
-        injector = Injector.with(Arrays.asList(modules));
+        injector = Injector.with(modules);
     }
 
     public static <T> T getInstance(Class<T> type) {
