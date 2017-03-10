@@ -1,4 +1,4 @@
-package org.codejargon.feather;
+package lemon.needle.ioc;
 
 public class FeatherException extends RuntimeException {
     FeatherException(String message) {

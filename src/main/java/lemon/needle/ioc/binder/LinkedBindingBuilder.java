@@ -17,8 +17,7 @@ package lemon.needle.ioc.binder;
 
 import java.lang.reflect.Constructor;
 
-import org.codejargon.feather.Key;
-
+import lemon.needle.ioc.Key;
 import lemon.needle.ioc.Provider;
 import lemon.needle.ioc.TypeLiteral;
 

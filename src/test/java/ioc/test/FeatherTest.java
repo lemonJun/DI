@@ -1,7 +1,8 @@
 package ioc.test;
 
-import org.codejargon.feather.Feather;
 import org.junit.Test;
+
+import lemon.needle.ioc.Feather;
 
 public class FeatherTest {
 

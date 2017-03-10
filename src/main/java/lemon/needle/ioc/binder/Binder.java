@@ -5,10 +5,9 @@ import java.lang.reflect.Proxy;
 
 import javax.inject.Inject;
 
-import org.codejargon.feather.Key;
-
 import lemon.needle.ioc.AbstractModule;
 import lemon.needle.ioc.Injector;
+import lemon.needle.ioc.Key;
 import lemon.needle.ioc.Module;
 import lemon.needle.ioc.Provider;
 import lemon.needle.ioc.TypeLiteral;

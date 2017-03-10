@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.inject.Singleton;
 
-import org.codejargon.feather.Provides;
+import lemon.needle.ioc.Provides;
 
 public class MyModule {
 
