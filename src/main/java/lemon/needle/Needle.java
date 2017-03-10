@@ -1,6 +1,7 @@
 package lemon.needle;
 
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,10 +13,12 @@ public class Needle {
 
     private static final Logger logger = LoggerFactory.getLogger(Needle.class);
 
+    private AtomicBoolean initOnce = new AtomicBoolean(false);
+
     private Needle() {
         logger.info("");
     }
-    
+
     public static Injector injector;
 
     public static void init() {

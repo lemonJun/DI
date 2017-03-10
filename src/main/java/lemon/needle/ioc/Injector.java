@@ -28,10 +28,10 @@ public class Injector {
     /**
      * Constructs Feather with configuration modules
      */
-    public static Injector with(Object... modules) {
+    public static Injector with(Module... modules) {
         return new Injector(Arrays.asList(modules));
     }
-    
+
     /**
      * Constructs Feather with configuration modules
      */

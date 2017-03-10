@@ -1,12 +1,16 @@
 package ioc.test;
 
+import java.util.Map;
+
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
 public class D {
 
-    public D() {
-        System.out.println("d");
+    @Inject
+    public D(Map maps) {
+        System.out.println(maps.size());
     }
 
 }

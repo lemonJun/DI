@@ -1,4 +1,4 @@
-package lemon.needle.ioc;
+package lemon.needle.ioc.util;
 
 import java.lang.annotation.Annotation;
 

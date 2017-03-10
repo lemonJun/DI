@@ -4,6 +4,13 @@ import java.lang.annotation.Annotation;
 
 import javax.inject.Named;
 
+/**
+ * 
+ * @author WangYazhou
+ * @date  2017年3月10日 下午8:38:33
+ * @see 
+ * @param <T>
+ */
 public class Key<T> {
     final Class<T> type;
     final Class<? extends Annotation> qualifier;

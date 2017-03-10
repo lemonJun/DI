@@ -190,12 +190,12 @@ public class Annotations {
      * If the annotation is an instance of {@code javax.inject.Named}, canonicalizes to
      * com.google.guice.name.Named.  Returns the given annotation otherwise.
      */
-    public static Annotation canonicalizeIfNamed(Annotation annotation) {
-        if (annotation instanceof javax.inject.Named) {
-            return Names.named(((javax.inject.Named) annotation).value());
-        } else {
-            return annotation;
-        }
-    }
+    //    public static Annotation canonicalizeIfNamed(Annotation annotation) {
+    //        if (annotation instanceof javax.inject.Named) {
+    //            return Names.named(((javax.inject.Named) annotation).value());
+    //        } else {
+    //            return annotation;
+    //        }
+    //    }
 
 }

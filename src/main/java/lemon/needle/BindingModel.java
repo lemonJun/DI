@@ -18,7 +18,9 @@ public class BindingModel extends AbstractModule {
     @Singleton
     @Provides
     Map maps() {
-        return new HashMap();
+        Map map = new HashMap();
+        map.put("1", "1");
+        return map;
     }
 
 }

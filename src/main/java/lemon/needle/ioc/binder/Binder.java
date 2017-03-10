@@ -4,15 +4,13 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Proxy;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import lemon.needle.ioc.AbstractModule;
-import lemon.needle.ioc.InjectorOld;
 import lemon.needle.ioc.Key;
 import lemon.needle.ioc.Module;
 import lemon.needle.ioc.Provider;
-import lemon.needle.ioc.TypeLiteral;
 import lemon.needle.ioc.annotations.ImplementedBy;
-import lemon.needle.ioc.annotations.Singleton;
 
 /**
  * Collects configuration information (primarily <i>bindings</i>) which will be
