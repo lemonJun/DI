@@ -2,7 +2,7 @@ package ioc.test;
 
 public class C {
 
-    public C() {
+    private C() {
         System.out.println("c");
     }
 }

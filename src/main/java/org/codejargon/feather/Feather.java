@@ -1,15 +1,29 @@
 package org.codejargon.feather;
 
-import javax.inject.*;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.*;
-import java.util.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.inject.Inject;
+import javax.inject.Provider;
+import javax.inject.Qualifier;
+import javax.inject.Singleton;
+
 public class Feather {
-    private final Map<Key, Provider<?>> providers = new ConcurrentHashMap<>();
-    private final Map<Key, Object> singletons = new ConcurrentHashMap<>();
-    private final Map<Class, Object[][]> injectFields = new ConcurrentHashMap<>(0);
+
+    private final Map<Key<?>, Provider<?>> providers = new ConcurrentHashMap<>();
+    private final Map<Key<?>, Object> singletons = new ConcurrentHashMap<>();
+    private final Map<Class<?>, Object[][]> injectFields = new ConcurrentHashMap<>(0);
 
     /**
      * Constructs Feather with configuration modules
@@ -25,6 +39,7 @@ public class Feather {
         return new Feather(modules);
     }
 
+    @SuppressWarnings("rawtypes")
     private Feather(Iterable<?> modules) {
         providers.put(Key.of(Feather.class), new Provider() {
             @Override
@@ -57,6 +72,7 @@ public class Feather {
     }
 
     /**
+     * 
      * @return provider of type
      */
     public <T> Provider<T> provider(Class<T> type) {
@@ -79,7 +95,7 @@ public class Feather {
         }
         for (Object[] f : injectFields.get(target.getClass())) {
             Field field = (Field) f[0];
-            Key key = (Key) f[2];
+            Key<?> key = (Key<?>) f[2];
             try {
                 field.set(target, (boolean) f[1] ? provider(key) : instance(key));
             } catch (Exception e) {
@@ -88,11 +104,12 @@ public class Feather {
         }
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private <T> Provider<T> provider(final Key<T> key, Set<Key> chain) {
         if (!providers.containsKey(key)) {
-            final Constructor constructor = constructor(key);
+            final Constructor<?> constructor = constructor(key);
             final Provider<?>[] paramProviders = paramProviders(key, constructor.getParameterTypes(), constructor.getGenericParameterTypes(), constructor.getParameterAnnotations(), chain);
+
             providers.put(key, singletonProvider(key, key.type.getAnnotation(Singleton.class), new Provider() {
                 @Override
                 public Object get() {
@@ -107,17 +124,21 @@ public class Feather {
         return (Provider<T>) providers.get(key);
     }
 
+    //提出其中的provider方法
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private void providerMethod(final Object module, final Method m) {
-        final Key key = Key.of(m.getReturnType(), qualifier(m.getAnnotations()));
-        if (providers.containsKey(key)) {
+        final Key<?> key = Key.of(m.getReturnType(), qualifier(m.getAnnotations()));
+        if (providers.containsKey(key)) {//不能重复
             throw new FeatherException(String.format("%s has multiple providers, module %s", key.toString(), module.getClass()));
         }
         Singleton singleton = m.getAnnotation(Singleton.class) != null ? m.getAnnotation(Singleton.class) : m.getReturnType().getAnnotation(Singleton.class);
         final Provider<?>[] paramProviders = paramProviders(key, m.getParameterTypes(), m.getGenericParameterTypes(), m.getParameterAnnotations(), Collections.singleton(key));
+
         providers.put(key, singletonProvider(key, singleton, new Provider() {
             @Override
             public Object get() {
                 try {
+                    //直接生成一个实例
                     return m.invoke(module, params(paramProviders));
                 } catch (Exception e) {
                     throw new FeatherException(String.format("Can't instantiate %s with provider", key.toString()), e);
@@ -126,8 +147,9 @@ public class Feather {
         }));
     }
 
+    //生成一个单例
     @SuppressWarnings("unchecked")
-    private <T> Provider<T> singletonProvider(final Key key, Singleton singleton, final Provider<T> provider) {
+    private <T> Provider<T> singletonProvider(final Key<?> key, Singleton singleton, final Provider<T> provider) {
         return singleton != null ? new Provider<T>() {
             @Override
             public T get() {
@@ -143,14 +165,16 @@ public class Feather {
         } : provider;
     }
 
-    private Provider<?>[] paramProviders(final Key key, Class<?>[] parameterClasses, Type[] parameterTypes, Annotation[][] annotations, final Set<Key> chain) {
+    //获取参数
+    @SuppressWarnings("rawtypes")
+    private Provider<?>[] paramProviders(final Key<?> key, Class<?>[] parameterClasses, Type[] parameterTypes, Annotation[][] annotations, final Set<Key> chain) {
         Provider<?>[] providers = new Provider<?>[parameterTypes.length];
         for (int i = 0; i < parameterTypes.length; ++i) {
             Class<?> parameterClass = parameterClasses[i];
             Annotation qualifier = qualifier(annotations[i]);
             Class<?> providerType = Provider.class.equals(parameterClass) ? (Class<?>) ((ParameterizedType) parameterTypes[i]).getActualTypeArguments()[0] : null;
             if (providerType == null) {
-                final Key newKey = Key.of(parameterClass, qualifier);
+                final Key<?> newKey = Key.of(parameterClass, qualifier);
                 final Set<Key> newChain = append(chain, key);
                 if (newChain.contains(newKey)) {
                     throw new FeatherException(String.format("Circular dependency: %s", chain(newChain, newKey)));
@@ -164,6 +188,7 @@ public class Feather {
             } else {
                 final Key newKey = Key.of(providerType, qualifier);
                 providers[i] = new Provider() {
+                    @SuppressWarnings("unchecked")
                     @Override
                     public Object get() {
                         return provider(newKey, null);
@@ -230,12 +255,13 @@ public class Feather {
         return chainString.append(lastKey.toString()).toString();
     }
 
-    private static Constructor constructor(Key key) {
-        Constructor inject = null;
-        Constructor noarg = null;
-        for (Constructor c : key.type.getDeclaredConstructors()) {
+    //获取其构造方法
+    private static Constructor<?> constructor(Key<?> key) {
+        Constructor<?> inject = null;
+        Constructor<?> noarg = null;
+        for (Constructor<?> c : key.type.getDeclaredConstructors()) {
             if (c.isAnnotationPresent(Inject.class)) {
-                if (inject == null) {
+                if (inject == null) {//只能有一个构造函数
                     inject = c;
                 } else {
                     throw new FeatherException(String.format("%s has multiple @Inject constructors", key.type));
@@ -244,7 +270,7 @@ public class Feather {
                 noarg = c;
             }
         }
-        Constructor constructor = inject != null ? inject : noarg;
+        Constructor<?> constructor = inject != null ? inject : noarg;
         if (constructor != null) {
             constructor.setAccessible(true);
             return constructor;

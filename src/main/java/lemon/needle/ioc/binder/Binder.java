@@ -5,6 +5,8 @@ import java.lang.reflect.Proxy;
 
 import javax.inject.Inject;
 
+import org.codejargon.feather.Key;
+
 import lemon.needle.ioc.AbstractModule;
 import lemon.needle.ioc.Injector;
 import lemon.needle.ioc.Module;
@@ -187,27 +189,6 @@ import lemon.needle.ioc.annotations.Singleton;
  */
 public interface Binder {
 
-    /*if[AOP]*/
-    /**
-     * Binds method interceptor[s] to methods matched by class and method matchers. A method is
-     * eligible for interception if:
-     *
-     * <ul>
-     *  <li>Guice created the instance the method is on</li>
-     *  <li>Neither the enclosing type nor the method is final</li>
-     *  <li>And the method is package-private, protected, or public</li>
-     * </ul>
-     *
-     * @param classMatcher matches classes the interceptor should apply to. For
-     *     example: {@code only(Runnable.class)}.
-     * @param methodMatcher matches methods the interceptor should apply to. For
-     *     example: {@code annotatedWith(Transactional.class)}.
-     * @param interceptors to bind.  The interceptors are called in the order they
-     *     are given.
-     */
-    //    void bindInterceptor(Matcher<? super Class<?>> classMatcher, Matcher<? super Method> methodMatcher, org.aopalliance.intercept.MethodInterceptor... interceptors);
-    /*end[AOP]*/
-
     /** 
      * Binds a scope to an annotation.
      */
@@ -216,14 +197,14 @@ public interface Binder {
     /**
      * See the EDSL examples at {@link Binder}.
      */
-    //    <T> LinkedBindingBuilder<T> bind(Key<T> key);
+    <T> LinkedBindingBuilder<T> bind(Key<T> key);
 
     /**
      * See the EDSL examples at {@link Binder}.
      */
-    <T> AnnotatedBindingBuilder<T> bind(TypeLiteral<T> typeLiteral);
+    //    <T> AnnotatedBindingBuilder<T> bind(TypeLiteral<T> typeLiteral);
 
-    /**
+    /** 
      * See the EDSL examples at {@link Binder}.
      */
     <T> AnnotatedBindingBuilder<T> bind(Class<T> type);
@@ -241,7 +222,7 @@ public interface Binder {
      * @param instance for which members will be injected
      * @since 2.0
      */
-    <T> void requestInjection(TypeLiteral<T> type, T instance);
+    //    <T> void requestInjection(TypeLiteral<T> type, T instance);
 
     /**
      * Upon successful creation, the {@link Injector} will inject instance fields
@@ -266,35 +247,6 @@ public interface Binder {
     void install(Module module);
 
     /**
-     * Gets the current stage.
-     */
-    //    Stage currentStage();
-
-    /**
-     * Records an error message which will be presented to the user at a later
-     * time. Unlike  throwing an exception, this enable us to continue
-     * configuring the Injector and discover more errors. Uses {@link
-     * String#format(String, Object[])} to insert the arguments into the
-     * message.
-     */
-    //    void addError(String message, Object... arguments);
-
-    /**
-     * Records an exception, the full details of which will be logged, and the
-     * message of which will be presented to the user at a later
-     * time. If your Module calls something that you worry may fail, you should
-     * catch the exception and pass it into this.
-     */
-    //    void addError(Throwable t);
-
-    /**
-     * Records an error message to be presented to the user at a later time.
-     *
-     * @since 2.0
-     */
-    //    void addError(Message message);
-
-    /**
      * Returns the provider used to obtain instances for the given injection key.
      * The returned provider will not be valid until the {@link Injector} has been
      * created. The provider will throw an {@code IllegalStateException} if you
@@ -302,19 +254,7 @@ public interface Binder {
      *
      * @since 2.0
      */
-    //    <T> Provider<T> getProvider(Key<T> key);
-
-    /**
-     * Returns the provider used to obtain instances for the given injection key.
-     * The returned provider will be attached to the injection point and will
-     * follow the nullability specified in the dependency.
-     * Additionally, the returned provider will not be valid until the {@link Injector} 
-     * has been created. The provider will throw an {@code IllegalStateException} if you
-     * try to use it beforehand.
-     *
-     * @since 4.0
-     */
-    //    <T> Provider<T> getProvider(Dependency<T> dependency);
+    <T> Provider<T> getProvider(Key<T> key);
 
     /**
      * Returns the provider used to obtain instances for the given injection type.
@@ -325,62 +265,6 @@ public interface Binder {
      * @since 2.0
      */
     <T> Provider<T> getProvider(Class<T> type);
-
-    /**
-     * Returns the members injector used to inject dependencies into methods and fields on instances
-     * of the given type {@code T}. The returned members injector will not be valid until the main
-     * {@link Injector} has been created. The members injector will throw an {@code
-     * IllegalStateException} if you try to use it beforehand.
-     *
-     * @param typeLiteral type to get members injector for
-     * @since 2.0
-     */
-    //    <T> MembersInjector<T> getMembersInjector(TypeLiteral<T> typeLiteral);
-
-    /**
-     * Returns the members injector used to inject dependencies into methods and fields on instances
-     * of the given type {@code T}. The returned members injector will not be valid until the main
-     * {@link Injector} has been created. The members injector will throw an {@code
-     * IllegalStateException} if you try to use it beforehand.
-     *
-     * @param type type to get members injector for
-     * @since 2.0
-     */
-    //    <T> MembersInjector<T> getMembersInjector(Class<T> type);
-
-    /**
-     * Binds a type converter. The injector will use the given converter to
-     * convert string constants to matching types as needed.
-     *
-     * @param typeMatcher matches types the converter can handle
-     * @param converter converts values
-     * @since 2.0
-     */
-    //    void convertToTypes(Matcher<? super TypeLiteral<?>> typeMatcher, TypeConverter converter);
-
-    /**
-     * Registers a listener for injectable types. Guice will notify the listener when it encounters
-     * injectable types matched by the given type matcher.
-     *
-     * @param typeMatcher that matches injectable types the listener should be notified of
-     * @param listener for injectable types matched by typeMatcher
-     * @since 2.0
-     */
-    //    void bindListener(Matcher<? super TypeLiteral<?>> typeMatcher, TypeListener listener);
-
-    /**
-     * Registers listeners for provisioned objects. Guice will notify the
-     * listeners just before and after the object is provisioned. Provisioned
-     * objects that are also injectable (everything except objects provided
-     * through Providers) can also be notified through TypeListeners registered in
-     * {@link #bindListener}.
-     * 
-     * @param bindingMatcher that matches bindings of provisioned objects the listener
-     *          should be notified of
-     * @param listeners for provisioned objects matched by bindingMatcher 
-     * @since 4.0
-     */
-    //    void bindListener(Matcher<? super Binding<?>> bindingMatcher, ProvisionListener... listeners);
 
     /**
      * Returns a binder that uses {@code source} as the reference location for

@@ -1,7 +1,8 @@
 package org.codejargon.feather;
 
-import javax.inject.Named;
 import java.lang.annotation.Annotation;
+
+import javax.inject.Named;
 
 public class Key<T> {
     final Class<T> type;
