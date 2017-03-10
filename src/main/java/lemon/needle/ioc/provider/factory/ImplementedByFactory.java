@@ -5,7 +5,7 @@ import java.lang.annotation.Annotation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import lemon.needle.ioc.Injector;
+import lemon.needle.ioc.InjectorOld;
 import lemon.needle.ioc.annotations.DefaultBy;
 import lemon.needle.ioc.binder.Scope;
 import lemon.needle.ioc.exception.AnnoHandleException;
@@ -23,9 +23,9 @@ import lemon.needle.ioc.provider.IrrelevantAnnoException;
 public class ImplementedByFactory implements InstanceFactory {
     private static final Logger logger = LoggerFactory.getLogger(ImplementedByFactory.class);
 
-    private final Injector injector;
+    private final InjectorOld injector;
 
-    public ImplementedByFactory(Injector injector) {
+    public ImplementedByFactory(InjectorOld injector) {
         this.injector = injector;
         TypeWireHandler.ignoreWhenMeetingAnnotation(DefaultBy.class);
 

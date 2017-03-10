@@ -10,7 +10,7 @@ import net.cassite.style.reflect.MemberSup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import lemon.needle.ioc.Injector;
+import lemon.needle.ioc.InjectorOld;
 import lemon.needle.ioc.annotations.Force;
 import lemon.needle.ioc.binder.Scope;
 import lemon.needle.ioc.exception.AnnoHandleException;

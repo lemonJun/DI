@@ -20,8 +20,8 @@ import lemon.needle.ioc.binder.Scope;
  * <li>A custom {@link Scope} is implemented as a decorator of {@code Provider<T>}, which decides
  * when to delegate to the backing provider and when to provide the instance some other way.
  *
- * <li>The {@link Injector} offers access to the {@code Provider<T>} it uses to fulfill requests
- * for a given key, via the {@link Injector#getProvider} methods.
+ * <li>The {@link InjectorOld} offers access to the {@code Provider<T>} it uses to fulfill requests
+ * for a given key, via the {@link InjectorOld#getProvider} methods.
  * </ul>
  *
  * @param <T> the type of object this provides

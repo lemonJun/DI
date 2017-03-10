@@ -8,8 +8,8 @@ import static net.cassite.style.util.Utils.run;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import lemon.needle.ioc.Needle;
-import lemon.needle.ioc.Injector;
+import lemon.needle.Needle;
+import lemon.needle.ioc.InjectorOld;
 import lemon.needle.ioc.binder.Scope;
 import net.cassite.style.interfaces.RFunc0;
 
@@ -29,9 +29,9 @@ public class AOPController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AOPController.class);
 
-    private final Injector injector;
+    private final InjectorOld injector;
 
-    public AOPController(Injector injector) {
+    public AOPController(InjectorOld injector) {
         this.injector = injector;
     }
 

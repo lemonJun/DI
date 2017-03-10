@@ -6,7 +6,7 @@ import net.cassite.style.reflect.MemberSup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import lemon.needle.ioc.Injector;
+import lemon.needle.ioc.InjectorOld;
 import lemon.needle.ioc.annotations.Use;
 import lemon.needle.ioc.binder.Scope;
 import lemon.needle.ioc.exception.AnnoHandleException;
@@ -28,9 +28,9 @@ public class ParamUseHandler implements ParamHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ParamUseHandler.class);
 
-    private final Injector injector;
+    private final InjectorOld injector;
 
-    public ParamUseHandler(Injector injector) {
+    public ParamUseHandler(InjectorOld injector) {
         this.injector = injector;
     }
 

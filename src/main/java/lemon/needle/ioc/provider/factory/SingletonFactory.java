@@ -5,7 +5,7 @@ import java.lang.annotation.Annotation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import lemon.needle.ioc.Injector;
+import lemon.needle.ioc.InjectorOld;
 import lemon.needle.ioc.annotations.Singleton;
 import lemon.needle.ioc.binder.Scope;
 import lemon.needle.ioc.exception.AnnoHandleException;
@@ -23,9 +23,9 @@ public class SingletonFactory implements InstanceFactory {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SingletonFactory.class);
 
-    private final Injector injector;
+    private final InjectorOld injector;
 
-    public SingletonFactory(Injector injector) {
+    public SingletonFactory(InjectorOld injector) {
         this.injector = injector;
     }
 

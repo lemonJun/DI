@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 
 /**
  * Annotates members of your implementation class (constructors, methods
- * and fields) into which the {@link Injector} should inject values.
+ * and fields) into which the {@link InjectorOld} should inject values.
  * The Injector fulfills injection requests for:
  *
  * <ul>
@@ -20,7 +20,7 @@ import java.lang.annotation.Target;
  * constructor taking no parameters. The Injector then proceeds to perform
  * field and method injections.
  * 
- * <li>Pre-constructed instances passed to {@link Injector#injectMembers},
+ * <li>Pre-constructed instances passed to {@link InjectorOld#injectMembers},
  * {@link com.google.inject.binder.LinkedBindingBuilder#toInstance(Object)} and
  * {@link com.google.inject.binder.LinkedBindingBuilder#toProvider(javax.inject.Provider)}.
  * In this case all constructors are, of course, ignored.

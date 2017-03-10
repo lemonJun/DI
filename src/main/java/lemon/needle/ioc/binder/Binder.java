@@ -6,7 +6,7 @@ import java.lang.reflect.Proxy;
 import javax.inject.Inject;
 
 import lemon.needle.ioc.AbstractModule;
-import lemon.needle.ioc.Injector;
+import lemon.needle.ioc.InjectorOld;
 import lemon.needle.ioc.Key;
 import lemon.needle.ioc.Module;
 import lemon.needle.ioc.Provider;
@@ -16,7 +16,7 @@ import lemon.needle.ioc.annotations.Singleton;
 
 /**
  * Collects configuration information (primarily <i>bindings</i>) which will be
- * used to create an {@link Injector}. Guice provides this object to your
+ * used to create an {@link InjectorOld}. Guice provides this object to your
  * application's {@link Module} implementors so they may each contribute
  * their own bindings and other registrations.
  *
@@ -119,7 +119,7 @@ import lemon.needle.ioc.annotations.Singleton;
  * In this example, your module itself, <i>not Guice</i>, takes responsibility
  * for obtaining a {@code ServiceImpl} instance, then asks Guice to always use
  * this single instance to fulfill all {@code Service} injection requests.  When
- * the {@link Injector} is created, it will automatically perform field
+ * the {@link InjectorOld} is created, it will automatically perform field
  * and method injection for this instance, but any injectable constructor on
  * {@code ServiceImpl} is simply ignored.  Note that using this approach results
  * in "eager loading" behavior that you can't control.
@@ -224,7 +224,7 @@ public interface Binder {
     //    <T> void requestInjection(TypeLiteral<T> type, T instance);
 
     /**
-     * Upon successful creation, the {@link Injector} will inject instance fields
+     * Upon successful creation, the {@link InjectorOld} will inject instance fields
      * and methods of the given object.
      *
      * @param instance for which members will be injected
@@ -233,7 +233,7 @@ public interface Binder {
     void requestInjection(Object instance);
 
     /**
-     * Upon successful creation, the {@link Injector} will inject static fields
+     * Upon successful creation, the {@link InjectorOld} will inject static fields
      * and methods in the given classes.
      *
      * @param types for which static members will be injected
@@ -247,7 +247,7 @@ public interface Binder {
 
     /**
      * Returns the provider used to obtain instances for the given injection key.
-     * The returned provider will not be valid until the {@link Injector} has been
+     * The returned provider will not be valid until the {@link InjectorOld} has been
      * created. The provider will throw an {@code IllegalStateException} if you
      * try to use it beforehand.
      *
@@ -257,7 +257,7 @@ public interface Binder {
 
     /**
      * Returns the provider used to obtain instances for the given injection type.
-     * The returned provider will not be valid until the {@link Injector} has been
+     * The returned provider will not be valid until the {@link InjectorOld} has been
      * created. The provider will throw an {@code IllegalStateException} if you
      * try to use it beforehand.
      *

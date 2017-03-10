@@ -5,7 +5,7 @@ import java.lang.annotation.Annotation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import lemon.needle.ioc.Injector;
+import lemon.needle.ioc.InjectorOld;
 import lemon.needle.ioc.binder.Scope;
 import lemon.needle.ioc.exception.AnnoHandleException;
 import lemon.needle.ioc.provider.IrrelevantAnnoException;
@@ -23,9 +23,9 @@ public class DefaultParamHandler implements ParamHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultParamHandler.class);
 
-    private final Injector inejctor;
+    private final InjectorOld inejctor;
 
-    public DefaultParamHandler(Injector controller) {
+    public DefaultParamHandler(InjectorOld controller) {
         this.inejctor = controller;
     }
 

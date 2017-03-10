@@ -6,7 +6,7 @@ import java.lang.reflect.Array;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import lemon.needle.ioc.Injector;
+import lemon.needle.ioc.InjectorOld;
 import lemon.needle.ioc.annotations.Inject;
 import lemon.needle.ioc.annotations.Invoke;
 import lemon.needle.ioc.binder.Scope;
@@ -30,9 +30,9 @@ public class DefaultFactory implements InstanceFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(DefaultFactory.class);
 
-    private final Injector injector;
+    private final InjectorOld injector;
 
-    public DefaultFactory(Injector injector) {
+    public DefaultFactory(InjectorOld injector) {
         this.injector = injector;
     }
 

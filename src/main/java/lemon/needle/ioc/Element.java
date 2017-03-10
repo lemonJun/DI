@@ -13,7 +13,7 @@ import lemon.needle.ioc.binder.Binder;
  * This can be used for static analysis and generation of Guice modules.
  *
  * <p>The elements of an injector can be inspected and exercised. Use {@link
- * com.google.inject.Injector#getBindings Injector.getBindings()} to reflect on Guice injectors.
+ * com.google.InjectorOld.Injector#getBindings Injector.getBindings()} to reflect on Guice injectors.
  *
  * @author jessewilson@google.com (Jesse Wilson)
  * @author crazybob@google.com (Bob Lee)
