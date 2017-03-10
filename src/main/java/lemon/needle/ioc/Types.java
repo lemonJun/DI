@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.inject.Provider;
+
 import lemon.needle.ioc.MoreTypes.GenericArrayTypeImpl;
 import lemon.needle.ioc.MoreTypes.ParameterizedTypeImpl;
 import lemon.needle.ioc.MoreTypes.WildcardTypeImpl;

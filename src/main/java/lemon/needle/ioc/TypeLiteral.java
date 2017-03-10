@@ -15,6 +15,8 @@ import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
 import java.util.List;
 
+import javax.inject.Provider;
+
 import com.google.common.collect.ImmutableList;
 
 /**
@@ -48,7 +50,7 @@ public class TypeLiteral<T> {
     final Class<? super T> rawType;
     final Type type;
     final int hashCode;
-    
+
     /**
      * Constructs a new type literal. Derives represented class from type
      * parameter.

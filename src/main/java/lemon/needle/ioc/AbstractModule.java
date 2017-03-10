@@ -3,7 +3,11 @@ package lemon.needle.ioc;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import javax.inject.Provider;
+
+import lemon.needle.ioc.binder.AnnotatedBindingBuilder;
 import lemon.needle.ioc.binder.Binder;
+import lemon.needle.ioc.binder.LinkedBindingBuilder;
 
 /**
  * A support class for {@link Module}s which reduces repetition and results in
@@ -50,6 +54,42 @@ public abstract class AbstractModule implements Module {
     protected Binder binder() {
         checkState(binder != null, "The binder can only be used inside configure()");
         return binder;
+    }
+
+    protected <T> AnnotatedBindingBuilder<T> bind(Class<T> clazz) {
+        return binder.bind(clazz);
+    }
+
+    protected <T> LinkedBindingBuilder<T> bind(Key<T> key) {
+        return binder.bind(key);
+    }
+
+    /**
+     * Adds a dependency from this module to {@code type}. When the injector is
+     * created, Guice will report an error if {@code type} cannot be injected.
+     * Note that this requirement may be satisfied by implicit binding, such as
+     * a public no-arguments constructor.
+     *
+     * @since 2.0
+     */
+    protected void requireBinding(Class<?> type) {
+        binder.getProvider(type);
+    }
+
+    /**
+     * @see Binder#getProvider(Key)
+     * @since 2.0
+     */
+    protected <T> Provider<T> getProvider(Key<T> key) {
+        return binder.getProvider(key);
+    }
+
+    /**
+     * @see Binder#getProvider(Class)
+     * @since 2.0
+     */
+    protected <T> Provider<T> getProvider(Class<T> type) {
+        return binder.getProvider(type);
     }
 
 }

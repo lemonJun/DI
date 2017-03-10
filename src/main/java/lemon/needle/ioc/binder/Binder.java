@@ -4,12 +4,12 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Proxy;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import lemon.needle.ioc.AbstractModule;
 import lemon.needle.ioc.Key;
 import lemon.needle.ioc.Module;
-import lemon.needle.ioc.Provider;
 import lemon.needle.ioc.annotations.ImplementedBy;
 
 /**

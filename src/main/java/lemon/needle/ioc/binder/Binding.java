@@ -1,7 +1,9 @@
 package lemon.needle.ioc.binder;
 
+import javax.inject.Inject;
+import javax.inject.Provider;
+
 import lemon.needle.ioc.Element;
-import lemon.needle.ioc.Provider;
 import lemon.needle.ioc.annotations.ImplementedBy;
 
 /**

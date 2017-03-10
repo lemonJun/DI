@@ -19,12 +19,14 @@ import javax.inject.Provider;
 import javax.inject.Qualifier;
 import javax.inject.Singleton;
 
+import lemon.needle.ioc.annotations.Provides;
+
 public class Injector {
 
     private final Map<Key<?>, Provider<?>> providers = new ConcurrentHashMap<>();
     private final Map<Key<?>, Object> singletons = new ConcurrentHashMap<>();
     private final Map<Class<?>, Object[][]> injectFields = new ConcurrentHashMap<>(0);
-
+    
     /**
      * Constructs Feather with configuration modules
      */
