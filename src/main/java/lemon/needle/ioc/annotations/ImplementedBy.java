@@ -15,4 +15,6 @@ import java.lang.annotation.Target;
 @Target(TYPE)
 public @interface ImplementedBy {
 
+    /** The implementation type. */
+    Class<?> value();
 }

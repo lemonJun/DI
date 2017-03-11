@@ -41,4 +41,13 @@ public class NeedleTest {
         }
     }
 
+    @Test
+    public void implentby() {
+        try {
+            Sup sup = Needle.getInstance(Sup.class);
+            sup.say();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

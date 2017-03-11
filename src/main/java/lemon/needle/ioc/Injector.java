@@ -22,6 +22,7 @@ import javax.inject.Singleton;
 
 import com.google.common.base.Stopwatch;
 
+import lemon.needle.ioc.annotations.ImplementedBy;
 import lemon.needle.ioc.annotations.Provides;
 import lemon.needle.ioc.binder.PrivateBinder;
 import lemon.needle.ioc.exception.NeedleException;
@@ -271,7 +272,11 @@ public class Injector {
     private static Constructor<?> constructor(Key<?> key) {
         Constructor<?> inject = null;
         Constructor<?> noarg = null;
-        for (Constructor<?> c : key.type.getDeclaredConstructors()) {
+        Class<?> targetclass = key.type;
+        if (key.type.isAnnotationPresent(ImplementedBy.class)) {
+            targetclass = key.type.getAnnotation(ImplementedBy.class).value();
+        }
+        for (Constructor<?> c : targetclass.getDeclaredConstructors()) {
             if (c.isAnnotationPresent(Inject.class)) {
                 if (inject == null) {//只能有一个构造函数
                     inject = c;

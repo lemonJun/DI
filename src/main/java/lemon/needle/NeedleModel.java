@@ -14,7 +14,7 @@ public class NeedleModel extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(Sup.class).to(ImplSup.class);
+        //        bind(Sup.class).to(ImplSup.class);
     }
 
     @Singleton
