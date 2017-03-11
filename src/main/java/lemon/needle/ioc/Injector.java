@@ -57,7 +57,7 @@ public class Injector {
         });
         for (final Object module : modules) {
             if (module instanceof Class) {
-                throw new FeatherException(String.format("%s provided as class instead of an instance.", ((Class) module).getName()));
+                throw new NeedleException(String.format("%s provided as class instead of an instance.", ((Class) module).getName()));
             }
             for (Method providerMethod : providers(module.getClass())) {
                 providerMethod(module, providerMethod);
@@ -107,7 +107,7 @@ public class Injector {
             try {
                 field.set(target, (boolean) f[1] ? provider(key) : instance(key));
             } catch (Exception e) {
-                throw new FeatherException(String.format("Can't inject field %s in %s", field.getName(), target.getClass().getName()));
+                throw new NeedleException(String.format("Can't inject field %s in %s", field.getName(), target.getClass().getName()));
             }
         }
     }
@@ -124,7 +124,7 @@ public class Injector {
                     try {
                         return constructor.newInstance(params(paramProviders));
                     } catch (Exception e) {
-                        throw new FeatherException(String.format("Can't instantiate %s", key.toString()), e);
+                        throw new NeedleException(String.format("Can't instantiate %s", key.toString()), e);
                     }
                 }
             }));
@@ -137,7 +137,7 @@ public class Injector {
     private void providerMethod(final Object module, final Method m) {
         final Key<?> key = Key.of(m.getReturnType(), qualifier(m.getAnnotations()));
         if (providers.containsKey(key)) {//不能重复
-            throw new FeatherException(String.format("%s has multiple providers, module %s", key.toString(), module.getClass()));
+            throw new NeedleException(String.format("%s has multiple providers, module %s", key.toString(), module.getClass()));
         }
         Singleton singleton = m.getAnnotation(Singleton.class) != null ? m.getAnnotation(Singleton.class) : m.getReturnType().getAnnotation(Singleton.class);
         final Provider<?>[] paramProviders = paramProviders(key, m.getParameterTypes(), m.getGenericParameterTypes(), m.getParameterAnnotations(), Collections.singleton(key));
@@ -149,7 +149,7 @@ public class Injector {
                     //直接生成一个实例
                     return m.invoke(module, params(paramProviders));
                 } catch (Exception e) {
-                    throw new FeatherException(String.format("Can't instantiate %s with provider", key.toString()), e);
+                    throw new NeedleException(String.format("Can't instantiate %s with provider", key.toString()), e);
                 }
             }
         }));
@@ -185,7 +185,7 @@ public class Injector {
                 final Key<?> newKey = Key.of(parameterClass, qualifier);
                 final Set<Key> newChain = append(chain, key);
                 if (newChain.contains(newKey)) {
-                    throw new FeatherException(String.format("Circular dependency: %s", chain(newChain, newKey)));
+                    throw new NeedleException(String.format("Circular dependency: %s", chain(newChain, newKey)));
                 }
                 providers[i] = new Provider() {
                     @Override
@@ -274,7 +274,7 @@ public class Injector {
                 if (inject == null) {//只能有一个构造函数
                     inject = c;
                 } else {
-                    throw new FeatherException(String.format("%s has multiple @Inject constructors", key.type));
+                    throw new NeedleException(String.format("%s has multiple @Inject constructors", key.type));
                 }
             } else if (c.getParameterTypes().length == 0) {
                 noarg = c;
@@ -285,7 +285,7 @@ public class Injector {
             constructor.setAccessible(true);
             return constructor;
         } else {
-            throw new FeatherException(String.format("%s doesn't have an @Inject or no-arg constructor, or a module provider", key.type.getName()));
+            throw new NeedleException(String.format("%s doesn't have an @Inject or no-arg constructor, or a module provider", key.type.getName()));
         }
     }
 

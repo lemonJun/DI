@@ -17,7 +17,7 @@ public class Needle {
     public static Injector injector;
 
     public static void init() {
-        createInjector(new BindingModel());
+        createInjector(new NeedleModel());
     }
 
     public static void createInjector(Module... modules) {
