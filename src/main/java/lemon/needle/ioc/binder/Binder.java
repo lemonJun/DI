@@ -185,7 +185,7 @@ import lemon.needle.ioc.annotations.ProvidedBy;
  * @author kevinb@google.com (Kevin Bourrillion)
  */
 public interface Binder {
-    
+
     //Binds a scope to an annotation.
     //    void bindScope(Class<? extends Annotation> annotationType, Scope scope);
 

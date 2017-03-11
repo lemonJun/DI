@@ -12,7 +12,10 @@ import lemon.needle.ioc.Scope;
 import lemon.needle.ioc.TypeLiteral;
 
 /**
- * Bind a non-constant key.
+ * 实现绑定功能时   所面的内部对象
+ * TODO:
+ * 1.为一个BIND指定一个注解
+ * 2.
  *
  * @author jessewilson@google.com (Jesse Wilson)
  */
@@ -21,11 +24,13 @@ public class BinderBuilder<T> implements AnnotatedBindingBuilder<T> {
     private Key<?> key;//原始key
     private Key<?> targetKey;//绑定到其它key
     private Provider<?> provider;
+    private Annotation anno;
 
     public BinderBuilder(Key<?> key) {
         this.key = key;
         this.targetKey = null;
         this.provider = null;
+        anno = null;
     }
 
     @Override
@@ -82,7 +87,7 @@ public class BinderBuilder<T> implements AnnotatedBindingBuilder<T> {
 
     @Override
     public BinderBuilder<T> annotatedWith(Annotation annotation) {
-        //        annotatedWithInternal(annotation);
+        this.anno = annotation;
         return this;
     }
 
