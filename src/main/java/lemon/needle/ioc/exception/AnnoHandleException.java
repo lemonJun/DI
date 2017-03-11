@@ -6,7 +6,7 @@ package lemon.needle.ioc.exception;
  * @author lemon
  *
  */
-public class AnnoHandleException extends DIException {
+public class AnnoHandleException extends RuntimeException {
 
     /**
      * 

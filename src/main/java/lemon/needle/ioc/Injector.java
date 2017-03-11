@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
+import lemon.needle.ioc.exception.NeedleException;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -23,6 +24,7 @@ import javax.inject.Singleton;
 import com.google.common.base.Stopwatch;
 
 import lemon.needle.ioc.annotations.Provides;
+import lemon.needle.ioc.exception.NeedleException;
 import lemon.needle.ioc.provider.InnerProvider;
 
 public class Injector {

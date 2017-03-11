@@ -1,6 +1,5 @@
 package lemon.needle.ioc.binder;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Proxy;
 
 import javax.inject.Inject;
@@ -8,9 +7,11 @@ import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import lemon.needle.ioc.AbstractModule;
+import lemon.needle.ioc.Injector;
 import lemon.needle.ioc.Key;
 import lemon.needle.ioc.Module;
 import lemon.needle.ioc.annotations.ImplementedBy;
+import lemon.needle.ioc.annotations.ProvidedBy;
 
 /**
  * Collects configuration information (primarily <i>bindings</i>) which will be
@@ -129,9 +130,8 @@ import lemon.needle.ioc.annotations.ImplementedBy;
  * When a constant binding's value is a string, it is eligile for conversion to
  * all primitive types, to {@link Enum#valueOf(Class, String) all enums}, and to
  * {@link Class#forName class literals}. Conversions for other types can be
- * configured using {@link #convertToTypes(Matcher, TypeConverter)
  * convertToTypes()}.
- *
+ * 
  * <pre>
  *   {@literal @}Color("red") Color red; // A member variable (field)
  *    . . .
@@ -186,14 +186,10 @@ import lemon.needle.ioc.annotations.ImplementedBy;
  */
 public interface Binder {
 
-    /** 
-     * Binds a scope to an annotation.
-     */
-    void bindScope(Class<? extends Annotation> annotationType, Scope scope);
+    //Binds a scope to an annotation.
+    //    void bindScope(Class<? extends Annotation> annotationType, Scope scope);
 
-    /**
-     * See the EDSL examples at {@link Binder}.
-     */
+    //See the EDSL examples at {@link Binder}.
     <T> LinkedBindingBuilder<T> bind(Key<T> key);
 
     /**
@@ -209,7 +205,7 @@ public interface Binder {
     /**
      * See the EDSL examples at {@link Binder}.
      */
-    AnnotatedConstantBindingBuilder bindConstant();
+    //    AnnotatedConstantBindingBuilder bindConstant();
 
     /**
      * Upon successful creation, the {@link Injector} will inject instance fields
@@ -222,9 +218,10 @@ public interface Binder {
     //    <T> void requestInjection(TypeLiteral<T> type, T instance);
 
     /**
-     * Upon successful creation, the {@link InjectorOld} will inject instance fields
+     * 为此对象注入字段与方法
+     * Upon successful creation, the {@link Injector} will inject instance fields
      * and methods of the given object.
-     *
+     * 
      * @param instance for which members will be injected
      * @since 2.0
      */
@@ -239,28 +236,15 @@ public interface Binder {
     void requestStaticInjection(Class<?>... types);
 
     /**
+     * 动态增加绑定
      * Uses the given module to configure more bindings.
      */
     void install(Module module);
 
-    /**
-     * Returns the provider used to obtain instances for the given injection key.
-     * The returned provider will not be valid until the {@link InjectorOld} has been
-     * created. The provider will throw an {@code IllegalStateException} if you
-     * try to use it beforehand.
-     *
-     * @since 2.0
-     */
+    //
     <T> Provider<T> getProvider(Key<T> key);
 
-    /**
-     * Returns the provider used to obtain instances for the given injection type.
-     * The returned provider will not be valid until the {@link InjectorOld} has been
-     * created. The provider will throw an {@code IllegalStateException} if you
-     * try to use it beforehand.
-     *
-     * @since 2.0
-     */
+    //
     <T> Provider<T> getProvider(Class<T> type);
 
     /**

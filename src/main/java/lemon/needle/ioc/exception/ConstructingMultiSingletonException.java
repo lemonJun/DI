@@ -1,6 +1,6 @@
 package lemon.needle.ioc.exception;
 
-public class ConstructingMultiSingletonException extends DIException {
+public class ConstructingMultiSingletonException extends RuntimeException {
 
     /**
      * 
