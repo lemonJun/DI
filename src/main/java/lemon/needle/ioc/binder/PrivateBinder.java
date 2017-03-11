@@ -6,16 +6,40 @@ import javax.inject.Provider;
 
 import com.google.common.collect.Maps;
 
+import lemon.needle.ioc.Injector;
 import lemon.needle.ioc.Key;
 import lemon.needle.ioc.Module;
+import lemon.needle.ioc.util.CollectionUtil;
 
 public class PrivateBinder<T> implements Binder {
 
-    private Map<Key<?>, BindingBuilder<?>> binders = Maps.newConcurrentMap();
+    private final Map<Key<?>, BinderBuilder<?>> binders = Maps.newConcurrentMap();
+
+    private final Injector injector;
+
+    public PrivateBinder(Injector injector) {
+        this.injector = injector;
+    }
+
+    public void initKeyProvider() {
+        if (CollectionUtil.isEmpty(binders)) {
+            return;
+        }
+        binders.forEach((key, pro) -> {
+            if (pro.getProvider() != null) {
+                injector.getProviders().put(key, pro.getProvider());
+            } else if (pro.getTargetKey() != null) {
+                //此步会同时为bind 和  to生成绑定
+                injector.getProviders().put(key, injector.provider(pro.getTargetKey()));
+            } else {
+
+            }
+        });
+    }
 
     @Override
     public <T> AnnotatedBindingBuilder<T> bind(Key<T> key) {
-        BindingBuilder<T> oneBinder = new BindingBuilder<T>(key);
+        BinderBuilder<T> oneBinder = new BinderBuilder<T>(key);
         binders.put(key, oneBinder);
         return oneBinder;
     }

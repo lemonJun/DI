@@ -31,7 +31,7 @@ import lemon.needle.ioc.binder.LinkedBindingBuilder;
 public abstract class AbstractModule implements Module {
 
     Binder binder;
-
+    
     public final synchronized void configure(Binder builder) {
         checkState(this.binder == null, "Re-entry is not allowed.");
 

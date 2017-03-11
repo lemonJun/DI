@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
-import lemon.needle.ioc.exception.NeedleException;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -24,6 +23,8 @@ import javax.inject.Singleton;
 import com.google.common.base.Stopwatch;
 
 import lemon.needle.ioc.annotations.Provides;
+import lemon.needle.ioc.binder.Binder;
+import lemon.needle.ioc.binder.PrivateBinder;
 import lemon.needle.ioc.exception.NeedleException;
 import lemon.needle.ioc.provider.InnerProvider;
 
@@ -49,22 +50,22 @@ public class Injector {
     }
 
     @SuppressWarnings("rawtypes")
-    private Injector(Iterable<?> modules) {
+    private Injector(Iterable<Module> modules) {
         providers.put(Key.of(Injector.class), new Provider() {
             @Override
             public Object get() {
                 return this;
             }
-
         });
-        for (final Object module : modules) {
-            if (module instanceof Class) {
-                throw new NeedleException(String.format("%s provided as class instead of an instance.", ((Class) module).getName()));
-            }
+        Binder binder = new PrivateBinder(this);
+        //绑定provider提供的方式
+        for (final Module module : modules) {
+            module.configure(binder);//生成绑定信息
             for (Method providerMethod : providers(module.getClass())) {
                 providerMethod(module, providerMethod);
             }
         }
+
     }
 
     /**
@@ -113,7 +114,7 @@ public class Injector {
             }
         }
     }
-
+    
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private <T> Provider<T> provider(final Key<T> key, Set<Key> chain) {
         if (!providers.containsKey(key)) {
@@ -323,4 +324,9 @@ public class Injector {
         }
         return false;
     }
+
+    public InnerProvider getProviders() {
+        return providers;
+    }
+
 }

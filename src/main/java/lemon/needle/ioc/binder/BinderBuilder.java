@@ -15,64 +15,55 @@ import lemon.needle.ioc.TypeLiteral;
  *
  * @author jessewilson@google.com (Jesse Wilson)
  */
-public class BindingBuilder<T> implements AnnotatedBindingBuilder<T> {
+public class BinderBuilder<T> implements AnnotatedBindingBuilder<T> {
 
     private Key<?> key;//原始key
     private Key<?> targetKey;//绑定到其它key
     private Provider<?> provider;
-    private T t;
 
-    public BindingBuilder(Key<?> key) {
+    public BinderBuilder(Key<?> key) {
         this.key = key;
+        this.targetKey = null;
+        this.provider = null;
     }
 
     @Override
-    public BindingBuilder<T> annotatedWith(Class<? extends Annotation> annotationType) {
-        //        annotatedWithInternal(annotationType);
-        return this;
-    }
-
-    @Override
-    public BindingBuilder<T> annotatedWith(Annotation annotation) {
-        //        annotatedWithInternal(annotation);
-        return this;
-    }
-
-    @Override
-    public BindingBuilder<T> to(Class<? extends T> implementation) {
+    public BinderBuilder<T> to(Class<? extends T> implementation) {
         return to(Key.of(implementation));
     }
 
     @Override
-    public BindingBuilder<T> to(Key<? extends T> linkedKey) {
+    public BinderBuilder<T> to(Key<? extends T> linkedKey) {
         checkNotNull(linkedKey, "linkedKey");
         this.targetKey = linkedKey;
-        //        checkNotTargetted();
-        //        BindingImpl<T> base = getBinding();
-        //        setBinding(new LinkedBindingImpl<T>(base.getSource(), base.getKey(), base.getScoping(), linkedKey));
         return this;
     }
 
     @Override
-    public void toInstance(T instance) {
-        //        checkNotTargetted();
-        this.t = instance;
+    public void toInstance(final T instance) {
+        Provider<?> provider = new Provider<T>() {
+            @Override
+            public T get() {
+                return instance;
+            }
+        };
+        this.provider = provider;
     }
 
     @Override
-    public BindingBuilder<T> toProvider(Provider<? extends T> provider) {
+    public BinderBuilder<T> toProvider(Provider<? extends T> provider) {
         checkNotNull(provider, "provider");
         this.provider = provider;
         return this;
     }
 
     @Override
-    public BindingBuilder<T> toProvider(Class<? extends javax.inject.Provider<? extends T>> providerType) {
+    public BinderBuilder<T> toProvider(Class<? extends javax.inject.Provider<? extends T>> providerType) {
         return toProvider(Key.of(providerType));
     }
 
     @Override
-    public BindingBuilder<T> toProvider(Key<? extends javax.inject.Provider<? extends T>> providerKey) {
+    public BinderBuilder<T> toProvider(Key<? extends javax.inject.Provider<? extends T>> providerKey) {
         checkNotNull(providerKey, "providerKey");
         return this;
     }
@@ -80,6 +71,18 @@ public class BindingBuilder<T> implements AnnotatedBindingBuilder<T> {
     @Override
     public <S extends T> ScopedBindingBuilder toConstructor(Constructor<S> constructor) {
         return toConstructor(constructor, TypeLiteral.get(constructor.getDeclaringClass()));
+    }
+
+    @Override
+    public BinderBuilder<T> annotatedWith(Class<? extends Annotation> annotationType) {
+        //        annotatedWithInternal(annotationType);
+        return this;
+    }
+
+    @Override
+    public BinderBuilder<T> annotatedWith(Annotation annotation) {
+        //        annotatedWithInternal(annotation);
+        return this;
     }
 
     @Override
@@ -115,6 +118,30 @@ public class BindingBuilder<T> implements AnnotatedBindingBuilder<T> {
     @Override
     public <S extends T> ScopedBindingBuilder toConstructor(Constructor<S> constructor, TypeLiteral<? extends S> type) {
         return null;
+    }
+
+    public Key<?> getKey() {
+        return key;
+    }
+
+    public void setKey(Key<?> key) {
+        this.key = key;
+    }
+
+    public Key<?> getTargetKey() {
+        return targetKey;
+    }
+
+    public void setTargetKey(Key<?> targetKey) {
+        this.targetKey = targetKey;
+    }
+
+    public Provider<?> getProvider() {
+        return provider;
+    }
+
+    public void setProvider(Provider<?> provider) {
+        this.provider = provider;
     }
 
 }
