@@ -13,11 +13,14 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Qualifier;
 import javax.inject.Singleton;
+
+import com.google.common.base.Stopwatch;
 
 import lemon.needle.ioc.annotations.Provides;
 import lemon.needle.ioc.provider.InnerProvider;
@@ -28,12 +31,19 @@ public class Injector {
     private final Map<Class<?>, Object[][]> injectFields = new ConcurrentHashMap<>(0);
 
     private final InnerProvider providers = new InnerProvider();
+    private static final AtomicBoolean initOnce = new AtomicBoolean(false);
+    private static final Stopwatch stopwatch = Stopwatch.createStarted();
 
     /**
      * Constructs Feather with configuration modules
      */
     public static Injector with(Module... modules) {
-        return new Injector(Arrays.asList(modules));
+        if (initOnce.compareAndSet(false, true)) {
+            Injector injector = new Injector(Arrays.asList(modules));
+            System.out.println(stopwatch.toString());
+            return injector;
+        }
+        return null;
     }
 
     @SuppressWarnings("rawtypes")
@@ -43,6 +53,7 @@ public class Injector {
             public Object get() {
                 return this;
             }
+
         });
         for (final Object module : modules) {
             if (module instanceof Class) {
@@ -204,6 +215,7 @@ public class Injector {
         return params;
     }
 
+    @SuppressWarnings("rawtypes")
     private static Set<Key> append(Set<Key> set, Key newKey) {
         if (set != null && !set.isEmpty()) {
             Set<Key> appended = new LinkedHashSet<>(set);
@@ -244,6 +256,7 @@ public class Injector {
         return fields;
     }
 
+    @SuppressWarnings("rawtypes")
     private static String chain(Set<Key> chain, Key lastKey) {
         StringBuilder chainString = new StringBuilder();
         for (Key key : chain) {
