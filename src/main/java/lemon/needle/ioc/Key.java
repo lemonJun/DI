@@ -5,6 +5,10 @@ import java.lang.annotation.Annotation;
 import javax.inject.Named;
 
 /**
+ * 由此还有两个问题没有解决：
+ * 1、泛型；
+ * 2、scope; 
+ * 
  * 
  * @author WangYazhou
  * @date  2017年3月10日 下午8:38:33
@@ -24,16 +28,10 @@ public class Key<T> {
         this.name = name;
     }
 
-    /**
-     * @return Key for a given type
-     */
     public static <T> Key<T> of(Class<T> type) {
         return new Key<>(type, null, null);
     }
 
-    /**
-     * @return Key for a given type and qualifier annotation type
-     */
     public static <T> Key<T> of(Class<T> type, Class<? extends Annotation> qualifier) {
         return new Key<>(type, qualifier, null);
     }
@@ -41,10 +39,7 @@ public class Key<T> {
     public static <T> Key<T> of(Key<T> key, Class<? extends Annotation> qualifier) {
         return new Key<>(key.type, qualifier, null);
     }
-    
-    /**
-     * @return Key for a given type and name (@Named value)
-     */
+
     public static <T> Key<T> of(Class<T> type, String name) {
         return new Key<>(type, Named.class, name);
     }
