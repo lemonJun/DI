@@ -34,7 +34,7 @@ public class PrivateBinder<T> implements Binder {
                 injector.getProviders().put(key, injector.provider(pro.getTargetKey()));
                 System.out.println("put" + pro.getTargetKey());
             } else {
-
+                
             }
         });
     }

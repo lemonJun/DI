@@ -8,8 +8,8 @@ import java.lang.reflect.Constructor;
 import javax.inject.Provider;
 
 import lemon.needle.ioc.Key;
-import lemon.needle.ioc.Scope;
 import lemon.needle.ioc.TypeLiteral;
+import lemon.needle.ioc.scope.Scope;
 
 /**
  * 实现绑定功能时   所面的内部对象
@@ -24,13 +24,11 @@ public class BinderBuilder<T> implements AnnotatedBindingBuilder<T> {
     private Key<?> key;//原始key
     private Key<?> targetKey;//绑定到其它key
     private Provider<?> provider;
-    private Annotation anno;
 
     public BinderBuilder(Key<?> key) {
         this.key = key;
         this.targetKey = null;
         this.provider = null;
-        anno = null;
     }
 
     @Override
@@ -80,14 +78,13 @@ public class BinderBuilder<T> implements AnnotatedBindingBuilder<T> {
     }
 
     @Override
-    public BinderBuilder<T> annotatedWith(Class<? extends Annotation> annotationType) {
-        //        annotatedWithInternal(annotationType);
+    public BinderBuilder<T> annotatedWith(Class<? extends Annotation> qualifier) {
+        this.key = Key.of(key, qualifier);
         return this;
     }
 
     @Override
     public BinderBuilder<T> annotatedWith(Annotation annotation) {
-        this.anno = annotation;
         return this;
     }
 
@@ -121,6 +118,7 @@ public class BinderBuilder<T> implements AnnotatedBindingBuilder<T> {
         return null;
     }
 
+    //第三方类库 不能加入@Provides注解  
     @Override
     public <S extends T> ScopedBindingBuilder toConstructor(Constructor<S> constructor, TypeLiteral<? extends S> type) {
         return null;
@@ -130,24 +128,12 @@ public class BinderBuilder<T> implements AnnotatedBindingBuilder<T> {
         return key;
     }
 
-    public void setKey(Key<?> key) {
-        this.key = key;
-    }
-
     public Key<?> getTargetKey() {
         return targetKey;
     }
 
-    public void setTargetKey(Key<?> targetKey) {
-        this.targetKey = targetKey;
-    }
-
     public Provider<?> getProvider() {
         return provider;
-    }
-
-    public void setProvider(Provider<?> provider) {
-        this.provider = provider;
     }
 
 }

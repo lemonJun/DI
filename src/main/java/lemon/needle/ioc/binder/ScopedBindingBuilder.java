@@ -18,7 +18,7 @@ package lemon.needle.ioc.binder;
 
 import java.lang.annotation.Annotation;
 
-import lemon.needle.ioc.Scope;
+import lemon.needle.ioc.scope.Scope;
 
 /**
  * 

@@ -11,6 +11,13 @@ import javax.inject.Provider;
 
 import lemon.needle.ioc.Key;
 
+/**
+ * 
+ * 
+ * @author WangYazhou
+ * @date  2017年3月11日 下午4:33:24
+ * @see
+ */
 public class InnerProvider {
 
     private final Map<Key<?>, Provider<?>> providers = new ConcurrentHashMap<>();

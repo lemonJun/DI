@@ -13,7 +13,9 @@ import javax.inject.Named;
  */
 public class Key<T> {
     final Class<T> type;
+    //也就是Named注解
     final Class<? extends Annotation> qualifier;
+    //通过Named注解所起的名称
     final String name;
 
     private Key(Class<T> type, Class<? extends Annotation> qualifier, String name) {
@@ -36,6 +38,10 @@ public class Key<T> {
         return new Key<>(type, qualifier, null);
     }
 
+    public static <T> Key<T> of(Key<T> key, Class<? extends Annotation> qualifier) {
+        return new Key<>(key.type, qualifier, null);
+    }
+    
     /**
      * @return Key for a given type and name (@Named value)
      */

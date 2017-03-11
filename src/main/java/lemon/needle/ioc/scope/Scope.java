@@ -1,6 +1,9 @@
-package lemon.needle.ioc;
+package lemon.needle.ioc.scope;
 
 import javax.inject.Provider;
+
+import lemon.needle.ioc.Injector;
+import lemon.needle.ioc.Key;
 
 /**
  * 
