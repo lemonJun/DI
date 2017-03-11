@@ -23,7 +23,6 @@ import javax.inject.Singleton;
 import com.google.common.base.Stopwatch;
 
 import lemon.needle.ioc.annotations.Provides;
-import lemon.needle.ioc.binder.Binder;
 import lemon.needle.ioc.binder.PrivateBinder;
 import lemon.needle.ioc.exception.NeedleException;
 import lemon.needle.ioc.provider.InnerProvider;
@@ -40,7 +39,7 @@ public class Injector {
     /**
      * Constructs Feather with configuration modules
      */
-    public static Injector with(Module... modules) {
+    static Injector with(Module... modules) {
         if (initOnce.compareAndSet(false, true)) {
             Injector injector = new Injector(Arrays.asList(modules));
             System.out.println(stopwatch.toString());
@@ -57,7 +56,7 @@ public class Injector {
                 return this;
             }
         });
-        Binder binder = new PrivateBinder(this);
+        PrivateBinder binder = new PrivateBinder(this);
         //绑定provider提供的方式
         for (final Module module : modules) {
             module.configure(binder);//生成绑定信息

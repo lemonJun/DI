@@ -1,10 +1,9 @@
-package lemon.needle;
+package lemon.needle.ioc;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import lemon.needle.ioc.Injector;
-import lemon.needle.ioc.Module;
+import lemon.needle.NeedleModel;
 
 public class Needle {
 

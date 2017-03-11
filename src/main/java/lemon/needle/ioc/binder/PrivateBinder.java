@@ -21,7 +21,6 @@ public class PrivateBinder<T> implements Binder {
         this.injector = injector;
     }
 
-    @Override
     public void initAllBinders() {
         if (CollectionUtil.isEmpty(binders)) {
             return;
