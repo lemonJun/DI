@@ -31,4 +31,14 @@ public class NeedleTest {
         }
     }
 
+    @Test
+    public void bind() {
+        try {
+            Sup sup = Needle.getInstance(Sup.class);
+            sup.say();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

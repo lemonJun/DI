@@ -65,7 +65,7 @@ public class Injector {
                 providerMethod(module, providerMethod);
             }
         }
-
+        binder.initAllBinders();
     }
 
     /**
@@ -114,7 +114,7 @@ public class Injector {
             }
         }
     }
-    
+
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private <T> Provider<T> provider(final Key<T> key, Set<Key> chain) {
         if (!providers.containsKey(key)) {

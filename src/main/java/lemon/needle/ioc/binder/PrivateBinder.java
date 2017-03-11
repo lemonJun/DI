@@ -21,16 +21,19 @@ public class PrivateBinder<T> implements Binder {
         this.injector = injector;
     }
 
-    public void initKeyProvider() {
+    @Override
+    public void initAllBinders() {
         if (CollectionUtil.isEmpty(binders)) {
             return;
         }
         binders.forEach((key, pro) -> {
             if (pro.getProvider() != null) {
+                System.out.println("put" + pro.getProvider().toString());
                 injector.getProviders().put(key, pro.getProvider());
             } else if (pro.getTargetKey() != null) {
                 //此步会同时为bind 和  to生成绑定
                 injector.getProviders().put(key, injector.provider(pro.getTargetKey()));
+                System.out.println("put" + pro.getTargetKey());
             } else {
 
             }
