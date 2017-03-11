@@ -12,7 +12,11 @@ public class NeedleTest {
 
     @Test
     public void instance() {
-        A a = Needle.getInstance(A.class);
+        try {
+            A a = Needle.getInstance(A.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test

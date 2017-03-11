@@ -1,17 +1,21 @@
 package lemon.needle.ioc.binder;
 
+import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Singleton;
+import javax.naming.Binding;
 
 import lemon.needle.ioc.AbstractModule;
 import lemon.needle.ioc.Injector;
 import lemon.needle.ioc.Key;
+import lemon.needle.ioc.Matcher;
 import lemon.needle.ioc.Module;
 import lemon.needle.ioc.annotations.ImplementedBy;
 import lemon.needle.ioc.annotations.ProvidedBy;
+import lemon.needle.ioc.scope.Scope;
 
 /**
  * Collects configuration information (primarily <i>bindings</i>) which will be
@@ -185,6 +189,26 @@ import lemon.needle.ioc.annotations.ProvidedBy;
  * @author kevinb@google.com (Kevin Bourrillion)
  */
 public interface Binder {
+
+    /*if[AOP]*/
+    /**
+     * Binds method interceptor[s] to methods matched by class and method matchers. A method is
+     * eligible for interception if:
+     *
+     * <ul>
+     * <li>Guice created the instance the method is on
+     * <li>Neither the enclosing type nor the method is final
+     * <li>And the method is package-private, protected, or public
+     * </ul>
+     *
+     * @param classMatcher matches classes the interceptor should apply to. For example: {@code
+     *     only(Runnable.class)}.
+     * @param methodMatcher matches methods the interceptor should apply to. For example: {@code
+     *     annotatedWith(Transactional.class)}.
+     * @param interceptors to bind. The interceptors are called in the order they are given.
+     */
+    void bindInterceptor(Matcher<? super Class<?>> classMatcher, Matcher<? super Method> methodMatcher, org.aopalliance.intercept.MethodInterceptor... interceptors);
+    /*end[AOP]*/
 
     //Binds a scope to an annotation.
     //    void bindScope(Class<? extends Annotation> annotationType, Scope scope);

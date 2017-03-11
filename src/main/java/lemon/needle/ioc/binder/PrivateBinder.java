@@ -1,13 +1,17 @@
 package lemon.needle.ioc.binder;
 
+import java.lang.reflect.Method;
 import java.util.Map;
 
 import javax.inject.Provider;
+
+import org.aopalliance.intercept.MethodInterceptor;
 
 import com.google.common.collect.Maps;
 
 import lemon.needle.ioc.Injector;
 import lemon.needle.ioc.Key;
+import lemon.needle.ioc.Matcher;
 import lemon.needle.ioc.Module;
 import lemon.needle.ioc.util.CollectionUtil;
 
@@ -34,7 +38,7 @@ public class PrivateBinder<T> implements Binder {
                 injector.getProviders().put(key, injector.provider(pro.getTargetKey()));
                 System.out.println("put" + pro.getTargetKey());
             } else {
-                
+
             }
         });
     }
@@ -95,7 +99,7 @@ public class PrivateBinder<T> implements Binder {
     public void disableCircularProxies() {
 
     }
-
+    
     @Override
     public void requireAtInjectOnConstructors() {
 
@@ -108,6 +112,11 @@ public class PrivateBinder<T> implements Binder {
 
     @Override
     public void scanModulesForAnnotatedMethods(ModuleAnnotatedMethodScanner scanner) {
+
+    }
+
+    @Override
+    public void bindInterceptor(Matcher<? super Class<?>> classMatcher, Matcher<? super Method> methodMatcher, MethodInterceptor... interceptors) {
 
     }
 

@@ -60,7 +60,7 @@ public class TypeLiteral<T> {
      * at runtime despite erasure.
      */
     @SuppressWarnings("unchecked")
-    protected TypeLiteral() {
+    public TypeLiteral() {
         this.type = getSuperclassTypeParameter(getClass());
         this.rawType = (Class<? super T>) MoreTypes.getRawType(type);
         this.hashCode = type.hashCode();
@@ -70,7 +70,7 @@ public class TypeLiteral<T> {
      * Unsafe. Constructs a type literal manually.
      */
     @SuppressWarnings("unchecked")
-    TypeLiteral(Type type) {
+    public TypeLiteral(Type type) {
         this.type = canonicalize(checkNotNull(type, "type"));
         this.rawType = (Class<? super T>) MoreTypes.getRawType(this.type);
         this.hashCode = this.type.hashCode();
@@ -80,7 +80,7 @@ public class TypeLiteral<T> {
      * Returns the type from super class's type parameter in {@link MoreTypes#canonicalize(Type)
      * canonical form}.
      */
-    static Type getSuperclassTypeParameter(Class<?> subclass) {
+    public static Type getSuperclassTypeParameter(Class<?> subclass) {
         Type superclass = subclass.getGenericSuperclass();
         if (superclass instanceof Class) {
             throw new RuntimeException("Missing type parameter.");
