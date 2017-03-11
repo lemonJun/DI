@@ -18,6 +18,8 @@ package lemon.needle.ioc.binder;
 
 import java.lang.annotation.Annotation;
 
+import lemon.needle.ioc.Scope;
+
 /**
  * 
  * See the EDSL examples at {@link com.google.inject.Binder}.

@@ -5,10 +5,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Collection;
 
-import static net.cassite.style.Style.*;
-
-import net.cassite.style.reflect.MethodSupport;
-
 /**
  * Some useful methods to use when creating annotation handlers.
  *
@@ -62,11 +58,11 @@ public class Utils {
      * @return retrieved field
      * @see Class#getDeclaredField(String)
      */
-    public static Field getField(Class<?> cls, String fieldName) {
+    public static Field getField(Class<?> cls, String fieldName) throws Exception {
         try {
             return cls.getDeclaredField(fieldName);
         } catch (Exception e) {
-            throw $(e);
+            throw e;
         }
     }
 
@@ -79,7 +75,7 @@ public class Utils {
      * @return retrieved method
      * @see Class#getDeclaredMethod(String, Class...)
      */
-    public static Method getMethod(Class<?> cls, String name) {
+    public static Method getMethod(Class<?> cls, String name) throws Exception {
         return getMethod(cls, name, new Class[0]);
     }
 
@@ -92,11 +88,11 @@ public class Utils {
      * @return retrieved method
      * @see Class#getDeclaredMethod(String, Class...)
      */
-    public static Method getMethod(Class<?> cls, String name, Class<?>... parameterTypes) {
+    public static Method getMethod(Class<?> cls, String name, Class<?>... parameterTypes) throws Exception {
         try {
             return cls.getDeclaredMethod(name, parameterTypes);
         } catch (Exception e) {
-            throw $(e);
+            throw e;
         }
     }
 
@@ -163,7 +159,7 @@ public class Utils {
      * @param method method
      * @return true if it's a setter, false otherwise
      */
-    public static boolean isSetter(MethodSupport method) {
-        return method.name().startsWith("set") && method.name().length() > 3 && method.name().charAt(3) >= 'A' && method.name().charAt(3) <= 'Z' && method.argCount() == 1 && (method.returnType().equals(Void.TYPE) || method.returnType().equals(method.getMember().getDeclaringClass())) && !method.isStatic();
-    }
+    //    public static boolean isSetter(MethodSupport method) throws Exception {
+    //        return method.name().startsWith("set") && method.name().length() > 3 && method.name().charAt(3) >= 'A' && method.name().charAt(3) <= 'Z' && method.argCount() == 1 && (method.returnType().equals(Void.TYPE) || method.returnType().equals(method.getMember().getDeclaringClass())) && !method.isStatic();
+    //    }
 }

@@ -8,6 +8,7 @@ import java.lang.reflect.Constructor;
 import javax.inject.Provider;
 
 import lemon.needle.ioc.Key;
+import lemon.needle.ioc.Scope;
 import lemon.needle.ioc.TypeLiteral;
 
 /**

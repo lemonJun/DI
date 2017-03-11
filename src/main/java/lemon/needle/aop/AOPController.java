@@ -8,8 +8,8 @@ import static net.cassite.style.util.Utils.run;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import lemon.needle.Needle;
 import lemon.needle.ioc.InjectorOld;
+import lemon.needle.ioc.Needle;
 import lemon.needle.ioc.binder.Scope;
 import net.cassite.style.interfaces.RFunc0;
 
