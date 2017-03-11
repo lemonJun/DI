@@ -2,7 +2,7 @@ package ioc.test;
 
 import org.junit.Test;
 
-import lemon.needle.Needle;
+import lemon.needle.ioc.Needle;
 
 public class NeedleTest {
 

@@ -3,7 +3,7 @@ package ioc.test;
 import org.apache.log4j.PropertyConfigurator;
 import org.junit.Test;
 
-import lemon.needle.Needle;
+import lemon.needle.ioc.Needle;
 
 public class DITest {
 
