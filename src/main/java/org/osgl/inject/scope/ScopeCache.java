@@ -31,7 +31,7 @@ public interface ScopeCache {
      */
     interface SingletonScope extends ScopeCache {
     }
-
+    
     /**
      * Implementation of `ScopeCache.RequestScope` shall provide access
      * to bean instance stored in a request scope
