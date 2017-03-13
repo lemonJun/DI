@@ -11,7 +11,14 @@ public class MyModule {
 
     @Provides
     @Singleton // an app will probably need a single instance 
-    List ds() {
+    List<String> ss() {
+        List dataSource = new ArrayList();// instantiate some DataSource
+        return dataSource;
+    }
+
+    @Provides
+    @Singleton // an app will probably need a single instance 
+    List<Integer> is() {
         List dataSource = new ArrayList();// instantiate some DataSource
         return dataSource;
     }

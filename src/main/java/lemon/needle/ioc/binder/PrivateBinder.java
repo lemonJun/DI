@@ -99,7 +99,7 @@ public class PrivateBinder<T> implements Binder {
     public void disableCircularProxies() {
 
     }
-    
+
     @Override
     public void requireAtInjectOnConstructors() {
 

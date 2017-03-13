@@ -21,10 +21,12 @@ public class Key<T> {
     final Class<? extends Annotation> qualifier;
     //通过Named注解所起的名称
     final String name;
+    private final TypeLiteral<T> typeLiteral;
 
     private Key(Class<T> type, Class<? extends Annotation> qualifier, String name) {
         this.type = type;
         this.qualifier = qualifier;
+        this.typeLiteral = (TypeLiteral<T>) TypeLiteral.get(type);
         this.name = name;
     }
 
@@ -65,8 +67,10 @@ public class Key<T> {
             return false;
         if (qualifier != null ? !qualifier.equals(key.qualifier) : key.qualifier != null)
             return false;
+        if (typeLiteral != null ? !typeLiteral.equals(key.typeLiteral) : key.typeLiteral != null) {
+            return false;
+        }
         return !(name != null ? !name.equals(key.name) : key.name != null);
-
     }
 
     @Override
@@ -74,13 +78,22 @@ public class Key<T> {
         int result = type.hashCode();
         result = 31 * result + (qualifier != null ? qualifier.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (typeLiteral != null ? typeLiteral.hashCode() * 31 : 0);
         return result;
     }
 
     @Override
     public String toString() {
-        String suffix = name != null ? "@\"" + name + "\"" : qualifier != null ? "@" + qualifier.getSimpleName() : "";
-        return type.getName() + suffix;
+        StringBuffer sb = new StringBuffer();
+        if (name != null) {
+            sb.append("@\"").append(name).append("\"");
+        } else if (qualifier != null) {
+            sb.append("@").append(qualifier.getSimpleName());
+        } else if (typeLiteral != null) {
+            sb.append("@").append(typeLiteral);
+        }
+        //        String suffix = name != null ? "@\"" + name + "\"" : qualifier != null ? "@" + qualifier.getSimpleName() : "";
+        return type.getName() + sb.toString();
     }
 
 }

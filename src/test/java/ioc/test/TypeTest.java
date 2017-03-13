@@ -27,11 +27,11 @@ public class TypeTest {
         exloreClass(object.getClass());
         return object.getClass().getGenericSuperclass();
     }
-    
+
     private static void exloreClass(Class klass) {
         System.out.println("Explore class : " + klass.getCanonicalName());
         System.out.println((klass instanceof Type));
-        
+
         Type genericType = klass.getGenericSuperclass();
         System.out.println(String.format("Class %s generic superclass is %s", klass, genericType));
         System.out.println(String.format("Generic type is a %s", genericType));

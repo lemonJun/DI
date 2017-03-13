@@ -32,7 +32,7 @@ public class MoreTypes {
 
     private MoreTypes() {
     }
-
+    
     private static final Map<TypeLiteral<?>, TypeLiteral<?>> PRIMITIVE_TO_WRAPPER = new ImmutableMap.Builder<TypeLiteral<?>, TypeLiteral<?>>().put(TypeLiteral.get(boolean.class), TypeLiteral.get(Boolean.class)).put(TypeLiteral.get(byte.class), TypeLiteral.get(Byte.class)).put(TypeLiteral.get(short.class), TypeLiteral.get(Short.class)).put(TypeLiteral.get(int.class), TypeLiteral.get(Integer.class)).put(TypeLiteral.get(long.class), TypeLiteral.get(Long.class)).put(TypeLiteral.get(float.class), TypeLiteral.get(Float.class)).put(TypeLiteral.get(double.class), TypeLiteral.get(Double.class)).put(TypeLiteral.get(char.class), TypeLiteral.get(Character.class)).put(TypeLiteral.get(void.class), TypeLiteral.get(Void.class)).build();
 
     /**

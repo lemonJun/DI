@@ -34,7 +34,6 @@ public abstract class AbstractModule implements Module {
 
     public final synchronized void configure(Binder builder) {
         checkState(this.binder == null, "Re-entry is not allowed.");
-
         this.binder = checkNotNull(builder, "builder");
         try {
             configure();

@@ -23,7 +23,7 @@ public class DITest {
             e.printStackTrace();
         }
     }
-
+    
     @Test
     public void same() {
         try {

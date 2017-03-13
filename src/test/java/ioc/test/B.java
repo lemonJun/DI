@@ -5,7 +5,7 @@ import javax.inject.Inject;
 public class B {
 
     @Inject
-    public B(A c, D b) {
+    public B() {
         System.out.println("b");
     }
 }
