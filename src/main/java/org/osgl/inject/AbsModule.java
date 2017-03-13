@@ -34,7 +34,7 @@ public abstract class AbsModule {
     }
 
     protected abstract void configure();
-
+    
     final void applyTo(Genie genie) {
         if (!configured) {
             configure();

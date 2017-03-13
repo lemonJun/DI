@@ -39,7 +39,7 @@ public interface ScopedBindingBuilder {
     void in(Scope scope);
 
     /**
-     * Instructs the {@link com.google.InjectorOld.Injector} to eagerly initialize this
+     * Instructs the {@link com.google.InjectorImpl.Injector} to eagerly initialize this
      * singleton-scoped binding upon creation. Useful for application
      * initialization logic.  See the EDSL examples at
      * {@link com.google.inject.Binder}.

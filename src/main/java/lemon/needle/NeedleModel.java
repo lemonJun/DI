@@ -7,13 +7,13 @@ import javax.inject.Singleton;
 
 import ioc.test.ImplSup;
 import ioc.test.Sup;
-import lemon.needle.ioc.AbstractModule;
+import lemon.needle.ioc.AbsModule;
 import lemon.needle.ioc.annotations.Provides;
 
-public class NeedleModel extends AbstractModule {
+public class NeedleModel extends AbsModule {
 
     @Override
-    protected void configure() {
+    public void configure() {
         bind(Sup.class).to(ImplSup.class);
     }
 

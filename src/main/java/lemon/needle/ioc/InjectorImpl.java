@@ -20,15 +20,17 @@ import javax.inject.Provider;
 import javax.inject.Qualifier;
 import javax.inject.Singleton;
 
+import org.osgl.inject.InjectException;
+import org.osgl.inject.Injector;
+
 import com.google.common.base.Stopwatch;
 
 import lemon.needle.ioc.annotations.ImplementedBy;
 import lemon.needle.ioc.annotations.Provides;
-import lemon.needle.ioc.binder.PrivateBinder;
 import lemon.needle.ioc.exception.NeedleException;
 import lemon.needle.ioc.provider.InnerProvider;
 
-public class Injector {
+public class InjectorImpl implements Injector {
 
     private final Map<Key<?>, Object> singletons = new ConcurrentHashMap<>();
     private final Map<Class<?>, Object[][]> injectFields = new ConcurrentHashMap<>(0);
@@ -40,9 +42,9 @@ public class Injector {
     /**
      * Constructs Feather with configuration modules
      */
-    static Injector with(Module... modules) {
+    static InjectorImpl with(Module... modules) {
         if (initOnce.compareAndSet(false, true)) {
-            Injector injector = new Injector(Arrays.asList(modules));
+            InjectorImpl injector = new InjectorImpl(Arrays.asList(modules));
             System.out.println(stopwatch.toString());
             return injector;
         }
@@ -50,22 +52,26 @@ public class Injector {
     }
 
     @SuppressWarnings("rawtypes")
-    private Injector(Iterable<Module> modules) {
-        providers.put(Key.of(Injector.class), new Provider() {
+    private InjectorImpl(Iterable<Module> modules) {
+        providers.put(Key.of(InjectorImpl.class), new Provider() {
             @Override
             public Object get() {
                 return this;
             }
         });
-        PrivateBinder binder = new PrivateBinder(this);
+        //        PrivateBinder binder = new PrivateBinder(this);
+        //            module.configure(binder);//生成绑定信息
         //绑定provider提供的方式
         for (final Module module : modules) {
-            module.configure(binder);//生成绑定信息
+            if (module instanceof AbsModule) {
+                ((AbsModule) module).applyTo(this);
+            }
+            
             for (Method providerMethod : providers(module.getClass())) {
                 providerMethod(module, providerMethod);
             }
         }
-        binder.initAllBinders();
+        //        binder.initAllBinders();
     }
 
     /**
@@ -311,6 +317,22 @@ public class Injector {
         return providers;
     }
 
+    public Provider buildConstructor(final Constructor constructor, final Key<?> key, final Set<Key> chain) {
+        Type[] ta = constructor.getGenericParameterTypes();
+        Annotation[][] aaa = constructor.getParameterAnnotations();
+        final Provider[] pp = paramProviders(key, constructor.getParameterTypes(), constructor.getGenericParameterTypes(), constructor.getParameterAnnotations(), chain);
+        return new Provider() {
+            @Override
+            public Object get() {
+                try {
+                    return constructor.newInstance(params(pp));
+                } catch (Exception e) {
+                    throw new InjectException(e, "cannot instantiate %s", key);
+                }
+            }
+        };
+    }
+
     private static Annotation qualifier(Annotation[] annotations) {
         for (Annotation annotation : annotations) {
             if (annotation.annotationType().isAnnotationPresent(Qualifier.class)) {
@@ -331,6 +353,31 @@ public class Injector {
 
     public InnerProvider getProviders() {
         return providers;
+    }
+
+    @Override
+    public <T> T get(Class<T> type) {
+        return null;
+    }
+
+    @Override
+    public <T> Provider<T> getProvider(Class<T> type) {
+        return null;
+    }
+
+    @Override
+    public boolean isQualifier(Class<? extends Annotation> annoClass) {
+        return false;
+    }
+
+    @Override
+    public boolean isPostConstructProcessor(Class<? extends Annotation> annoClass) {
+        return false;
+    }
+
+    @Override
+    public boolean isScope(Class<? extends Annotation> annoClass) {
+        return false;
     }
 
 }

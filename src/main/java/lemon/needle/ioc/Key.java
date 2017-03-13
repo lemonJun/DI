@@ -22,12 +22,14 @@ public class Key<T> {
     //通过Named注解所起的名称
     final String name;
     private final TypeLiteral<T> typeLiteral;
+    private Class<? extends Annotation> scope;
 
     private Key(Class<T> type, Class<? extends Annotation> qualifier, String name) {
         this.type = type;
         this.qualifier = qualifier;
         this.typeLiteral = (TypeLiteral<T>) TypeLiteral.get(type);
         this.name = name;
+        this.scope = null;
     }
 
     public static <T> Key<T> of(Class<T> type) {
@@ -36,6 +38,10 @@ public class Key<T> {
 
     public static <T> Key<T> of(Class<T> type, Class<? extends Annotation> qualifier) {
         return new Key<>(type, qualifier, null);
+    }
+
+    public static <T> Key<T> of(Class<T> type, Class<? extends Annotation> qualifier, String name) {
+        return new Key<>(type, qualifier, name);
     }
 
     public static <T> Key<T> of(Key<T> key, Class<? extends Annotation> qualifier) {
@@ -71,6 +77,14 @@ public class Key<T> {
             return false;
         }
         return !(name != null ? !name.equals(key.name) : key.name != null);
+    }
+
+    public Class<? extends Annotation> getScope() {
+        return scope;
+    }
+
+    public void setScope(Class<? extends Annotation> scope) {
+        this.scope = scope;
     }
 
     @Override

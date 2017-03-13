@@ -13,14 +13,14 @@ public class Needle {
         logger.info("");
     }
 
-    public static Injector injector;
+    public static InjectorImpl injector;
 
     public static void init() {
         createInjector(new NeedleModel());
     }
 
     public static void createInjector(Module... modules) {
-        injector = Injector.with(modules);
+        injector = InjectorImpl.with(modules);
     }
 
     public static <T> T getInstance(Class<T> type) {
