@@ -13,7 +13,7 @@ public class D {
     private A a;
 
     D() {
-
+        System.out.println("d");
     }
 
     public int getI() {
