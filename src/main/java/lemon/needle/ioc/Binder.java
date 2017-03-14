@@ -26,7 +26,7 @@ public class Binder<T> {
     private boolean fireEvent;
     private Constructor<? extends T> constructor;
     private Class<? extends T> impl;
-
+    
     public Binder(Class<T> type) {
         this.type = type;
         this.fireEvent = true;

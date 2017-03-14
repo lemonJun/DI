@@ -1,8 +1,11 @@
-package org.osgl.inject;
+package lemon.needle.ioc;
 
 import java.lang.reflect.Method;
 
 import javax.inject.Provider;
+
+import org.osgl.inject.Genie;
+import org.osgl.inject.InjectException;
 
 public class MethodInjector {
 
@@ -14,7 +17,7 @@ public class MethodInjector {
         this.providers = providers;
     }
 
-    Object applyTo(Object bean) {
+    public Object applyTo(Object bean) {
         try {
             return method.invoke(bean, Genie.params(providers));
         } catch (Exception e) {

@@ -15,7 +15,7 @@ public interface Injector {
      * @param <T>  generic type of the bean
      * @return the bean
      */
-    <T> T get(Class<T> type);
+    <T> T instance(Class<T> type);
 
     /**
      * Returns a provider of given type

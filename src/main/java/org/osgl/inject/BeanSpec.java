@@ -474,7 +474,7 @@ public class BeanSpec {
         Annotation[] annotations = field.getDeclaredAnnotations();
         return BeanSpec.of(field.getGenericType(), annotations, field.getName(), injector, field.getModifiers());
     }
-
+    
     @SuppressWarnings("rawtypes")
     public static Class<?> rawTypeOf(Type type) {
         if (type instanceof Class) {

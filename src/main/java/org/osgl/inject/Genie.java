@@ -38,6 +38,9 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+import lemon.needle.ioc.FieldInjector;
+import lemon.needle.ioc.MethodInjector;
+
 public final class Genie implements Injector {
 
     static final Logger logger = LoggerFactory.getLogger(Genie.class);
@@ -77,18 +80,6 @@ public final class Genie implements Injector {
     private void init(AbsModule... modules) {
         if (modules.length > 0) {
             List<AbsModule> list = Lists.newArrayList();
-            //            for (AbsModule module : modules) {
-            //                if (module instanceof InjectListener) {
-            //                    listeners.add((InjectListener) module);
-            //                } else if (module instanceof Class) {
-            //                    Class moduleClass = (Class) module;
-            //                    if (InjectListener.class.isAssignableFrom(moduleClass)) {
-            //                        listeners.add((InjectListener) $.newInstance(moduleClass));
-            //                    }
-            //                }
-            //                list.add(module);
-            //            }
-            // register real modules after listener get registered
             for (AbsModule module : list) {
                 registerModule(module);
             }
@@ -215,16 +206,6 @@ public final class Genie implements Injector {
         return processor;
     }
 
-    //    //没有解决泛型问题
-    //    @SuppressWarnings("rawtypes")
-    //    private BeanSpec beanSpecOf(Class type) {
-    //        BeanSpec spec = beanSpecLookup.get(type);
-    //        if (null == spec) {
-    //            spec = BeanSpec.of(type, this);
-    //            beanSpecLookup.putIfAbsent(type, spec);
-    //        }
-    //        return spec;
-    //    }
 
     @SuppressWarnings("rawtypes")
     private void bindProviderToClass(Class<?> target, Provider<?> provider, boolean fireEvent) {
@@ -350,7 +331,7 @@ public final class Genie implements Injector {
         if (null != provider) {
             return provider;
         }
-
+        
         // try without name
         if (null != spec.name()) {
             provider = registry.get(spec.withoutName());
@@ -366,7 +347,7 @@ public final class Genie implements Injector {
                 public Provider<?> get() {
                     return new Provider() {
                         private volatile Provider realProvider;
-
+                        
                         @Override
                         public Object get() {
                             if (null == realProvider) {
@@ -420,7 +401,7 @@ public final class Genie implements Injector {
                 }
             }
         }
-
+        
         Provider<?> decorated = decorate(spec, provider, false);
         registry.putIfAbsent(spec, decorated);
         return decorated;
@@ -452,7 +433,7 @@ public final class Genie implements Injector {
     }
 
     @SuppressWarnings("rawtypes")
-    private Provider buildProvider(BeanSpec spec, Set<BeanSpec> chain) {
+    private Provider buildProvider(final BeanSpec spec, Set<BeanSpec> chain) {
         Class target = spec.rawType();
         Constructor constructor = constructor(target);
         return null != constructor ? buildConstructor(constructor, spec, chain) : buildFieldMethodInjector(target, spec, chain);
@@ -474,7 +455,7 @@ public final class Genie implements Injector {
         };
     }
 
-    public Provider buildFieldMethodInjector(final Class target, final BeanSpec spec, Set<BeanSpec> chain) {
+    public Provider<?> buildFieldMethodInjector(final Class target, final BeanSpec spec, Set<BeanSpec> chain) {
         final List<FieldInjector> fieldInjectors = fieldInjectors(target, chain);
         final List<MethodInjector> methodInjectors = methodInjectors(target, chain);
         try {

@@ -1,21 +1,23 @@
-package org.osgl.inject;
+package lemon.needle.ioc;
 
 import java.lang.reflect.Field;
 
 import javax.inject.Provider;
 
+import org.osgl.inject.InjectException;
+
 public class FieldInjector {
     private final Field field;
-    private final BeanSpec fieldSpec;
-    private final Provider provider;
+    private final Key<?> key;
+    private final Provider<?> provider;
 
-    FieldInjector(Field field, BeanSpec fieldSpec, Provider provider) {
+    public FieldInjector(Field field, Key<?> key, Provider<?> provider) {
         this.field = field;
-        this.fieldSpec = fieldSpec;
+        this.key = key;
         this.provider = provider;
     }
 
-    void applyTo(Object bean) {
+    public void applyTo(Object bean) {
         Object obj = provider.get();
         if (null == obj) {
             return;
@@ -36,8 +38,8 @@ public class FieldInjector {
         return field;
     }
 
-    public BeanSpec getFieldSpec() {
-        return fieldSpec;
+    public Key getKey() {
+        return key;
     }
 
     public Provider getProvider() {

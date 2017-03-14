@@ -19,12 +19,14 @@ public class NeedleTest {
         }
     }
 
-    //    @Test
-    //    public void same() {
-    //        C c1 = Needle.getInstance(C.class);
-    //        C c2 = Needle.getInstance(C.class);
-    //        System.out.println(c1 == c2);
-    //    }
+    @Test
+    public void same() {
+        D c1 = Needle.getInstance(D.class);
+        //        D c2 = Needle.getInstance(D.class);
+        //        System.out.println(c1);
+        //        System.out.println();
+        //        System.out.println(c1 == c2);
+    }
 
     @Test
     public void provid() {
