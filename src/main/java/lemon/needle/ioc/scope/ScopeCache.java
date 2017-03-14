@@ -1,6 +1,6 @@
-package org.osgl.inject.scope;
+package lemon.needle.ioc.scope;
 
-import org.osgl.inject.BeanSpec;
+import lemon.needle.ioc.Key;
 
 /**
  * Provide function to retrieve bean from scoped cache
@@ -13,7 +13,7 @@ public interface ScopeCache {
      * @param <T>   generic type of the bean
      * @return the bean instance
      */
-    <T> T get(BeanSpec clazz);
+    <T> T get(Key clazz);
 
     /**
      * Put a bean instance into the cache associated with the class key
@@ -23,7 +23,7 @@ public interface ScopeCache {
      * @param bean  the bean instance to be stored
      * @param <T>   generic type of the bean
      */
-    <T> void put(BeanSpec clazz, T bean);
+    <T> void put(Key clazz, T bean);
 
     /**
      * Implementation of `ScopeCache.SingletonScope` provide access
@@ -31,7 +31,7 @@ public interface ScopeCache {
      */
     interface SingletonScope extends ScopeCache {
     }
-    
+
     /**
      * Implementation of `ScopeCache.RequestScope` shall provide access
      * to bean instance stored in a request scope

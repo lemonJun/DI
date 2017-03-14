@@ -9,10 +9,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.osgl.inject.UnexpectedMethodInvocationException;
+import javax.inject.Provider;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
+
+import lemon.needle.ioc.exception.UnexpectedMethodInvocationException;
 
 public class CommonUtil {
     private static Map<Object, Class<?>> __primitiveTypes = new HashMap<Object, Class<?>>();
@@ -96,6 +98,15 @@ public class CommonUtil {
         for (Map.Entry<Class<?>, Class<?>> entry : __primitiveToWrappers.entrySet()) {
             __wrapperToPrmitives.put(entry.getValue(), entry.getKey());
         }
+    }
+
+    public static Object[] params(Provider<?>[] paramProviders) {
+        final int len = paramProviders.length;
+        Object[] params = new Object[len];
+        for (int i = 0; i < len; ++i) {
+            params[i] = paramProviders[i].get();
+        }
+        return params;
     }
 
     public static boolean eq(Object a, Object b) {
@@ -237,7 +248,7 @@ public class CommonUtil {
         }
         return s0.substring(0, i);
     }
-    
+
     public static <T> T newInstance(final String className, ClassLoader cl) throws Exception {
         Object o = __primitiveInstances.get(className);
         if (null != o)

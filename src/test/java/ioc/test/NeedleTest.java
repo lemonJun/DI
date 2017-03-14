@@ -21,7 +21,11 @@ public class NeedleTest {
 
     @Test
     public void same() {
-        D c1 = Needle.getInstance(D.class);
+        try {
+            D c1 = Needle.getInstance(D.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         //        D c2 = Needle.getInstance(D.class);
         //        System.out.println(c1);
         //        System.out.println();

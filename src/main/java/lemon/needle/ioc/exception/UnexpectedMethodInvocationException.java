@@ -1,4 +1,4 @@
-package org.osgl.inject;
+package lemon.needle.ioc.exception;
 
 import com.google.common.base.Preconditions;
 

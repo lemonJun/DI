@@ -8,13 +8,11 @@ import javax.inject.Provider;
 import javax.inject.Qualifier;
 import javax.inject.Scope;
 
-import org.osgl.inject.InjectException;
-import org.osgl.inject.provider.LazyProvider;
-import org.osgl.inject.util.CommonUtil;
-
 import com.google.common.base.Preconditions;
 
 import lemon.needle.ioc.exception.NeedleException;
+import lemon.needle.ioc.provider.LazyProvider;
+import lemon.needle.ioc.util.CommonUtil;
 
 public class Binder<T> {
     private Class<T> type;
@@ -26,7 +24,7 @@ public class Binder<T> {
     private boolean fireEvent;
     private Constructor<? extends T> constructor;
     private Class<? extends T> impl;
-    
+
     public Binder(Class<T> type) {
         this.type = type;
         this.fireEvent = true;
@@ -140,7 +138,7 @@ public class Binder<T> {
             }
         }
         if (!bound()) {
-            throw new InjectException("Cannot register without binding specified");
+            throw new NeedleException("Cannot register without binding specified");
         }
     }
 

@@ -12,6 +12,10 @@ public class D {
     @Inject
     private A a;
 
+    D() {
+
+    }
+
     public int getI() {
         return i;
     }

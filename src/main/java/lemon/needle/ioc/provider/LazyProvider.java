@@ -2,7 +2,7 @@ package lemon.needle.ioc.provider;
 
 import javax.inject.Provider;
 
-import org.osgl.inject.Injector;
+import lemon.needle.ioc.Injector;
 
 /**
  * eager op

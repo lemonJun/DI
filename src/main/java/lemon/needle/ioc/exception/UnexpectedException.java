@@ -1,4 +1,4 @@
-package org.osgl.inject;
+package lemon.needle.ioc.exception;
 
 /**
  * Could be used when programmer think it is not logic to reach somewhere. 
@@ -6,6 +6,8 @@ package org.osgl.inject;
  */
 public class UnexpectedException extends RuntimeException {
 
+    private static final long serialVersionUID = 1L;
+    
     public UnexpectedException() {
         super();
     }
@@ -17,7 +19,7 @@ public class UnexpectedException extends RuntimeException {
     public UnexpectedException(String message, Object... args) {
         super(String.format(message, args));
     }
-    
+
     public UnexpectedException(Throwable cause) {
         super(cause);
     }

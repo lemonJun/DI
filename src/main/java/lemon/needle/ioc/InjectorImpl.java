@@ -19,9 +19,6 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 
-import org.osgl.inject.InjectException;
-import org.osgl.inject.Injector;
-
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 
@@ -35,68 +32,35 @@ public class InjectorImpl implements Injector {
     private static final AtomicBoolean initOnce = new AtomicBoolean(false);
     private static final Stopwatch stopwatch = Stopwatch.createStarted();
 
-    /**
-     * Constructs Feather with configuration modules
-     */
-    static InjectorImpl with(Module... modules) {
-        if (initOnce.compareAndSet(false, true)) {
-            InjectorImpl injector = new InjectorImpl(Arrays.asList(modules));
-            System.out.println(stopwatch.toString());
-            return injector;
-        }
-        return null;
-    }
-
-    @SuppressWarnings("rawtypes")
-    private InjectorImpl(Iterable<Module> modules) {
-        innerProvider.put(Key.of(InjectorImpl.class), new Provider() {
-            @Override
-            public Object get() {
-                return this;
-            }
-        });
-        //绑定provider提供的方式
-        for (final Module module : modules) {
-            if (module instanceof AbsModule) {
-                ((AbsModule) module).applyTo(this);
-            }
-
-            for (Method prodesM : innerProvider.providers(module.getClass())) {
-                providerMethod(module, prodesM);
-            }
-        }
-    }
-
     @Override
     public <T> T instance(Class<T> type) {
-        return provider(Key.of(type), null).get();
+        return providerRecursion(Key.of(type), null).get();
     }
 
     public <T> T instance(Key<T> key) {
-        return provider(key, null).get();
+        return providerRecursion(key, null).get();
     }
 
     public <T> Provider<T> provider(Class<T> type) {
-        return provider(Key.of(type), null);
+        return providerRecursion(Key.of(type), null);
     }
 
     /**
      * @return provider of key (type, qualifier)
      */
     public <T> Provider<T> provider(Key<T> key) {
-        return provider(key, null);
+        return providerRecursion(key, null);
     }
 
     //最重要的一个方法 获取其Provider
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    private <T> Provider<T> provider(final Key<T> key, Set<Key> chain) {
+    private <T> Provider<T> providerRecursion(final Key<T> key, Set<Key> chain) {
         if (!innerProvider.containsKey(key)) {
             final Constructor<?> constructor = innerProvider.getConstructor(key);
             if (constructor != null) {
                 final Provider<?>[] paramProviders = paramProviders(key, constructor.getParameterTypes(), constructor.getGenericParameterTypes(), constructor.getParameterAnnotations(), chain);
-                buildConstructor(key, constructor, paramProviders);
-            } else {
-                buildFieldMethodInjector(key.type, key, chain);
+                Object bean = buildConstructor(key, constructor, paramProviders).get();
+                buildFieldMethodInjector(bean, key, chain);
             }
         }
         return (Provider<T>) innerProvider.get(key);
@@ -117,21 +81,16 @@ public class InjectorImpl implements Injector {
         return (Provider<T>) innerProvider.get(key);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public <T> Provider<T> buildFieldMethodInjector(final Class target, final Key key, Set<Key> chain) {
-        final List<FieldInjector> fieldInjectors = fieldInjectors(target, chain);
-        final List<MethodInjector> methodInjectors = methodInjectors(target, chain);
+    @SuppressWarnings("unchecked")
+    public <T> Provider<T> buildFieldMethodInjector(final Object bean, final Key key, Set<Key> chain) {
+        final Set<Key> newChain = append(chain, key);
+        final List<FieldInjector> fieldInjectors = fieldInjectors(key.type, newChain);
+        final List<MethodInjector> methodInjectors = methodInjectors(key.type, newChain);
         try {
-            final Constructor constructor = target.getDeclaredConstructor();
-            if (null == constructor) {
-                throw new InjectException("cannot instantiate %s: %s", key, "no default constructor found");
-            }
-            constructor.setAccessible(true);
             return new Provider() {
                 @Override
                 public Object get() {
                     try {
-                        Object bean = constructor.newInstance();
                         for (FieldInjector fj : fieldInjectors) {
                             try {
                                 fj.applyTo(bean);
@@ -145,12 +104,12 @@ public class InjectorImpl implements Injector {
                     } catch (RuntimeException e) {
                         throw e;
                     } catch (Exception e) {
-                        throw new InjectException(e, "cannot instantiate %s", key);
+                        throw new NeedleException(e, "cannot instantiate %s", key);
                     }
                 }
             };
-        } catch (NoSuchMethodException e) {
-            throw new InjectException(e, "cannot instantiate %s", key);
+        } catch (Exception e) {
+            throw new NeedleException(e, "method inject %s", key);
         }
     }
 
@@ -199,9 +158,9 @@ public class InjectorImpl implements Injector {
             Class cls = classes[i];
             Key key = Key.of(cls, innerProvider.qualifier(aaa[i]));
             if (chain.contains(key)) {
-                throw new NeedleException(String.format("Circular dependency: %s", chain(chain, key)));
+                throw new NeedleException(String.format("Circular dependency: %s", invokechain(chain, key)));
             }
-            paramProviders[i] = provider(key, chain);
+            paramProviders[i] = providerRecursion(key, chain);
         }
         return new MethodInjector(method, paramProviders);
     }
@@ -217,14 +176,14 @@ public class InjectorImpl implements Injector {
     private FieldInjector fieldInjector(Field field, Set<Key> chain) {
         Key key = Key.of((Class<?>) field.getGenericType());
         if (chain.contains(key)) {
-            throw new NeedleException(String.format("Circular dependency: %s", chain(chain, key)));
+            throw new NeedleException(String.format("Circular dependency: %s", invokechain(chain, key)));
         }
         //        chain.add(key);
-        return new FieldInjector(field, key, provider(key, chain));
+        return new FieldInjector(field, key, providerRecursion(key, chain));
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    private void providerMethod(final Object module, final Method m) {
+    private void injectOfProvides(final Object module, final Method m) {
         final Key<?> key = Key.of(m.getReturnType(), innerProvider.qualifier(m.getAnnotations()));
         if (innerProvider.containsKey(key)) {//不能重复
             throw new NeedleException(String.format("%s has multiple providers, module %s", key.toString(), module.getClass()));
@@ -236,7 +195,6 @@ public class InjectorImpl implements Injector {
             @Override
             public Object get() {
                 try {
-                    //直接生成一个实例
                     return m.invoke(module, params(paramProviders));
                 } catch (Exception e) {
                     throw new NeedleException(String.format("Can't instantiate %s with provider", key.toString()), e);
@@ -281,7 +239,7 @@ public class InjectorImpl implements Injector {
     }
 
     @SuppressWarnings({ "rawtypes" })
-    private String chain(Set<Key> chain, Key lastKey) {
+    private String invokechain(Set<Key> chain, Key lastKey) {
         StringBuilder chainString = new StringBuilder();
         for (Key key : chain) {
             chainString.append(key.toString()).append(" -> ");
@@ -289,6 +247,7 @@ public class InjectorImpl implements Injector {
         return chainString.append(lastKey.toString()).toString();
     }
 
+    //
     @SuppressWarnings("rawtypes")
     Provider<?>[] paramProviders(final Key<?> key, Class<?>[] parameterClasses, Type[] parameterTypes, Annotation[][] annotations, final Set<Key> chain) {
         Provider<?>[] providers = new Provider<?>[parameterTypes.length];
@@ -300,24 +259,25 @@ public class InjectorImpl implements Injector {
                 final Key<?> newKey = Key.of(parameterClass, qualifier);
                 final Set<Key> newChain = append(chain, key);
                 if (newChain.contains(newKey)) {
-                    throw new NeedleException(String.format("Circular dependency: %s", chain(newChain, newKey)));
+                    throw new NeedleException(String.format("Circular dependency: %s", invokechain(newChain, newKey)));
                 }
-                providers[i] = new Provider() {
-                    @Override
-                    public Object get() {
-                        return provider(newKey, newChain);
-                    }
-                };
+                providers[i] = providerRecursion(newKey, newChain);
+                //                providers[i] = new Provider() {
+                //                    @Override
+                //                    public Object get() {
+                //                        return providerRecursion(newKey, newChain);
+                //                    }
+                //                };
             } else {
-                final Key newKey = Key.of(providerType, qualifier);
-                providers[i] = new Provider() {
-                    @SuppressWarnings("unchecked")
-                    @Override
-                    public Object get() {
-                        return provider(newKey, null);
-                    }
-
-                };
+                final Key<?> newKey = Key.of(providerType, qualifier);
+                providers[i] = providerRecursion(newKey, null);
+                //                providers[i] = new Provider() {
+                //                    @SuppressWarnings("unchecked")
+                //                    @Override
+                //                    public Object get() {
+                //                        return providerRecursion(newKey, null);
+                //                    }
+                //                };
             }
         }
         return providers;
@@ -335,7 +295,7 @@ public class InjectorImpl implements Injector {
                 try {
                     return constructor.newInstance(params(pp));
                 } catch (Exception e) {
-                    throw new InjectException(e, "cannot instantiate %s", key);
+                    throw new NeedleException(e, "cannot instantiate %s", key);
                 }
             }
         };
@@ -361,4 +321,32 @@ public class InjectorImpl implements Injector {
         return false;
     }
 
+    static InjectorImpl with(Module... modules) {
+        if (initOnce.compareAndSet(false, true)) {
+            InjectorImpl injector = new InjectorImpl(Arrays.asList(modules));
+            System.out.println(stopwatch.toString());
+            return injector;
+        }
+        return null;
+    }
+
+    @SuppressWarnings("rawtypes")
+    private InjectorImpl(Iterable<Module> modules) {
+        innerProvider.put(Key.of(InjectorImpl.class), new Provider() {
+            @Override
+            public Object get() {
+                return this;
+            }
+        });
+        //绑定provider提供的方式
+        for (final Module module : modules) {
+            if (module instanceof AbsModule) {
+                ((AbsModule) module).applyTo(this);
+            }
+
+            for (Method prodesM : innerProvider.providers(module.getClass())) {
+                injectOfProvides(module, prodesM);
+            }
+        }
+    }
 }

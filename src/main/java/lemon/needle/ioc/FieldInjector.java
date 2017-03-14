@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 
 import javax.inject.Provider;
 
-import org.osgl.inject.InjectException;
+import lemon.needle.ioc.exception.NeedleException;
 
 public class FieldInjector {
     private final Field field;
@@ -25,7 +25,7 @@ public class FieldInjector {
         try {
             field.set(bean, obj);
         } catch (Exception e) {
-            throw new InjectException(e, "Unable to inject field value on %s", bean.getClass());
+            throw new NeedleException(e, "Unable to inject field value on %s", bean.getClass());
         }
     }
 

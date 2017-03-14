@@ -4,8 +4,8 @@ import java.lang.reflect.Method;
 
 import javax.inject.Provider;
 
-import org.osgl.inject.Genie;
-import org.osgl.inject.InjectException;
+import lemon.needle.ioc.exception.NeedleException;
+import lemon.needle.ioc.util.CommonUtil;
 
 public class MethodInjector {
 
@@ -19,9 +19,9 @@ public class MethodInjector {
 
     public Object applyTo(Object bean) {
         try {
-            return method.invoke(bean, Genie.params(providers));
+            return method.invoke(bean, CommonUtil.params(providers));
         } catch (Exception e) {
-            throw new InjectException(e, "Unable to invoke method[%s] on %s", method.getName(), bean.getClass());
+            throw new NeedleException(e, "Unable to invoke method[%s] on %s", method.getName(), bean.getClass());
         }
     }
 

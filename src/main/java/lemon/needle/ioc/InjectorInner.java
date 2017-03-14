@@ -3,6 +3,7 @@ package lemon.needle.ioc;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
@@ -98,7 +99,7 @@ public class InjectorInner {
                     } else {
                         throw new NeedleException(String.format("%s has multiple @Inject constructors", key.type));
                     }
-                } else if (c.getParameterTypes().length == 0) {
+                } else if (c.getParameterTypes().length == 0 && c.getModifiers() != Modifier.PRIVATE) {
                     noarg = c;
                 }
             }
@@ -107,7 +108,7 @@ public class InjectorInner {
                 constructor.setAccessible(true);
                 return constructor;
             }
-            throw new NeedleException(String.format("%s doesn't have an @Inject or no-arg constructor, or a module provider", key.type.getName()));
+            throw new NeedleException(String.format("%s doesn't have an @Inject or no-arg constructor which is not private, or a module provider", key.type.getName()));
 
         } catch (SecurityException e) {
             logger.error("", e);

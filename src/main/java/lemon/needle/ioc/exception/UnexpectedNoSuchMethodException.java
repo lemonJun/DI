@@ -1,4 +1,4 @@
-package org.osgl.inject;
+package lemon.needle.ioc.exception;
 
 /**
  * A `RuntimeException` version of JDK's {@link NoSuchMethodException}

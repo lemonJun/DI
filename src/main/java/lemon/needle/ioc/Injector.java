@@ -1,7 +1,8 @@
-package org.osgl.inject;
+package lemon.needle.ioc;
+
+import java.lang.annotation.Annotation;
 
 import javax.inject.Provider;
-import java.lang.annotation.Annotation;
 
 /**
  * A generic Injector interface defines the contract

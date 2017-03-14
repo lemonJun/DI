@@ -1,12 +1,8 @@
 package lemon.needle.ioc;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
 
 import javax.inject.Named;
-
-import org.osgl.inject.BeanSpec;
-import org.osgl.inject.Injector;
 
 /**
  * 由此还有两个问题没有解决：

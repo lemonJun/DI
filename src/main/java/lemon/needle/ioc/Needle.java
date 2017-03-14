@@ -3,8 +3,6 @@ package lemon.needle.ioc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import lemon.needle.NeedleModel;
-
 public class Needle {
 
     private static final Logger logger = LoggerFactory.getLogger(Needle.class);
@@ -16,7 +14,7 @@ public class Needle {
     public static InjectorImpl injector;
 
     public static void init() {
-        createInjector(new NeedleModel());
+        createInjector();
     }
 
     public static void createInjector(Module... modules) {
