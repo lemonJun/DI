@@ -1,5 +1,7 @@
 package ioc.test;
 
+import javax.inject.Provider;
+
 import org.junit.Test;
 
 import lemon.needle.ioc.Needle;
@@ -9,7 +11,7 @@ public class NeedleTest {
     static {
         Needle.init();
     }
-    
+
     @Test
     public void instance() {
         try {
@@ -57,6 +59,18 @@ public class NeedleTest {
         try {
             Sup sup = Needle.getInstance(Sup.class);
             sup.say();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void pro() {
+        try {
+            Provider<A> pa = Needle.injector.getProvider(A.class);
+            A a1 = pa.get();
+            A a2 = pa.get();
+            System.out.println(a1 == a2);
         } catch (Exception e) {
             e.printStackTrace();
         }

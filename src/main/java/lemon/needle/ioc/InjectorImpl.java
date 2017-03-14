@@ -176,7 +176,6 @@ public class InjectorImpl implements Injector {
         if (chain.contains(key)) {
             throw new NeedleException(String.format("Circular dependency: %s", invokechain(chain, key)));
         }
-        //        chain.add(key);
         return new FieldInjector(field, key, providerRecursion(key, chain));
     }
 
@@ -259,23 +258,23 @@ public class InjectorImpl implements Injector {
                 if (newChain.contains(newKey)) {
                     throw new NeedleException(String.format("Circular dependency: %s", invokechain(newChain, newKey)));
                 }
-                providers[i] = providerRecursion(newKey, newChain);
-                //                providers[i] = new Provider() {
-                //                    @Override
-                //                    public Object get() {
-                //                        return providerRecursion(newKey, newChain);
-                //                    }
-                //                };
+                //                providers[i] = providerRecursion(newKey, newChain);
+                providers[i] = new Provider() {
+                    @Override
+                    public Object get() {
+                        return providerRecursion(newKey, newChain).get();
+                    }
+                };
             } else {
                 final Key<?> newKey = Key.of(providerType, qualifier);
-                providers[i] = providerRecursion(newKey, null);
-                //                providers[i] = new Provider() {
-                //                    @SuppressWarnings("unchecked")
-                //                    @Override
-                //                    public Object get() {
-                //                        return providerRecursion(newKey, null);
-                //                    }
-                //                };
+                //                providers[i] = providerRecursion(newKey, null);
+                providers[i] = new Provider() {
+                    @SuppressWarnings("unchecked")
+                    @Override
+                    public Object get() {
+                        return providerRecursion(newKey, null);
+                    }
+                };
             }
         }
         return providers;
@@ -301,7 +300,7 @@ public class InjectorImpl implements Injector {
 
     @Override
     public <T> Provider<T> getProvider(Class<T> type) {
-        return null;
+        return providerRecursion(Key.of(type), null);
     }
 
     @Override

@@ -1,12 +1,14 @@
 package ioc.test;
 
+import javax.inject.Inject;
+
 public class D {
 
     private int i;
     private String str;
 
-    //    @Inject
-    //    private A a;
+    @Inject
+    private A a;
 
     D() {
         System.out.println("d");
