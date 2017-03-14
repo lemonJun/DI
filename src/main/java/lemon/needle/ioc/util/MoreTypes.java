@@ -1,4 +1,4 @@
-package lemon.needle.ioc;
+package lemon.needle.ioc.util;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -19,6 +19,9 @@ import javax.naming.ConfigurationException;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableMap;
+
+import lemon.needle.ioc.TypeLiteral;
+import lemon.needle.ioc.Types;
 
 /**
  * Static methods for working with types that we aren't publishing in the

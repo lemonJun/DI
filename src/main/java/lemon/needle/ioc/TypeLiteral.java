@@ -2,7 +2,7 @@ package lemon.needle.ioc;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static lemon.needle.ioc.MoreTypes.canonicalize;
+import static lemon.needle.ioc.util.MoreTypes.canonicalize;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -18,6 +18,8 @@ import java.util.List;
 import javax.inject.Provider;
 
 import com.google.common.collect.ImmutableList;
+
+import lemon.needle.ioc.util.MoreTypes;
 
 /**
  * 

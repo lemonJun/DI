@@ -10,6 +10,7 @@ import java.util.Set;
 
 import com.google.common.collect.Maps;
 
+import lemon.needle.ioc.binder.Binder;
 import lemon.needle.ioc.exception.NeedleException;
 
 public abstract class AbsModule implements Module {

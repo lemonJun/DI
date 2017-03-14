@@ -10,9 +10,10 @@ import java.util.Set;
 
 import javax.inject.Provider;
 
-import lemon.needle.ioc.MoreTypes.GenericArrayTypeImpl;
-import lemon.needle.ioc.MoreTypes.ParameterizedTypeImpl;
-import lemon.needle.ioc.MoreTypes.WildcardTypeImpl;
+import lemon.needle.ioc.util.MoreTypes;
+import lemon.needle.ioc.util.MoreTypes.GenericArrayTypeImpl;
+import lemon.needle.ioc.util.MoreTypes.ParameterizedTypeImpl;
+import lemon.needle.ioc.util.MoreTypes.WildcardTypeImpl;
 
 /**
  * Static methods for working with types.
