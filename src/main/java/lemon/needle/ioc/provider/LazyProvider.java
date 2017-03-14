@@ -1,4 +1,4 @@
-package org.osgl.inject.provider;
+package lemon.needle.ioc.provider;
 
 import javax.inject.Provider;
 
