@@ -9,7 +9,7 @@ public class NeedleTest {
     static {
         Needle.init();
     }
-
+    
     @Test
     public void instance() {
         try {
@@ -23,13 +23,14 @@ public class NeedleTest {
     public void same() {
         try {
             D c1 = Needle.getInstance(D.class);
+            D c2 = Needle.getInstance(D.class);
+            System.out.println(c1);
+            System.out.println();
+            System.out.println(c1 == c2);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //        D c2 = Needle.getInstance(D.class);
-        //        System.out.println(c1);
-        //        System.out.println();
-        //        System.out.println(c1 == c2);
+
     }
 
     @Test

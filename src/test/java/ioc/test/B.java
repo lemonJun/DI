@@ -2,7 +2,6 @@ package ioc.test;
 
 import javax.inject.Inject;
 
-
 public class B {
 
     @Inject

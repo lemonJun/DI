@@ -26,8 +26,6 @@ import lemon.needle.exception.NeedleException;
 
 public class InjectorImpl implements Injector {
 
-    //    private final Map<Class<?>, Object[][]> injectFields = new ConcurrentHashMap<>(0);
-
     private final InjectorInner innerProvider = new InjectorInner();
     private static final AtomicBoolean initOnce = new AtomicBoolean(false);
     private static final Stopwatch stopwatch = Stopwatch.createStarted();
@@ -59,8 +57,8 @@ public class InjectorImpl implements Injector {
             final Constructor<?> constructor = innerProvider.getConstructor(key);
             if (constructor != null) {
                 final Provider<?>[] paramProviders = paramProviders(key, constructor.getParameterTypes(), constructor.getGenericParameterTypes(), constructor.getParameterAnnotations(), chain);
-                Object bean = buildConstructor(key, constructor, paramProviders).get();
-                buildFieldMethodInjector(bean, key, chain);
+                buildConstructor(key, constructor, paramProviders);
+                //                buildFieldMethodInjector(bean, key, chain);
             }
         }
         return (Provider<T>) innerProvider.get(key);
@@ -81,7 +79,7 @@ public class InjectorImpl implements Injector {
         return (Provider<T>) innerProvider.get(key);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public <T> Provider<T> buildFieldMethodInjector(final Object bean, final Key key, Set<Key> chain) {
         final Set<Key> newChain = append(chain, key);
         final List<FieldInjector> fieldInjectors = fieldInjectors(key.type, newChain);

@@ -1,16 +1,12 @@
 package ioc.test;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-@Singleton
 public class D {
 
     private int i;
     private String str;
 
-    @Inject
-    private A a;
+    //    @Inject
+    //    private A a;
 
     D() {
         System.out.println("d");
@@ -30,14 +26,6 @@ public class D {
 
     public void setStr(String str) {
         this.str = str;
-    }
-
-    public A getA() {
-        return a;
-    }
-
-    public void setA(A a) {
-        this.a = a;
     }
 
     //    private D(int i) {

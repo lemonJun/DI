@@ -6,11 +6,11 @@ import javax.inject.Singleton;
 @Singleton
 public class A {
 
-    @Inject
-    B b;
+    //    @Inject
+    //    B b;
 
     @Inject
-    public A() {
+    public A(B b) {
         System.out.println("a");
     }
 }

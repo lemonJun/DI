@@ -143,7 +143,7 @@ public class Binder<T> {
             throw new NeedleException("Cannot register without binding specified");
         }
     }
-    
+
     public Key<?> key(InjectorImpl injector) {
         Key<?> key = Key.of(type, qualifier, name);
         key.setScope(scope);
