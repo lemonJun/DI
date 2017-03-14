@@ -10,11 +10,11 @@ import javax.inject.Scope;
 
 import com.google.common.base.Preconditions;
 
+import lemon.needle.exception.NeedleException;
 import lemon.needle.ioc.InjectorImpl;
 import lemon.needle.ioc.Key;
-import lemon.needle.ioc.exception.NeedleException;
 import lemon.needle.ioc.provider.LazyProvider;
-import lemon.needle.ioc.util.CommonUtil;
+import lemon.needle.util.CommonUtil;
 
 public class Binder<T> {
     private Class<T> type;

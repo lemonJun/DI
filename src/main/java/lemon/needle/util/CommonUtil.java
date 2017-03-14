@@ -1,4 +1,4 @@
-package lemon.needle.ioc.util;
+package lemon.needle.util;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
@@ -14,7 +14,7 @@ import javax.inject.Provider;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 
-import lemon.needle.ioc.exception.UnexpectedMethodInvocationException;
+import lemon.needle.exception.UnexpectedMethodInvocationException;
 
 public class CommonUtil {
     private static Map<Object, Class<?>> __primitiveTypes = new HashMap<Object, Class<?>>();

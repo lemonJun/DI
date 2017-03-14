@@ -22,7 +22,7 @@ import javax.inject.Singleton;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 
-import lemon.needle.ioc.exception.NeedleException;
+import lemon.needle.exception.NeedleException;
 
 public class InjectorImpl implements Injector {
 

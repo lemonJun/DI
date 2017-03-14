@@ -1,4 +1,4 @@
-package lemon.needle.ioc.exception;
+package lemon.needle.exception;
 
 /**
  * A `RuntimeException` version of JDK's {@link NoSuchMethodException}

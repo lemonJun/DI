@@ -4,8 +4,8 @@ import java.lang.reflect.Method;
 
 import javax.inject.Provider;
 
-import lemon.needle.ioc.exception.NeedleException;
-import lemon.needle.ioc.util.CommonUtil;
+import lemon.needle.exception.NeedleException;
+import lemon.needle.util.CommonUtil;
 
 public class MethodInjector {
 

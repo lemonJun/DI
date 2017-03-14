@@ -1,4 +1,4 @@
-package lemon.needle.ioc.exception;
+package lemon.needle.exception;
 
 /**
  * thrown by cass.toolbox.ioc

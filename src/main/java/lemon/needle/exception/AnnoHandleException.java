@@ -1,4 +1,4 @@
-package lemon.needle.ioc.exception;
+package lemon.needle.exception;
 
 /**
  * Thrown when handling an annotation.

@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 
 import javax.inject.Provider;
 
-import lemon.needle.ioc.exception.NeedleException;
+import lemon.needle.exception.NeedleException;
 
 public class FieldInjector {
     private final Field field;

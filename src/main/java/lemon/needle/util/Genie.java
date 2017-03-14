@@ -1,4 +1,4 @@
-package lemon.needle.ioc.util;
+package lemon.needle.util;
 //package org.osgl.inject;
 //
 //import java.lang.annotation.Annotation;

@@ -1,5 +1,5 @@
 /**ObjectUtils.java*/
-package lemon.needle.ioc.util;
+package lemon.needle.util;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;

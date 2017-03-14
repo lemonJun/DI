@@ -1,4 +1,4 @@
-package lemon.needle.ioc.exception;
+package lemon.needle.exception;
 
 public class NeedleException extends RuntimeException {
     private static final long serialVersionUID = -826621518011541540L;

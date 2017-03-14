@@ -23,9 +23,9 @@ import javax.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import lemon.needle.exception.NeedleException;
 import lemon.needle.ioc.annotations.ImplementedBy;
 import lemon.needle.ioc.annotations.Provides;
-import lemon.needle.ioc.exception.NeedleException;
 
 /**
  * 

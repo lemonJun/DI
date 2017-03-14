@@ -1,5 +1,5 @@
 /**Collections.java*/
-package lemon.needle.ioc.util;
+package lemon.needle.util;
 
 import java.util.Arrays;
 import java.util.Collection;

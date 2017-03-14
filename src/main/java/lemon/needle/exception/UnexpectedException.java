@@ -1,4 +1,4 @@
-package lemon.needle.ioc.exception;
+package lemon.needle.exception;
 
 /**
  * Could be used when programmer think it is not logic to reach somewhere. 
