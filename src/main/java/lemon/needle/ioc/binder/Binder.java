@@ -2,6 +2,7 @@ package lemon.needle.ioc.binder;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.HashSet;
 
 import javax.inject.Provider;
@@ -13,6 +14,7 @@ import com.google.common.base.Preconditions;
 import lemon.needle.exception.NeedleException;
 import lemon.needle.ioc.InjectorImpl;
 import lemon.needle.ioc.Key;
+import lemon.needle.ioc.Matcher;
 import lemon.needle.ioc.provider.LazyProvider;
 import lemon.needle.util.CommonUtil;
 
@@ -26,6 +28,20 @@ public class Binder<T> {
     private boolean fireEvent;
     private Constructor<? extends T> constructor;
     private Class<? extends T> impl;
+
+    /**
+     * 
+     * @param classMatcher  过滤类 
+     * @param methodMatcher 过滤方法
+     * @param interceptors  方法拦截器
+     */
+    public void bindInterceptor(Matcher<? super Class<?>> classMatcher, Matcher<? super Method> methodMatcher, org.aopalliance.intercept.MethodInterceptor... interceptors) {
+
+    }
+    
+    public Binder() {
+        this.fireEvent = true;
+    }
 
     public Binder(Class<T> type) {
         this.type = type;

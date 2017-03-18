@@ -15,7 +15,7 @@ import lemon.needle.ioc.binder.Binder;
 
 public abstract class AbsModule implements Module {
 
-    private List<Binder> binders = new ArrayList<Binder>();
+    private List<Binder<?>> binders = new ArrayList<Binder<?>>();
     private Set<Class<? extends Annotation>> qualifiers = new HashSet<Class<? extends Annotation>>();
     //    private Map<Class<?>, GenericTypedBeanLoader<?>> genericTypedBeanLoaders = new HashMap<Class<?>, GenericTypedBeanLoader<?>>();
     //    private boolean configured;
