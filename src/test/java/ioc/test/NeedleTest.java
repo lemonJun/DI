@@ -16,6 +16,10 @@ public class NeedleTest {
     public void instance() {
         try {
             A a = Needle.getInstance(A.class);
+            B b1 = a.getB();
+            A a2 = Needle.getInstance(A.class);
+            B b2 = a2.getB();
+            System.out.println(b1 == b2);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -26,8 +30,6 @@ public class NeedleTest {
         try {
             D c1 = Needle.getInstance(D.class);
             D c2 = Needle.getInstance(D.class);
-            System.out.println(c1);
-            System.out.println();
             System.out.println(c1 == c2);
         } catch (Exception e) {
             e.printStackTrace();

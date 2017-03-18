@@ -58,7 +58,6 @@ public class InjectorImpl implements Injector {
             if (constructor != null) {
                 final Provider<?>[] paramProviders = paramProviders(key, constructor.getParameterTypes(), constructor.getGenericParameterTypes(), constructor.getParameterAnnotations(), chain);
                 buildConstructor(key, constructor, paramProviders);
-                //                
             }
         }
         return (Provider<T>) innerProvider.get(key);
@@ -82,32 +81,20 @@ public class InjectorImpl implements Injector {
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public <T> Provider<T> buildFieldMethodInjector(final Object bean, final Key key, Set<Key> chain) {
+    public void buildFieldMethodInjector(final Object bean, final Key key, Set<Key> chain) {
         final Set<Key> newChain = append(chain, key);
         final List<FieldInjector> fieldInjectors = fieldInjectors(key.type, newChain);
         final List<MethodInjector> methodInjectors = methodInjectors(key.type, newChain);
         try {
-            return new Provider() {
-                @Override
-                public Object get() {
-                    try {
-                        for (FieldInjector fj : fieldInjectors) {
-                            try {
-                                fj.applyTo(bean);
-                            } finally {
-                            }
-                        }
-                        for (MethodInjector mj : methodInjectors) {
-                            mj.applyTo(bean);
-                        }
-                        return bean;
-                    } catch (RuntimeException e) {
-                        throw e;
-                    } catch (Exception e) {
-                        throw new NeedleException(e, "cannot instantiate %s", key);
-                    }
+            for (FieldInjector fj : fieldInjectors) {
+                try {
+                    fj.applyTo(bean);
+                } finally {
                 }
-            };
+            }
+            for (MethodInjector mj : methodInjectors) {
+                mj.applyTo(bean);
+            }
         } catch (Exception e) {
             throw new NeedleException(e, "method inject %s", key);
         }
@@ -272,11 +259,13 @@ public class InjectorImpl implements Injector {
                 final Key<?> newKey = Key.of(providerType, qualifier);
                 //                providers[i] = providerRecursion(newKey, null);
                 providers[i] = new Provider() {
+
                     @SuppressWarnings("unchecked")
                     @Override
                     public Object get() {
                         return providerRecursion(newKey, null);
                     }
+
                 };
             }
         }
