@@ -58,7 +58,7 @@ public class InjectorImpl implements Injector {
             if (constructor != null) {
                 final Provider<?>[] paramProviders = paramProviders(key, constructor.getParameterTypes(), constructor.getGenericParameterTypes(), constructor.getParameterAnnotations(), chain);
                 buildConstructor(key, constructor, paramProviders);
-                //                buildFieldMethodInjector(bean, key, chain);
+                //                
             }
         }
         return (Provider<T>) innerProvider.get(key);
@@ -70,7 +70,9 @@ public class InjectorImpl implements Injector {
             @Override
             public Object get() {
                 try {
-                    return constructor.newInstance(params(paramProviders));
+                    Object obj = constructor.newInstance(params(paramProviders));
+                    buildFieldMethodInjector(obj, key, null);
+                    return obj;
                 } catch (Exception e) {
                     throw new NeedleException(String.format("Can't instantiate %s", key.toString()), e);
                 }
@@ -192,7 +194,8 @@ public class InjectorImpl implements Injector {
             @Override
             public Object get() {
                 try {
-                    return m.invoke(module, params(paramProviders));
+                    Object obj = m.invoke(module, params(paramProviders));
+                    return obj;
                 } catch (Exception e) {
                     throw new NeedleException(String.format("Can't instantiate %s with provider", key.toString()), e);
                 }
@@ -282,7 +285,7 @@ public class InjectorImpl implements Injector {
 
     //获取其构造方法
     @SuppressWarnings("rawtypes")
-    public Provider buildConstructor(final Constructor constructor, final Key<?> key, final Set<Key> chain) {
+    public Provider bindConstructor(final Constructor constructor, final Key<?> key, final Set<Key> chain) {
         Type[] ta = constructor.getGenericParameterTypes();
         Annotation[][] aaa = constructor.getParameterAnnotations();
         final Provider[] pp = paramProviders(key, constructor.getParameterTypes(), ta, aaa, chain);
@@ -290,7 +293,9 @@ public class InjectorImpl implements Injector {
             @Override
             public Object get() {
                 try {
-                    return constructor.newInstance(params(pp));
+                    Object obj = constructor.newInstance(params(pp));
+                    buildFieldMethodInjector(obj, key, chain);
+                    return obj;
                 } catch (Exception e) {
                     throw new NeedleException(e, "cannot instantiate %s", key);
                 }

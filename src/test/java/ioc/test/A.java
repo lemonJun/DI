@@ -6,7 +6,7 @@ public class A {
 
     @Inject
     B b;
-
+    
     @Inject
     public A() {
         System.out.println("a");

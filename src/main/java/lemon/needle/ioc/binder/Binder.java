@@ -134,7 +134,7 @@ public class Binder<T> {
         Key<?> key = Key.of(type, qualifier, name);
         if (null == provider) {
             if (null != constructor) {
-                provider = injector.buildConstructor(constructor, key, new HashSet<Key>());
+                provider = injector.bindConstructor(constructor, key, new HashSet<Key>());
             } else if (null != impl) {
                 provider = new LazyProvider<>(impl, injector);
             }
