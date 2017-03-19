@@ -1,10 +1,11 @@
-package lemon.needle.ioc;
+package lemon.needle.ioc.binder;
 
 import java.lang.reflect.Field;
 
 import javax.inject.Provider;
 
 import lemon.needle.exception.NeedleException;
+import lemon.needle.ioc.Key;
 
 public class FieldInjector {
     private final Field field;

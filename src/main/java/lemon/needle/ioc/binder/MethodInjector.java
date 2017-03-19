@@ -1,4 +1,4 @@
-package lemon.needle.ioc;
+package lemon.needle.ioc.binder;
 
 import java.lang.reflect.Method;
 
@@ -12,7 +12,7 @@ public class MethodInjector {
     private final Method method;
     private final Provider<?>[] providers;
 
-    MethodInjector(Method method, Provider<?>[] providers) {
+    public MethodInjector(Method method, Provider<?>[] providers) {
         this.method = method;
         this.providers = providers;
     }

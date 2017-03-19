@@ -23,6 +23,8 @@ import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 
 import lemon.needle.exception.NeedleException;
+import lemon.needle.ioc.binder.FieldInjector;
+import lemon.needle.ioc.binder.MethodInjector;
 
 public class InjectorImpl implements Injector {
 

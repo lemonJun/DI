@@ -3,7 +3,6 @@ package lemon.needle.ioc;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -21,9 +20,6 @@ public abstract class AbsModule implements Module {
     private List<Binder<?>> binders = new ArrayList<Binder<?>>();
     private Set<Class<? extends Annotation>> qualifiers = new HashSet<Class<? extends Annotation>>();
 
-    //    private Map<Class<?>, GenericTypedBeanLoader<?>> genericTypedBeanLoaders = new HashMap<Class<?>, GenericTypedBeanLoader<?>>();
-    //    private boolean configured;
-
     protected final <T> Binder<T> bind(Class<T> type) {
         Binder<T> binder = new Binder<T>(type);
         binders.add(binder);
@@ -40,12 +36,7 @@ public abstract class AbsModule implements Module {
     protected void bindInterceptor(Matcher<? super Class<?>> classMatcher, Matcher<? super Method> methodMatcher, MethodInterceptor... interceptors) {
 
     }
-
-    protected final AbsModule registerQualifiers(Class<? extends Annotation>... qualifiers) {
-        this.qualifiers.addAll(Arrays.asList(qualifiers));
-        return this;
-    }
-
+    
     public abstract void configure();
 
     final void applyTo(InjectorImpl injector) {
@@ -66,5 +57,10 @@ public abstract class AbsModule implements Module {
             map.put(spec, binder);
         }
     }
+
+    //    protected final AbsModule registerQualifiers(Class<? extends Annotation>... qualifiers) {
+    //        this.qualifiers.addAll(Arrays.asList(qualifiers));
+    //        return this;
+    //    }
 
 }
