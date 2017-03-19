@@ -9,6 +9,8 @@ import javax.inject.Provider;
 import javax.inject.Qualifier;
 import javax.inject.Scope;
 
+import org.aopalliance.intercept.MethodInterceptor;
+
 import com.google.common.base.Preconditions;
 
 import lemon.needle.exception.NeedleException;
@@ -22,26 +24,17 @@ public class Binder<T> {
     private Class<T> type;
     private String name;
     private Provider<? extends T> provider;
-    private Class<? extends Annotation> qualifier;//先中实现一个名称绑定
+
+    //要求注解归属于Qualifier注解  如Named
+    private Class<? extends Annotation> qualifier;
+    //
     private Class<? extends Annotation> scope;
+    @SuppressWarnings("unused")
     private boolean forceFireEvent;
+    @SuppressWarnings("unused")
     private boolean fireEvent;
     private Constructor<? extends T> constructor;
     private Class<? extends T> impl;
-
-    /**
-     * 
-     * @param classMatcher  过滤类 
-     * @param methodMatcher 过滤方法
-     * @param interceptors  方法拦截器
-     */
-    public void bindInterceptor(Matcher<? super Class<?>> classMatcher, Matcher<? super Method> methodMatcher, org.aopalliance.intercept.MethodInterceptor... interceptors) {
-
-    }
-
-    public Binder() {
-        this.fireEvent = true;
-    }
 
     public Binder(Class<T> type) {
         this.type = type;
@@ -122,9 +115,6 @@ public class Binder<T> {
      * @see Qualifier
      */
     public Binder<T> withAnnotation(Class<? extends Annotation> annotation) {
-        //        for (Class<? extends Annotation> annotation : annotations) {
-        //            this.annotations.add(AnnotationUtil.createAnnotation(annotation));
-        //        }
         this.qualifier = annotation;
         this.fireEvent = false;
         return this;
@@ -142,10 +132,29 @@ public class Binder<T> {
         return this;
     }
 
+    /**
+     * 
+     */
+    public void in(Scope scope) {
+
+    }
+
+    /**
+     * 
+     * Instructs the {@link com.google.inject.Injector} to eagerly initialize this
+     * singleton-scoped binding upon creation. Useful for application
+     * initialization logic.  See the EDSL examples at
+     * {@link com.google.inject.Binder}.
+     */
+    public void asEagerSingleton() {
+
+    }
+
     boolean bound() {
         return null != provider || null != constructor || impl != null;
     }
 
+    @SuppressWarnings("unchecked")
     public void register(InjectorImpl injector) {
         Key<?> key = Key.of(type, qualifier, name);
         if (null == provider) {
