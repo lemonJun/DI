@@ -16,13 +16,10 @@ import com.google.common.collect.ImmutableMap;
  */
 final class DefaultConstructionProxyFactory<T> implements ConstructionProxyFactory<T> {
 
-    private final InjectionPoint injectionPoint;
-
     /** @param injectionPoint an injection point whose member is a constructor of {@code T}. */
-    DefaultConstructionProxyFactory(InjectionPoint injectionPoint) {
-        this.injectionPoint = injectionPoint;
+    DefaultConstructionProxyFactory() {
     }
-    
+
     @Override
     public ConstructionProxy<T> create() {
         @SuppressWarnings("unchecked") // the injection point is for a constructor of T
@@ -59,7 +56,7 @@ final class DefaultConstructionProxyFactory<T> implements ConstructionProxyFacto
             this.fc = fc;
             this.index = index;
         }
-        
+
         @Override
         @SuppressWarnings("unchecked")
         public T newInstance(Object... arguments) throws InvocationTargetException {

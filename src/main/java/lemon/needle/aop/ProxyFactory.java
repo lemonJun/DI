@@ -32,21 +32,18 @@ final class ProxyFactory<T> implements ConstructionProxyFactory<T> {
 
     private static final Logger logger = Logger.getLogger(ProxyFactory.class.getName());
 
-    private final InjectionPoint injectionPoint;
     private final ImmutableMap<Method, List<MethodInterceptor>> interceptors;
     private final Class<T> declaringClass;
     private final List<Method> methods;
     private final Callback[] callbacks;
-
+    
     /**
      * PUBLIC is default; it's used if all the methods we're intercepting are public. This impacts
      * which classloader we should use for loading the enhanced class
      */
     private BytecodeGen.Visibility visibility = BytecodeGen.Visibility.PUBLIC;
-
-    ProxyFactory(InjectionPoint injectionPoint, Iterable<MethodAspect> methodAspects) {
-        this.injectionPoint = injectionPoint;
-
+    
+    ProxyFactory(Iterable<MethodAspect> methodAspects) {
         @SuppressWarnings("unchecked") // the member of injectionPoint is always a Constructor<T>
         Constructor<T> constructor = (Constructor<T>) injectionPoint.getMember();
         declaringClass = constructor.getDeclaringClass();
@@ -128,7 +125,7 @@ final class ProxyFactory<T> implements ConstructionProxyFactory<T> {
     @Override
     public ConstructionProxy<T> create() throws Exception {
         if (interceptors.isEmpty()) {
-            return new DefaultConstructionProxyFactory<T>(injectionPoint).create();
+            return new DefaultConstructionProxyFactory<T>().create();
         }
 
         @SuppressWarnings("unchecked")
@@ -210,18 +207,16 @@ final class ProxyFactory<T> implements ConstructionProxyFactory<T> {
     /** Constructs instances that participate in AOP. */
     private static class ProxyConstructor<T> implements ConstructionProxy<T> {
         final Class<?> enhanced;
-        final InjectionPoint injectionPoint;
         final Constructor<T> constructor;
         final Callback[] callbacks;
 
         final int constructorIndex;
         final ImmutableMap<Method, List<MethodInterceptor>> methodInterceptors;
         final FastClass fastClass;
-
+        
         @SuppressWarnings("unchecked") // the constructor promises to construct 'T's
-        ProxyConstructor(Enhancer enhancer, InjectionPoint injectionPoint, Callback[] callbacks, ImmutableMap<Method, List<MethodInterceptor>> methodInterceptors) {
+        ProxyConstructor(Enhancer enhancer, Callback[] callbacks, ImmutableMap<Method, List<MethodInterceptor>> methodInterceptors) {
             this.enhanced = enhancer.createClass(); // this returns a cached class if possible
-            this.injectionPoint = injectionPoint;
             this.constructor = (Constructor<T>) injectionPoint.getMember();
             this.callbacks = callbacks;
             this.methodInterceptors = methodInterceptors;
