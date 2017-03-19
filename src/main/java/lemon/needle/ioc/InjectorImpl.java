@@ -204,22 +204,6 @@ public class InjectorImpl implements Injector {
         }
     }
 
-    @SuppressWarnings("unused")
-    private Set<Field> fields(Class<?> type) {
-        Class<?> current = type;
-        Set<Field> fields = new HashSet<>();
-        while (!current.equals(Object.class)) {
-            for (Field field : current.getDeclaredFields()) {
-                if (subjectToInject(field)) {
-                    field.setAccessible(true);
-                    fields.add(field);
-                }
-            }
-            current = current.getSuperclass();
-        }
-        return fields;
-    }
-
     @SuppressWarnings({ "rawtypes" })
     private String invokechain(Set<Key> chain, Key lastKey) {
         StringBuilder chainString = new StringBuilder();
@@ -264,24 +248,41 @@ public class InjectorImpl implements Injector {
         return providers;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public <T> Provider<T> buildConstructor(final Key key, Constructor<?> constructor, final Set<Key> chain) {
         Type[] ta = constructor.getGenericParameterTypes();
         Annotation[][] aaa = constructor.getParameterAnnotations();
         final Provider[] pp = paramProviders(key, constructor.getParameterTypes(), ta, aaa, chain);
-        innerProvider.put(key, innerProvider.singletonProvider(key, key.type.getAnnotation(Singleton.class), new Provider() {
-            @Override
-            public Object get() {
-                try {
-                    Object obj = constructor.newInstance(params(pp));
-                    buildFieldMethodInjector(obj, key, null);
-                    return obj;
-                } catch (Exception e) {
-                    throw new NeedleException(String.format("Can't instantiate %s", key.toString()), e);
-                }
-            }
-        }));
+        InnerProvider provider = new InnerProvider(key, constructor, pp);
+        innerProvider.put(key, innerProvider.singletonProvider(key, key.type.getAnnotation(Singleton.class), provider));
         return (Provider<T>) innerProvider.get(key);
+    }
+
+    class InnerProvider<T> implements Provider<T> {
+        @SuppressWarnings("rawtypes")
+        private Key key;
+        private Constructor<?> constructor;
+        @SuppressWarnings("rawtypes")
+        private Provider[] pp;
+        
+        @SuppressWarnings("rawtypes")
+        public InnerProvider(Key key, Constructor<?> constructor, Provider[] pp) {
+            this.key = key;
+            this.constructor = constructor;
+            this.pp = pp;
+        }
+
+        @SuppressWarnings("unchecked")
+        @Override
+        public T get() {
+            try {
+                Object obj = constructor.newInstance(params(pp));
+                buildFieldMethodInjector(obj, key, null);
+                return (T) obj;
+            } catch (Exception e) {
+                throw new NeedleException(String.format("Can't instantiate %s", key.toString()), e);
+            }
+        }
     }
 
     @Override

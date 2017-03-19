@@ -17,9 +17,6 @@ interface ConstructionProxy<T> {
     /** Constructs an instance of {@code T} for the given arguments. */
     T newInstance(Object... arguments) throws InvocationTargetException;
 
-    /** Returns the injection point for this constructor. */
-    InjectionPoint getInjectionPoint();
-
     /**
      * Returns the injected constructor. If the injected constructor is synthetic (such as generated
      * code for method interception), the natural constructor is returned.

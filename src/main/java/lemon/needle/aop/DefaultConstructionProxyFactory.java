@@ -22,7 +22,7 @@ final class DefaultConstructionProxyFactory<T> implements ConstructionProxyFacto
     DefaultConstructionProxyFactory(InjectionPoint injectionPoint) {
         this.injectionPoint = injectionPoint;
     }
-
+    
     @Override
     public ConstructionProxy<T> create() {
         @SuppressWarnings("unchecked") // the injection point is for a constructor of T
@@ -37,41 +37,34 @@ final class DefaultConstructionProxyFactory<T> implements ConstructionProxyFacto
                 // We could just fall back to reflection in this case but I believe this should actually
                 // be impossible.
                 Preconditions.checkArgument(index >= 0, "Could not find constructor %s in fast class", constructor);
-                return new FastClassProxy<T>(injectionPoint, constructor, fc, index);
+                return new FastClassProxy<T>(constructor, fc, index);
             }
         } catch (net.sf.cglib.core.CodeGenerationException e) {
             /* fall-through */
         }
         /*end[AOP]*/
-
-        return new ReflectiveProxy<T>(injectionPoint, constructor);
+        return new ReflectiveProxy<T>(constructor);
     }
 
+    //这个是利用cglib的fastclass
     /*if[AOP]*/
     /** A {@link ConstructionProxy} that uses FastClass to invoke the constructor. */
     private static final class FastClassProxy<T> implements ConstructionProxy<T> {
-        final InjectionPoint injectionPoint;
         final Constructor<T> constructor;
         final net.sf.cglib.reflect.FastClass fc;
         final int index;
 
-        private FastClassProxy(InjectionPoint injectionPoint, Constructor<T> constructor, net.sf.cglib.reflect.FastClass fc, int index) {
-            this.injectionPoint = injectionPoint;
+        private FastClassProxy(Constructor<T> constructor, net.sf.cglib.reflect.FastClass fc, int index) {
             this.constructor = constructor;
             this.fc = fc;
             this.index = index;
         }
-
+        
         @Override
         @SuppressWarnings("unchecked")
         public T newInstance(Object... arguments) throws InvocationTargetException {
             // Use this method instead of FastConstructor to save a stack frame
             return (T) fc.newInstance(index, arguments);
-        }
-
-        @Override
-        public InjectionPoint getInjectionPoint() {
-            return injectionPoint;
         }
 
         @Override
@@ -86,15 +79,14 @@ final class DefaultConstructionProxyFactory<T> implements ConstructionProxyFacto
     }
     /*end[AOP]*/
 
+    //使用反射
     private static final class ReflectiveProxy<T> implements ConstructionProxy<T> {
         final Constructor<T> constructor;
-        final InjectionPoint injectionPoint;
 
-        ReflectiveProxy(InjectionPoint injectionPoint, Constructor<T> constructor) {
+        ReflectiveProxy(Constructor<T> constructor) {
             if (!Modifier.isPublic(constructor.getDeclaringClass().getModifiers()) || !Modifier.isPublic(constructor.getModifiers())) {
                 constructor.setAccessible(true);
             }
-            this.injectionPoint = injectionPoint;
             this.constructor = constructor;
         }
 
@@ -107,11 +99,6 @@ final class DefaultConstructionProxyFactory<T> implements ConstructionProxyFacto
             } catch (IllegalAccessException e) {
                 throw new AssertionError(e); // a security manager is blocking us, we're hosed
             }
-        }
-
-        @Override
-        public InjectionPoint getInjectionPoint() {
-            return injectionPoint;
         }
 
         @Override

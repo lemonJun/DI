@@ -2,21 +2,17 @@ package lemon.needle.ioc.binder;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.util.HashSet;
 
 import javax.inject.Provider;
 import javax.inject.Qualifier;
 import javax.inject.Scope;
 
-import org.aopalliance.intercept.MethodInterceptor;
-
 import com.google.common.base.Preconditions;
 
 import lemon.needle.exception.NeedleException;
 import lemon.needle.ioc.InjectorImpl;
 import lemon.needle.ioc.Key;
-import lemon.needle.ioc.Matcher;
 import lemon.needle.ioc.provider.LazyProvider;
 import lemon.needle.util.CommonUtil;
 
@@ -27,7 +23,6 @@ public class Binder<T> {
 
     //要求注解归属于Qualifier注解  如Named
     private Class<? extends Annotation> qualifier;
-    //
     private Class<? extends Annotation> scope;
     @SuppressWarnings("unused")
     private boolean forceFireEvent;
@@ -47,7 +42,7 @@ public class Binder<T> {
         this.fireEvent = false;
         return this;
     }
-
+    
     public Binder<T> to(final Class<? extends T> impl) {
         ensureNoBinding();
         Preconditions.checkNotNull(impl);

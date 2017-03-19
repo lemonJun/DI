@@ -46,7 +46,7 @@ final class ProxyFactory<T> implements ConstructionProxyFactory<T> {
 
     ProxyFactory(InjectionPoint injectionPoint, Iterable<MethodAspect> methodAspects) {
         this.injectionPoint = injectionPoint;
-        
+
         @SuppressWarnings("unchecked") // the member of injectionPoint is always a Constructor<T>
         Constructor<T> constructor = (Constructor<T>) injectionPoint.getMember();
         declaringClass = constructor.getDeclaringClass();
@@ -228,8 +228,8 @@ final class ProxyFactory<T> implements ConstructionProxyFactory<T> {
             this.fastClass = BytecodeGen.newFastClassForMember(enhanced, constructor);
             this.constructorIndex = fastClass.getIndex(constructor.getParameterTypes());
         }
-        
-        @Override 
+
+        @Override
         @SuppressWarnings("unchecked") // the constructor promises to produce 'T's
         public T newInstance(Object... arguments) throws InvocationTargetException {
             Enhancer.registerCallbacks(enhanced, callbacks);
@@ -238,11 +238,6 @@ final class ProxyFactory<T> implements ConstructionProxyFactory<T> {
             } finally {
                 Enhancer.registerCallbacks(enhanced, null);
             }
-        }
-
-        @Override
-        public InjectionPoint getInjectionPoint() {
-            return injectionPoint;
         }
 
         @Override

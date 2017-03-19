@@ -19,7 +19,6 @@ public class Key<T> {
     final Class<T> type;
     //也就是Named注解
     final Class<? extends Annotation> qualifier;
-    //通过Named注解所起的名称
     final String name;
     private final TypeLiteral<T> typeLiteral;
     private Class<? extends Annotation> scope;

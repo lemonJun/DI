@@ -62,6 +62,7 @@ public class InjectorInner {
         return providers.containsKey(key);
     }
 
+    @SuppressWarnings("unchecked")
     public <T> Provider<T> get(Key<?> key) {
         return (Provider<T>) providers.get(key);
     }
@@ -83,7 +84,7 @@ public class InjectorInner {
         } : provider;
     }
 
-    //
+    //获取一个类的构造函数
     Constructor<?> getConstructor(Key<?> key) {
         try {
             Constructor<?> inject = null;
