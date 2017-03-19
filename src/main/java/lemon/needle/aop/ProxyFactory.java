@@ -228,8 +228,8 @@ final class ProxyFactory<T> implements ConstructionProxyFactory<T> {
             this.fastClass = BytecodeGen.newFastClassForMember(enhanced, constructor);
             this.constructorIndex = fastClass.getIndex(constructor.getParameterTypes());
         }
-
-        @Override
+        
+        @Override 
         @SuppressWarnings("unchecked") // the constructor promises to produce 'T's
         public T newInstance(Object... arguments) throws InvocationTargetException {
             Enhancer.registerCallbacks(enhanced, callbacks);

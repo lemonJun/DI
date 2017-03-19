@@ -154,12 +154,11 @@ public class Binder<T> {
         return null != provider || null != constructor || impl != null;
     }
 
-    @SuppressWarnings("unchecked")
     public void register(InjectorImpl injector) {
         Key<?> key = Key.of(type, qualifier, name);
         if (null == provider) {
             if (null != constructor) {
-                provider = injector.bindConstructor(constructor, key, new HashSet<Key>());
+                provider = injector.buildConstructor(key, constructor, new HashSet<Key>());
             } else if (null != impl) {
                 provider = new LazyProvider<>(impl, injector);
             }

@@ -156,7 +156,7 @@ public final class BytecodeGen {
         if (delegate == GUICE_CLASS_LOADER || delegate instanceof BridgeClassLoader) {
             return delegate;
         }
-        
+
         // don't try bridging private types as it won't work
         if (Visibility.forType(type) == Visibility.PUBLIC) {
             if (delegate != SystemBridgeHolder.SYSTEM_BRIDGE.getParent()) {

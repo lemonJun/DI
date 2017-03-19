@@ -19,6 +19,9 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 
@@ -27,6 +30,8 @@ import lemon.needle.ioc.binder.FieldInjector;
 import lemon.needle.ioc.binder.MethodInjector;
 
 public class InjectorImpl implements Injector {
+
+    private static final Logger logger = LoggerFactory.getLogger(InjectorImpl.class);
 
     private final InjectorInner innerProvider = new InjectorInner();
     private static final AtomicBoolean initOnce = new AtomicBoolean(false);
@@ -58,27 +63,10 @@ public class InjectorImpl implements Injector {
         if (!innerProvider.containsKey(key)) {
             final Constructor<?> constructor = innerProvider.getConstructor(key);
             if (constructor != null) {
-                final Provider<?>[] paramProviders = paramProviders(key, constructor.getParameterTypes(), constructor.getGenericParameterTypes(), constructor.getParameterAnnotations(), chain);
-                buildConstructor(key, constructor, paramProviders);
+                //                final Provider<?>[] paramProviders = paramProviders(key, constructor.getParameterTypes(), constructor.getGenericParameterTypes(), constructor.getParameterAnnotations(), chain);
+                buildConstructor(key, constructor, chain);
             }
         }
-        return (Provider<T>) innerProvider.get(key);
-    }
-
-    @SuppressWarnings("unchecked")
-    public <T> Provider<T> buildConstructor(final Key<T> key, Constructor<?> constructor, Provider<?>[] paramProviders) {
-        innerProvider.put(key, innerProvider.singletonProvider(key, key.type.getAnnotation(Singleton.class), new Provider() {
-            @Override
-            public Object get() {
-                try {
-                    Object obj = constructor.newInstance(params(paramProviders));
-                    buildFieldMethodInjector(obj, key, null);
-                    return obj;
-                } catch (Exception e) {
-                    throw new NeedleException(String.format("Can't instantiate %s", key.toString()), e);
-                }
-            }
-        }));
         return (Provider<T>) innerProvider.get(key);
     }
 
@@ -91,11 +79,16 @@ public class InjectorImpl implements Injector {
             for (FieldInjector fj : fieldInjectors) {
                 try {
                     fj.applyTo(bean);
-                } finally {
+                } catch (Exception e) {
+                    logger.error("", e);
                 }
             }
             for (MethodInjector mj : methodInjectors) {
-                mj.applyTo(bean);
+                try {
+                    mj.applyTo(bean);
+                } catch (Exception e) {
+                    logger.error("", e);
+                }
             }
         } catch (Exception e) {
             throw new NeedleException(e, "method inject %s", key);
@@ -250,7 +243,6 @@ public class InjectorImpl implements Injector {
                 if (newChain.contains(newKey)) {
                     throw new NeedleException(String.format("Circular dependency: %s", invokechain(newChain, newKey)));
                 }
-                //                providers[i] = providerRecursion(newKey, newChain);
                 providers[i] = new Provider() {
                     @Override
                     public Object get() {
@@ -259,9 +251,7 @@ public class InjectorImpl implements Injector {
                 };
             } else {
                 final Key<?> newKey = Key.of(providerType, qualifier);
-                //                providers[i] = providerRecursion(newKey, null);
                 providers[i] = new Provider() {
-
                     @SuppressWarnings("unchecked")
                     @Override
                     public Object get() {
@@ -274,24 +264,24 @@ public class InjectorImpl implements Injector {
         return providers;
     }
 
-    //获取其构造方法
-    @SuppressWarnings("rawtypes")
-    public Provider bindConstructor(final Constructor constructor, final Key<?> key, final Set<Key> chain) {
+    @SuppressWarnings("unchecked")
+    public <T> Provider<T> buildConstructor(final Key key, Constructor<?> constructor, final Set<Key> chain) {
         Type[] ta = constructor.getGenericParameterTypes();
         Annotation[][] aaa = constructor.getParameterAnnotations();
         final Provider[] pp = paramProviders(key, constructor.getParameterTypes(), ta, aaa, chain);
-        return new Provider() {
+        innerProvider.put(key, innerProvider.singletonProvider(key, key.type.getAnnotation(Singleton.class), new Provider() {
             @Override
             public Object get() {
                 try {
                     Object obj = constructor.newInstance(params(pp));
-                    buildFieldMethodInjector(obj, key, chain);
+                    buildFieldMethodInjector(obj, key, null);
                     return obj;
                 } catch (Exception e) {
-                    throw new NeedleException(e, "cannot instantiate %s", key);
+                    throw new NeedleException(String.format("Can't instantiate %s", key.toString()), e);
                 }
             }
-        };
+        }));
+        return (Provider<T>) innerProvider.get(key);
     }
 
     @Override
