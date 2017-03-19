@@ -38,7 +38,7 @@ public class Binder<T> {
     public void bindInterceptor(Matcher<? super Class<?>> classMatcher, Matcher<? super Method> methodMatcher, org.aopalliance.intercept.MethodInterceptor... interceptors) {
 
     }
-    
+
     public Binder() {
         this.fireEvent = true;
     }

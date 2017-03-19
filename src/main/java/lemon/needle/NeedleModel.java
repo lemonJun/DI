@@ -16,7 +16,7 @@ public class NeedleModel extends AbsModule {
     public void configure() {
         bind(Sup.class).to(ImplSup.class);
     }
-
+    
     @Singleton
     @Provides
     Map maps() {
