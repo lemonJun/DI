@@ -20,7 +20,7 @@ import lemon.needle.ioc.Matcher;
 public class Matchers {
     private Matchers() {
     }
-
+    
     /** Returns a matcher which matches any input. */
     public static Matcher<Object> any() {
         return ANY;
