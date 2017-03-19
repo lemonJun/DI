@@ -21,7 +21,7 @@ final class InterceptorStackCallback implements net.sf.cglib.proxy.MethodInterce
 
     final MethodInterceptor[] interceptors;
     final Method method;
-
+    
     public InterceptorStackCallback(Method method, List<MethodInterceptor> interceptors) {
         this.method = method;
         this.interceptors = interceptors.toArray(new MethodInterceptor[interceptors.size()]);
