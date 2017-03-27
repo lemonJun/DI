@@ -42,7 +42,6 @@ public class Tuple<A, B> {
      * {@code key} is {@code _1} and {@code value} is {@code _2};
      * @return the map as described
      */
-    @SuppressWarnings("unused")
     public Map<A, B> asMap() {
         Map<A, B> m = new HashMap<A, B>();
         m.put(_1, _2);
@@ -63,7 +62,6 @@ public class Tuple<A, B> {
      * @param list the list of tuples to be transformed into map
      * @return the map as described
      */
-    @SuppressWarnings("unused")
     public static <K, V> Map<K, V> asMap(Collection<Tuple<K, V>> list) {
         Map<K, V> m = Maps.newHashMap();
         for (Tuple<K, V> t : list) {
