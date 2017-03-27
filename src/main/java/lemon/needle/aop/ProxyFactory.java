@@ -36,16 +36,17 @@ final class ProxyFactory<T> implements ConstructionProxyFactory<T> {
     private final Class<T> declaringClass;
     private final List<Method> methods;
     private final Callback[] callbacks;
-    
+
     /**
      * PUBLIC is default; it's used if all the methods we're intercepting are public. This impacts
      * which classloader we should use for loading the enhanced class
      */
     private BytecodeGen.Visibility visibility = BytecodeGen.Visibility.PUBLIC;
-    
+
     ProxyFactory(Iterable<MethodAspect> methodAspects) {
         @SuppressWarnings("unchecked") // the member of injectionPoint is always a Constructor<T>
-        Constructor<T> constructor = (Constructor<T>) injectionPoint.getMember();
+        Constructor<T> constructor = null;//(Constructor<T>) injectionPoint.getMember();
+
         declaringClass = constructor.getDeclaringClass();
 
         // Find applicable aspects. Bow out if none are applicable to this class.
@@ -123,9 +124,9 @@ final class ProxyFactory<T> implements ConstructionProxyFactory<T> {
     }
 
     @Override
-    public ConstructionProxy<T> create() throws Exception {
+    public ConstructionProxy<T> create(Constructor<T> contructor) throws Exception {
         if (interceptors.isEmpty()) {
-            return new DefaultConstructionProxyFactory<T>().create();
+            return new DefaultConstructionProxyFactory<T>().create(contructor);
         }
 
         @SuppressWarnings("unchecked")
@@ -144,7 +145,7 @@ final class ProxyFactory<T> implements ConstructionProxyFactory<T> {
             Enhancer enhancer = BytecodeGen.newEnhancer(declaringClass, visibility);
             enhancer.setCallbackFilter(new IndicesCallbackFilter(methods));
             enhancer.setCallbackTypes(callbackTypes);
-            return new ProxyConstructor<T>(enhancer, injectionPoint, callbacks, interceptors);
+            return new ProxyConstructor<T>(enhancer, contructor, callbacks, interceptors);
         } catch (Throwable e) {
             throw new Exception(declaringClass.getName(), e);
         }
@@ -213,11 +214,11 @@ final class ProxyFactory<T> implements ConstructionProxyFactory<T> {
         final int constructorIndex;
         final ImmutableMap<Method, List<MethodInterceptor>> methodInterceptors;
         final FastClass fastClass;
-        
+
         @SuppressWarnings("unchecked") // the constructor promises to construct 'T's
-        ProxyConstructor(Enhancer enhancer, Callback[] callbacks, ImmutableMap<Method, List<MethodInterceptor>> methodInterceptors) {
+        ProxyConstructor(Enhancer enhancer, Constructor<T> contructor, Callback[] callbacks, ImmutableMap<Method, List<MethodInterceptor>> methodInterceptors) {
             this.enhanced = enhancer.createClass(); // this returns a cached class if possible
-            this.constructor = (Constructor<T>) injectionPoint.getMember();
+            this.constructor = contructor;
             this.callbacks = callbacks;
             this.methodInterceptors = methodInterceptors;
             this.fastClass = BytecodeGen.newFastClassForMember(enhanced, constructor);

@@ -21,10 +21,9 @@ final class DefaultConstructionProxyFactory<T> implements ConstructionProxyFacto
     }
 
     @Override
-    public ConstructionProxy<T> create() {
-        @SuppressWarnings("unchecked") // the injection point is for a constructor of T
+    public ConstructionProxy<T> create(Constructor<T> constructor) {
         //        final Constructor<T> constructor = (Constructor<T>) injectionPoint.getMember();
-        final Constructor<T> constructor = null;// (Constructor<T>) injectionPoint.getMember();
+        //        final Constructor<T> constructor = null;// (Constructor<T>) injectionPoint.getMember();
 
         /*if[AOP]*/
         try {
